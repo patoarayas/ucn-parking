@@ -60,7 +60,7 @@ Este proyecto utiliza el modelo de trabajo de Git llamado Fork & Pull. Para cola
 
 - [Más sobre trabajar con branches](https://guides.github.com/introduction/flow/)
 
-#### Guia de estilo para los mensajes de commit
+#### Guia de estilo para los mensajes de commit
 
 Los **commit** deben estar en *inglés*.
 
@@ -76,8 +76,9 @@ footer (optional)
 ```
 
 Los tipos de **commit** que se pueden usar son:
+
 ```
 feat,fix, build, chore, ci, docs, style, refactor, perf, test
-  ```
+```
 
 Para mas detalles acerca del formato que deben tener los **commits** se puede ver la especificación a seguir [acá](https://www.conventionalcommits.org/en/v1.0.0/)
