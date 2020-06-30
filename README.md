@@ -59,3 +59,21 @@ Este proyecto utiliza el modelo de trabajo de Git llamado Fork & Pull. Para cola
 - [Más sobre Forking y Pull Requests](https://guides.github.com/activities/forking/)
 
 - [Más sobre trabajar con branches](https://guides.github.com/introduction/flow/)
+
+#### Guia de estilo para los mensajes de commit
+
+Los **commit** realizados en este proyecto deben adecuarse al formato:
+```
+type:(scope): description
+
+body (optional)
+
+footer (optional)
+```
+
+Los tipos de **commit** que se peuden usar son:
+```
+  feat,fix, build, chore, ci, docs, style, refactor, perf, test
+  ```
+
+##### [Más detalles acá](https://www.conventionalcommits.org/en/v1.0.0/)
