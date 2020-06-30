@@ -38,21 +38,25 @@ import java.util.Random;
 
 public class Scrapper {
 
-    /** Logger */
+    /**
+     * Logger
+     */
     public static Logger log = LoggerFactory.getLogger(Scrapper.class);
 
     /**
      * Main method
+     *
      * @param args .
      */
-    public static void main(String[] args){
+    public static void main(String[] args) {
 
         // Setup DB
-        String dbUrl = "jdbc:sqlite:contactos.db";
+        String dbUrl = "jdbc:sqlite:directorio.db";
         ConnectionSource connectionSource = null;
-        Dao<Contact,Integer> contactDao = null;
+        Dao<Contact, Integer> contactDao = null;
 
         try {
+            // Create connection with the db
             connectionSource = new JdbcConnectionSource(dbUrl);
             log.debug("DB conection open");
             // Create the DAO
@@ -60,15 +64,15 @@ public class Scrapper {
             // Create table;
             TableUtils.createTableIfNotExists(connectionSource, Contact.class);
 
-        } catch (SQLException e){
-            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
-            log.error("Error creating a DB connection: "+ e.getMessage());
+        } catch (SQLException e) {
+            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+            log.error("Error creating a DB connection: " + e.getMessage());
         } finally {
             try {
                 assert connectionSource != null;
                 connectionSource.close();
             } catch (IOException e) {
-                log.error("Error closing DB connection: "+e.getMessage());
+                log.error("Error closing DB connection: " + e.getMessage());
             }
         }
 
@@ -77,64 +81,64 @@ public class Scrapper {
         try {
             assert contactDao != null;
             String strId = contactDao.queryRaw("select max(id) from contactos").getFirstResult()[0];
-            try{
-            id = Integer.parseInt(strId);
-            } catch (Exception e){
-                log.debug("Error parsing id. Empty db?: "+e.getMessage());
+            try {
+                id = Integer.parseInt(strId);
+            } catch (Exception e) {
+                log.debug("Error parsing id. Empty db?: " + e.getMessage());
             }
-            log.info("Starting scrapping from ID: "+id);
-        } catch (SQLException e){
-            log.error("Error getting last iserted id: "+e.getMessage());
+            log.info("Starting scrapping from ID: " + id);
+        } catch (SQLException e) {
+            log.error("Error getting last iserted id: " + e.getMessage());
         }
 
-        int lastId = 29730;
+        int lastId = 30000;
 
         // For every id get contact info
-        for(; id <=lastId; id++){
-            log.info("Getting contact id: "+id);
+        for (; id <= lastId; id++) {
+            log.info("Getting contact id: " + id);
             Contact contact = getContactInfo(id);
-            if(contact != null){
-                try{
+            if (contact != null) {
+                try {
                     contactDao.create(contact);
-                } catch (SQLException e){
-                    log.error("Error inserting contact info:"+ e.getMessage());
+                } catch (SQLException e) {
+                    log.error("Error inserting contact info:" + e.getMessage());
                 }
             }
 
             try {
                 Random random = new Random();
-                int delay = 500 + random.nextInt(500);
+                int delay = 1000 + random.nextInt(500);
                 Thread.sleep(delay);
-                log.info("Delay of :"+ delay);
-            } catch (InterruptedException e){
-                log.debug("Delay was interrupted: "+e.getMessage());
+                log.info("Delay of :" + delay);
+            } catch (InterruptedException e) {
+                log.debug("Delay was interrupted: " + e.getMessage());
             }
 
         }
 
     }
 
-    private static Contact getContactInfo(Integer id){
+    private static Contact getContactInfo(Integer id) {
         final String url = "http://online.ucn.cl/directoriotelefonicoemail/fichaGenerica/?cod=";
         Contact newContact = null;
-        try{
-            Document doc = Jsoup.connect(url+id).get();
-            String name =  doc.getElementById("lblNombre").text();
-            String position =  doc.getElementById("lblCargo").text();
-            String unit =  doc.getElementById("lblUnidad").text();
-            String email =  doc.getElementById("lblEmail").text();
-            String phone =  doc.getElementById("lblTelefono").text();
-            String office =  doc.getElementById("lblOficina").text();
-            String address =  doc.getElementById("lblDireccion").text();
+        try {
+            Document doc = Jsoup.connect(url + id).get();
+            String name = doc.getElementById("lblNombre").text();
+            String position = doc.getElementById("lblCargo").text();
+            String unit = doc.getElementById("lblUnidad").text();
+            String email = doc.getElementById("lblEmail").text();
+            String phone = doc.getElementById("lblTelefono").text();
+            String office = doc.getElementById("lblOficina").text();
+            String address = doc.getElementById("lblDireccion").text();
 
-            if(!name.isEmpty()){
-                newContact = new Contact(id,name,position,unit,email,phone,office,address);
-                log.debug("CONTACT: "+ newContact.toString());
+            if (!name.isEmpty()) {
+                newContact = new Contact(id, name, position, unit, email, phone, office, address);
+                log.debug("CONTACT: " + newContact.toString());
             }
 
 
         } catch (IOException e) {
-            log.error("Error retrieving contact info: "+e.getMessage());
+            log.error("Error retrieving contact info: " + e.getMessage());
         }
 
         return newContact;
@@ -142,7 +146,4 @@ public class Scrapper {
     }
 
 
-
-
-    
 }

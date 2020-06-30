@@ -48,13 +48,13 @@ public class Contact {
     /**
      * ORMlite constructor
      */
-    public Contact(){
+    public Contact() {
         // ORM lite needs an no-arg constructor
     }
 
     /**
      * Constructor
-    */
+     */
     public Contact(Integer id, String name, String position, String unit, String email, String phone, String office, String address) {
         this.id = id;
         this.name = name;
