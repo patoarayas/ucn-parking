@@ -6,7 +6,7 @@ Sistema para el control de acceso a los estacionamientos de la Universidad Cató
 ### Autores
 - [Patricio Araya González [patricio.araya@alumnos.ucn.cl]]().
 
-- [Nombre [Email]]().
+- [David Canto Alcayaga [david.canto@alumnos.ucn.cl]]().
 
 - [Ariel Vejar Martinez [ariel.vejar@live.cl]]().
 
