@@ -4,14 +4,15 @@
 Sistema para el control de acceso a los estacionamientos de la Universidad Católica del Norte ([UCN](https://www.ucn.cl)). Parte del Curso de Proyecto de Desarrollo e Integración de Soluciones (PDIS).
 
 ### Autores
-- [Patricio Araya González [patricio.araya@alumnos.ucn.cl]]().
 
-- [David Canto Alcayaga [david.canto@alumnos.ucn.cl]]().
+- <a href="mailto:patricio.araya@alumnos.ucn.cl">Patricio Araya González </a>
 
-- [Ariel Vejar Martinez [ariel.vejar@live.cl]]().
+- <a href="mailto:david.canto@alumnos.ucn.cl">David Canto Alcayaga</a>
+
+- <a href="mailto:ariel.vejar@live.cl">Ariel Vejar Martinez</a>
 
 ### Licencia
-[MIT](https://choosealicense.com/licenses/mit/).
+[MIT](./LICENSE).
 
 ### Colaborar con el Proyecto
 Este proyecto utiliza el modelo de trabajo de Git llamado Fork & Pull. Para colaborar con el proyecto debes.
