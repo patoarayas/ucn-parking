@@ -1,6 +1,6 @@
 /*
  * The MIT License (MIT)
- * Copyright (c) 2020 Patricio Araya
+ * Copyright (c) 2020 Patricio Araya, David Canto, Ariel Vejar
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this
  * software and associated documentation files (the “Software”), to deal in the Software
@@ -25,36 +25,44 @@ package cl.ucn.disc.pdis.scrapper;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
+/**
+ * Model Class Contact.
+ * Represents the contact information of a academic or employee.
+ * This class is used by ORMLite to build the DB.
+ */
 @DatabaseTable(tableName = "contactos")
 public class Contact {
 
     @DatabaseField(id = true)
     private Integer id;
+
     @DatabaseField
     private String name;
+
     @DatabaseField
     private String position;
+
     @DatabaseField
     private String unit;
+
     @DatabaseField
     private String email;
+
     @DatabaseField
     private String phone;
+
     @DatabaseField
     private String office;
+
     @DatabaseField
     private String address;
 
-    /**
-     * ORMlite constructor
-     */
+    /** ORMlite constructor. */
     public Contact() {
         // ORM lite needs an no-arg constructor
     }
 
-    /**
-     * Constructor
-     */
+    /** Constructor. */
     public Contact(Integer id, String name, String position, String unit, String email, String phone, String office, String address) {
         this.id = id;
         this.name = name;
