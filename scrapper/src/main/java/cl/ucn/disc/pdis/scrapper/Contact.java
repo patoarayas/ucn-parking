@@ -33,58 +33,63 @@ import com.j256.ormlite.table.DatabaseTable;
 @DatabaseTable(tableName = "contactos")
 public class Contact {
 
-    @DatabaseField(id = true)
-    private Integer id;
+  @DatabaseField(id = true)
+  private Integer id;
 
-    @DatabaseField
-    private String name;
+  @DatabaseField
+  private String name;
 
-    @DatabaseField
-    private String position;
+  @DatabaseField
+  private String position;
 
-    @DatabaseField
-    private String unit;
+  @DatabaseField
+  private String unit;
 
-    @DatabaseField
-    private String email;
+  @DatabaseField
+  private String email;
 
-    @DatabaseField
-    private String phone;
+  @DatabaseField
+  private String phone;
 
-    @DatabaseField
-    private String office;
+  @DatabaseField
+  private String office;
 
-    @DatabaseField
-    private String address;
+  @DatabaseField
+  private String address;
 
-    /** ORMlite constructor. */
-    public Contact() {
-        // ORM lite needs an no-arg constructor
-    }
+  /**
+   * ORMlite constructor.
+   */
+  public Contact() {
+    // ORM lite needs an no-arg constructor
+  }
 
-    /** Constructor. */
-    public Contact(Integer id, String name, String position, String unit, String email, String phone, String office, String address) {
-        this.id = id;
-        this.name = name;
-        this.position = position;
-        this.unit = unit;
-        this.email = email;
-        this.phone = phone;
-        this.office = office;
-        this.address = address;
-    }
+  /**
+   * Constructor.
+   */
+  public Contact(Integer id, String name, String position, String unit, String email,
+                 String phone, String office, String address) {
+    this.id = id;
+    this.name = name;
+    this.position = position;
+    this.unit = unit;
+    this.email = email;
+    this.phone = phone;
+    this.office = office;
+    this.address = address;
+  }
 
-    @Override
-    public String toString() {
-        return "Contact{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", position='" + position + '\'' +
-                ", unit='" + unit + '\'' +
-                ", email='" + email + '\'' +
-                ", phone='" + phone + '\'' +
-                ", office='" + office + '\'' +
-                ", address='" + address + '\'' +
-                '}';
-    }
+  @Override
+  public String toString() {
+    return "Contact{"
+        + "id=" + id
+        + ", name='" + name + '\''
+        + ", position='" + position + '\''
+        + ", unit='" + unit + '\''
+        + ", email='" + email + '\''
+        + ", phone='" + phone + '\''
+        + ", office='" + office + '\''
+        + ", address='" + address + '\''
+        + '}';
+  }
 }
