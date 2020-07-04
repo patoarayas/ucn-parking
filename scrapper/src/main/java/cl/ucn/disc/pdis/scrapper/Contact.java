@@ -24,6 +24,7 @@ package cl.ucn.disc.pdis.scrapper;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 /**
  * Model Class Contact.
@@ -33,27 +34,51 @@ import com.j256.ormlite.table.DatabaseTable;
 @DatabaseTable(tableName = "contactos")
 public class Contact {
 
+  /**
+   * Numeric id. Uses the one provided by UCN's web directory (Not correlative).
+   */
   @DatabaseField(id = true)
   private Integer id;
 
+  /**
+   * Full name of the contact.
+   */
   @DatabaseField
   private String name;
 
+  /**
+   * The job title of the contact.
+   */
   @DatabaseField
   private String position;
 
+  /**
+   * Work or academic unit of the contact.
+   **/
   @DatabaseField
   private String unit;
 
+  /**
+   * Contact's e-mail.
+   */
   @DatabaseField
   private String email;
 
+  /**
+   * Contact's phone.
+   */
   @DatabaseField
   private String phone;
 
+  /**
+   * Office address.
+   */
   @DatabaseField
   private String office;
 
+  /**
+   * Address of the workplace or university campus.
+   */
   @DatabaseField
   private String address;
 
@@ -79,17 +104,20 @@ public class Contact {
     this.address = address;
   }
 
+
   @Override
   public String toString() {
-    return "Contact{"
-        + "id=" + id
-        + ", name='" + name + '\''
-        + ", position='" + position + '\''
-        + ", unit='" + unit + '\''
-        + ", email='" + email + '\''
-        + ", phone='" + phone + '\''
-        + ", office='" + office + '\''
-        + ", address='" + address + '\''
-        + '}';
+
+    return new ToStringBuilder(this)
+        .append("id", id)
+        .append("name", name)
+        .append("position", position)
+        .append("unit", unit)
+        .append("email", email)
+        .append("phone", phone)
+        .append("office", office)
+        .append("address", address)
+        .toString();
+
   }
 }
