@@ -41,43 +41,43 @@ public class Contact {
   private Integer id;
 
   /**
-   * Full name of the contact.
+   * Contact's Name.
    */
   @DatabaseField
   private String name;
 
   /**
-   * The job title of the contact.
+   * Contact's Position.
    */
   @DatabaseField
   private String position;
 
   /**
-   * Work or academic unit of the contact.
+   * Contact's Unit.
    **/
   @DatabaseField
   private String unit;
 
   /**
-   * Contact's e-mail.
+   * Contact's E-Mail.
    */
   @DatabaseField
   private String email;
 
   /**
-   * Contact's phone.
+   * Contact's Phone.
    */
   @DatabaseField
   private String phone;
 
   /**
-   * Office address.
+   * Contact's Office.
    */
   @DatabaseField
   private String office;
 
   /**
-   * Address of the workplace or university campus.
+   * Contact's Address (workplace or university campus).
    */
   @DatabaseField
   private String address;
@@ -86,7 +86,7 @@ public class Contact {
    * ORMlite constructor.
    */
   public Contact() {
-    // ORM lite needs an no-arg constructor
+    // ORM lite needs an no-arg constructor.
   }
 
   /**
@@ -104,10 +104,8 @@ public class Contact {
     this.address = address;
   }
 
-
   @Override
   public String toString() {
-
     return new ToStringBuilder(this)
         .append("id", id)
         .append("name", name)
@@ -118,6 +116,5 @@ public class Contact {
         .append("office", office)
         .append("address", address)
         .toString();
-
   }
 }
