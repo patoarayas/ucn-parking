@@ -83,6 +83,12 @@ public class Contact {
   private String address;
 
   /**
+   * Contact's City.
+   */
+  @DatabaseField
+  private String city;
+
+  /**
    * ORMlite constructor.
    */
   public Contact() {
@@ -93,7 +99,7 @@ public class Contact {
    * Constructor.
    */
   public Contact(Integer id, String name, String position, String unit, String email,
-                 String phone, String office, String address) {
+                 String phone, String office, String address, String city) {
     this.id = id;
     this.name = name;
     this.position = position;
@@ -102,6 +108,7 @@ public class Contact {
     this.phone = phone;
     this.office = office;
     this.address = address;
+    this.city = city;
   }
 
   @Override
@@ -115,6 +122,7 @@ public class Contact {
         .append("phone", phone)
         .append("office", office)
         .append("address", address)
+        .append("city", city)
         .toString();
   }
 }
