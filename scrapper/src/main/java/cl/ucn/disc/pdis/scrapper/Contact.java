@@ -41,59 +41,65 @@ public class Contact {
   private Integer id;
 
   /**
-   * Full name of the contact.
+   * Contact's Name.
    */
   @DatabaseField
   private String name;
 
   /**
-   * The job title of the contact.
+   * Contact's Position.
    */
   @DatabaseField
   private String position;
 
   /**
-   * Work or academic unit of the contact.
+   * Contact's Unit.
    **/
   @DatabaseField
   private String unit;
 
   /**
-   * Contact's e-mail.
+   * Contact's E-Mail.
    */
   @DatabaseField
   private String email;
 
   /**
-   * Contact's phone.
+   * Contact's Phone.
    */
   @DatabaseField
   private String phone;
 
   /**
-   * Office address.
+   * Contact's Office.
    */
   @DatabaseField
   private String office;
 
   /**
-   * Address of the workplace or university campus.
+   * Contact's Address (workplace or university campus).
    */
   @DatabaseField
   private String address;
 
   /**
+   * Contact's City.
+   */
+  @DatabaseField
+  private String city;
+
+  /**
    * ORMlite constructor.
    */
   public Contact() {
-    // ORM lite needs an no-arg constructor
+    // ORM lite needs an no-arg constructor.
   }
 
   /**
    * Constructor.
    */
   public Contact(Integer id, String name, String position, String unit, String email,
-                 String phone, String office, String address) {
+                 String phone, String office, String address, String city) {
     this.id = id;
     this.name = name;
     this.position = position;
@@ -102,12 +108,11 @@ public class Contact {
     this.phone = phone;
     this.office = office;
     this.address = address;
+    this.city = city;
   }
-
 
   @Override
   public String toString() {
-
     return new ToStringBuilder(this)
         .append("id", id)
         .append("name", name)
@@ -117,7 +122,7 @@ public class Contact {
         .append("phone", phone)
         .append("office", office)
         .append("address", address)
+        .append("city", city)
         .toString();
-
   }
 }

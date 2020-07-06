@@ -35,109 +35,133 @@ import org.jsoup.nodes.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Scrapper Class.
+ */
 public class Scrapper {
 
   /**
    * Logger.
    */
-  public static Logger log = LoggerFactory.getLogger(Scrapper.class);
+  private static Logger log = LoggerFactory.getLogger(Scrapper.class);
+
+  /**
+   * Website info.
+   */
+  private static final String URL = "http://online.ucn.cl/directoriotelefonicoemail/fichaGenerica/?cod=";
 
   /**
    * Main method.
-   *
-   * @param args .
    */
   public static void main(String[] args) {
 
-    // Setup DB
+    // Setup DB.
     String dbUrl = "jdbc:sqlite:directorio.db";
     Dao<Contact, Integer> contactDao = null;
 
-    // Create a connection with DB.
+    // Starts the connection with the DB.
     try (final ConnectionSource connectionSource = new JdbcConnectionSource(dbUrl)) {
+      log.debug("DB connection open");
 
-      log.debug("DB conection open");
-
-      // Create the DAO
+      // Creates the DAO.
       contactDao = DaoManager.createDao(connectionSource, Contact.class);
-      // Create table;
+
+      // Creates the tables.
       TableUtils.createTableIfNotExists(connectionSource, Contact.class);
 
     } catch (SQLException | IOException e) {
-      log.error("Error creating a DB connection: ", e);
+      log.error("Error creating a DB connection: {}", e);
     }
 
-
-    // Search for last id in db and start scrapping from it.
+    // Searches for the last id inside the DB and starts scrapping from it.
     int lastId = 0;
     try {
       assert contactDao != null;
-      String strId = contactDao.queryRaw("select max(id) from contactos").getFirstResult()[0];
+
+      // Gets the max id-value from the DB.
+      String strId = contactDao
+          .queryRaw("select max(id) from contactos").getFirstResult()[0];
+
       try {
+        // Parses into an int.
         lastId = Integer.parseInt(strId);
+
       } catch (Exception e) {
-        log.debug("Error parsing id. Empty db?: " + e.getMessage());
+        // TODO: Its this ok !?
+        log.error("Error parsing id. Empty db?: {}", e.getMessage());
       }
-      log.info("Starting scrapping from ID: " + lastId);
+      log.info("Starting scrapping from ID: {}", lastId);
+
     } catch (SQLException e) {
-      log.error("Error getting last inserted id: ", e);
+      log.error("Error getting last inserted id: {}", e);
     }
 
+    // Gets the contact's info by each ID and then creates it.
     int maxId = 30000;
-
-    // For every id get contact info
     for (int id = lastId; id <= maxId; id++) {
-      log.info("Getting contact id: " + id);
+      log.info("Getting contact's id: {}", id);
+
+      // Contact's info.
       Contact contact = getContactInfo(id);
+
       if (contact != null) {
         try {
           contactDao.create(contact);
+
         } catch (SQLException e) {
           log.debug("Duplicated entry.");
         }
       }
 
       try {
-        // Set a time delay.
+        // Random class.
         Random random = new Random();
+
+        // Set a delay.
         int delay = 1000 + random.nextInt(500);
         Thread.sleep(delay);
-        log.info("Delay of :" + delay);
+        log.info("Delay: {}", delay);
+
       } catch (InterruptedException e) {
-        log.debug("Delay was interrupted: " + e.getMessage());
+        // TODO: Its this ok !?
+        log.debug("Delay was interrupted: {}", e.getMessage());
       }
-
     }
-
   }
 
   /**
-   * Get contact infor from UCN's phone directory.
-   * @param id The id to search for
+   * Gets the contact's info from UCN phone directory website.
+   * @param id The id to search for.
    * @return A Contact with the information or null if there isn't any.
    */
   private static Contact getContactInfo(Integer id) {
 
-    final String url = "http://online.ucn.cl/directoriotelefonicoemail/fichaGenerica/?cod=";
     Contact newContact = null;
-
     try {
-      // Get web page
-      Document doc = Jsoup.connect(url + id).get();
+      // Connection with the website.
+      Document doc = Jsoup.connect(URL + id).get();
 
-      // Get information from the page
+      // Gets the contact's information.
       String name = doc.getElementById("lblNombre").text();
       String position = doc.getElementById("lblCargo").text();
       String unit = doc.getElementById("lblUnidad").text();
       String email = doc.getElementById("lblEmail").text();
       String phone = doc.getElementById("lblTelefono").text();
       String office = doc.getElementById("lblOficina").text();
-      String address = doc.getElementById("lblDireccion").text();
 
+      // TODO: Checkout if this shit its useful.
+      // Takes this data and divide it into address and city.
+      String data = doc.getElementById("lblDireccion").text();
+
+      String address = data.substring(0, data.indexOf(','));
+      String city = data.substring(data.indexOf(',') + 2);
+
+      // If the contact's name exists, then instantiates it.
       if (!name.isEmpty()) {
-        // If page have the contact information instantiate a Contact
-        newContact = new Contact(id, name, position, unit, email, phone, office, address);
-        log.debug("CONTACT: " + newContact.toString());
+        newContact = new Contact(id, name, position, unit, email, phone, office, address, city);
+
+        // TODO: Its this ok !?
+        log.debug("CONTACT: {}", newContact.toString());
       }
 
     } catch (IOException e) {
@@ -145,8 +169,5 @@ public class Scrapper {
     }
 
     return newContact;
-
   }
-
-
 }
