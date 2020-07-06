@@ -73,7 +73,6 @@ public class Scrapper {
       log.error("Error creating a DB connection: {}", e);
     }
 
-
     // Searches for the last id inside the DB and starts scrapping from it.
     int lastId = 0;
     try {
@@ -149,11 +148,17 @@ public class Scrapper {
       String email = doc.getElementById("lblEmail").text();
       String phone = doc.getElementById("lblTelefono").text();
       String office = doc.getElementById("lblOficina").text();
-      String address = doc.getElementById("lblDireccion").text();
+
+      // TODO: Checkout if this shit its useful.
+      // Takes this data and divide it into address and city.
+      String data = doc.getElementById("lblDireccion").text();
+
+      String address = data.substring(0, data.indexOf(','));
+      String city = data.substring(data.indexOf(',') + 2);
 
       // If the contact's name exists, then instantiates it.
       if (!name.isEmpty()) {
-        newContact = new Contact(id, name, position, unit, email, phone, office, address);
+        newContact = new Contact(id, name, position, unit, email, phone, office, address, city);
 
         // TODO: Its this ok !?
         log.debug("CONTACT: {}", newContact.toString());
