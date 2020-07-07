@@ -1,6 +1,9 @@
-# dotnet folder
+# dotnet folders
 bin/
 obj/
 
-# idea folders
+# Idea folder
 .idea/
+
+# ZeroC
+generated/
