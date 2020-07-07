@@ -30,6 +30,9 @@ import com.j256.ormlite.table.TableUtils;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Random;
+
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.slf4j.Logger;
@@ -87,7 +90,6 @@ public class Scrapper {
         lastId = Integer.parseInt(strId);
 
       } catch (Exception e) {
-        // TODO: Its this ok !?
         log.error("Error parsing id. Empty db?: {}", e.getMessage());
       }
       log.info("Starting scrapping from ID: {}", lastId);
@@ -123,7 +125,6 @@ public class Scrapper {
         log.info("Delay: {}", delay);
 
       } catch (InterruptedException e) {
-        // TODO: Its this ok !?
         log.debug("Delay was interrupted: {}", e.getMessage());
       }
     }
@@ -131,43 +132,84 @@ public class Scrapper {
 
   /**
    * Gets the contact's info from UCN phone directory website.
+   *
    * @param id The id to search for.
    * @return A Contact with the information or null if there isn't any.
    */
   private static Contact getContactInfo(Integer id) {
-
     Contact newContact = null;
+
     try {
       // Connection with the website.
       Document doc = Jsoup.connect(URL + id).get();
 
-      // Gets the contact's information.
-      String name = doc.getElementById("lblNombre").text();
-      String position = doc.getElementById("lblCargo").text();
-      String unit = doc.getElementById("lblUnidad").text();
-      String email = doc.getElementById("lblEmail").text();
-      String phone = doc.getElementById("lblTelefono").text();
-      String office = doc.getElementById("lblOficina").text();
-
-      // TODO: Checkout if this shit its useful.
-      // Takes this data and divide it into address and city.
-      String data = doc.getElementById("lblDireccion").text();
-
-      String address = data.substring(0, data.indexOf(','));
-      String city = data.substring(data.indexOf(',') + 2);
-
-      // If the contact's name exists, then instantiates it.
-      if (!name.isEmpty()) {
-        newContact = new Contact(id, name, position, unit, email, phone, office, address, city);
-
-        // TODO: Its this ok !?
-        log.debug("CONTACT: {}", newContact.toString());
-      }
+      // Exceptions.
+      newContact = throwingExceptions(id, doc);
 
     } catch (IOException e) {
-      log.error("Error retrieving contact info: ", e);
+      log.error("Error retrieving contact info: {}", e);
     }
 
     return newContact;
+  }
+
+  /**
+   * Exceptions from the contacts directory.
+   *
+   * @param id The id to search for.
+   * @param document Jsoup functionality.
+   * @return A Contact with the information or null if there isn't any.
+   */
+  private static Contact throwingExceptions(Integer id, Document document) {
+
+    String aux = "None";
+
+    // Gets the contact's information.
+    String name = document.getElementById("lblNombre").text();
+    String position = document.getElementById("lblCargo").text();
+    String unit = document.getElementById("lblUnidad").text();
+    String email = document.getElementById("lblEmail").text();
+    String phone = document.getElementById("lblTelefono").text();
+    String office = document.getElementById("lblOficina").text();
+
+    // Takes this data and divide it into address and city.
+    String data = document.getElementById("lblDireccion").text();
+    String address;
+    String city;
+
+    // If the contact's name exists, then instantiates it.
+    if (!name.isEmpty()) {
+
+      if (position.isEmpty()) {
+        position = aux;
+      }
+
+      if (email.isEmpty()) {
+        email = aux;
+      }
+
+      if (phone.isEmpty()) {
+        phone = aux;
+      }
+
+      if (office.isEmpty()) {
+        office = aux;
+      }
+
+      if (!data.isEmpty()) {
+        address = data.substring(0, data.indexOf(","));
+        city = data.substring(data.indexOf(",") + 2);
+
+      } else {
+        address = aux;
+        city = aux;
+      }
+
+      // Return the contact.
+      return new Contact(id, name, position, unit, email, phone, office, address, city);
+
+    } else {
+      return null;
+    }
   }
 }
