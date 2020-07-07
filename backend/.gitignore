@@ -1,0 +1,6 @@
+# dotnet folder
+bin/
+obj/
+
+# idea folders
+.idea/
