@@ -21,7 +21,7 @@ Este proyecto utiliza el modelo de trabajo de Git llamado Fork & Pull. Para cola
 
 ##### 2. **Clonar** *tu* versión del repositorio en tu computador.
 `git clone <url-del-repositorio>`
-  
+
 ##### 3. Realizar cambios de manera local.
 - Se recomienda un **branch** nuevo por *feature* a implementar.
 
@@ -34,7 +34,7 @@ Este proyecto utiliza el modelo de trabajo de Git llamado Fork & Pull. Para cola
     `git remote add upstream https://github.com/patoarayas/ucn-parking`
 
     Luego cada vez que quieras actualizar tu repositorio:
-    
+
     a. Primero debes hacer **fetch** para revisar si hay diferencias con el repositorio central.
 
     `git fetch upstream`
@@ -75,3 +75,18 @@ feat,fix, build, chore, ci, docs, style, refactor, perf, test
 ```
 
 Para mas detalles acerca del formato que deben tener los **commits** se puede ver la especificación a seguir [aquí](https://www.conventionalcommits.org/en/v1.0.0/)
+
+#### Configuración módulo web (Laravel)
+
+Para trabajar con el módulo web se debe realizar la configuración de Laravel.
+1. Reenombrar el archivo .env.example a .env
+2. Ejecutar el comando
+
+  `php artisan key:generate`
+
+  Para generar la **APP_KEY** que quedara registrada en el `.env`
+3. Si es necesario descargar las dependencias.
+
+  Se puede realizar dentro del IDE PhpStorm o ejecutando los siguientes comandos (dentro del directorio `ucn-parking/web/`):
+  - `composer install`
+  - `npm install` (requiere instalar node)
