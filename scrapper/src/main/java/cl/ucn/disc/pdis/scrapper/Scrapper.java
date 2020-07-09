@@ -29,9 +29,13 @@ import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -151,8 +155,14 @@ public class Scrapper {
       // Takes this data and divide it into address and city.
       String data = document.getElementById("lblDireccion").text();
 
+      // FIXME: Need to be checkout ...
+      List<String> info = getRut(name);
+      String rut = info.get(0);
+      String gender = info.get(1);
+
       // Exceptions.
-      Contact aux = new Contact(id, name, position, unit, email, phone, office, data, data);
+      Contact aux =
+          new Contact(id, name, rut, gender, position, unit, email, phone, office, data, data);
       newContact = aux.throwingExceptions(aux);
 
     } catch (IOException e) {
@@ -160,5 +170,42 @@ public class Scrapper {
     }
 
     return newContact;
+  }
+
+  // FIXME: Shitty method (but it does work, well ... kind of)
+  /**
+   *
+   * @param term
+   * @return
+   * @throws IOException
+   */
+  private static List<String> getRut(String term) throws IOException {
+    List<String> data = new ArrayList<>();
+
+    Document document = Jsoup.connect("https://www.nombrerutyfirma.com/buscar")
+        .data("term", term)
+        .referrer("https://www.nombrerutyfirma.com")
+        .post();
+
+    final Element table = document.select("table").get(0);
+    final Elements rows = table.select("tbody").select("tr");
+
+    for (final Element row : rows) {
+      Elements cols = row.select("td");
+
+      // final String name = cols.get(0).text();
+      final String rut = cols.get(1).text();
+      final String gender = cols.get(2).text();
+      // final String address = cols.get(3).text();
+      // final String city = cols.get(4).text();
+
+      // data.add(name);
+      data.add(rut);
+      data.add(gender);
+      // data.add(address);
+      // data.add(city);
+    }
+
+    return data;
   }
 }
