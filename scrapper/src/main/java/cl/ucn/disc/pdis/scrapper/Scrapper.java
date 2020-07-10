@@ -29,9 +29,13 @@ import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -87,7 +91,6 @@ public class Scrapper {
         lastId = Integer.parseInt(strId);
 
       } catch (Exception e) {
-        // TODO: Its this ok !?
         log.error("Error parsing id. Empty db?: {}", e.getMessage());
       }
       log.info("Starting scrapping from ID: {}", lastId);
@@ -123,7 +126,6 @@ public class Scrapper {
         log.info("Delay: {}", delay);
 
       } catch (InterruptedException e) {
-        // TODO: Its this ok !?
         log.debug("Delay was interrupted: {}", e.getMessage());
       }
     }
@@ -131,43 +133,79 @@ public class Scrapper {
 
   /**
    * Gets the contact's info from UCN phone directory website.
+   *
    * @param id The id to search for.
    * @return A Contact with the information or null if there isn't any.
    */
   private static Contact getContactInfo(Integer id) {
-
     Contact newContact = null;
+
     try {
       // Connection with the website.
-      Document doc = Jsoup.connect(URL + id).get();
+      Document document = Jsoup.connect(URL + id).get();
 
       // Gets the contact's information.
-      String name = doc.getElementById("lblNombre").text();
-      String position = doc.getElementById("lblCargo").text();
-      String unit = doc.getElementById("lblUnidad").text();
-      String email = doc.getElementById("lblEmail").text();
-      String phone = doc.getElementById("lblTelefono").text();
-      String office = doc.getElementById("lblOficina").text();
+      String name = document.getElementById("lblNombre").text();
+      String position = document.getElementById("lblCargo").text();
+      String unit = document.getElementById("lblUnidad").text();
+      String email = document.getElementById("lblEmail").text();
+      String phone = document.getElementById("lblTelefono").text();
+      String office = document.getElementById("lblOficina").text();
 
-      // TODO: Checkout if this shit its useful.
       // Takes this data and divide it into address and city.
-      String data = doc.getElementById("lblDireccion").text();
+      String data = document.getElementById("lblDireccion").text();
 
-      String address = data.substring(0, data.indexOf(','));
-      String city = data.substring(data.indexOf(',') + 2);
+      // FIXME: Need to be checkout ...
+      List<String> info = getRut(name);
+      String rut = info.get(0);
+      String gender = info.get(1);
 
-      // If the contact's name exists, then instantiates it.
-      if (!name.isEmpty()) {
-        newContact = new Contact(id, name, position, unit, email, phone, office, address, city);
-
-        // TODO: Its this ok !?
-        log.debug("CONTACT: {}", newContact.toString());
-      }
+      // Exceptions.
+      Contact aux =
+          new Contact(id, name, rut, gender, position, unit, email, phone, office, data, data);
+      newContact = aux.throwingExceptions(aux);
 
     } catch (IOException e) {
-      log.error("Error retrieving contact info: ", e);
+      log.error("Error retrieving contact info: {}", e);
     }
 
     return newContact;
+  }
+
+  // FIXME: Shitty method (but it does work, well ... kind of)
+  /**
+   *
+   * @param term
+   * @return
+   * @throws IOException
+   */
+  private static List<String> getRut(String term) throws IOException {
+    List<String> data = new ArrayList<>();
+
+    Document document = Jsoup.connect("https://www.nombrerutyfirma.com/buscar")
+        .data("term", term)
+        .referrer("https://www.nombrerutyfirma.com")
+        .post();
+
+    final Element table = document.select("table").get(0);
+    final Elements rows = table.select("tbody").select("tr");
+
+    for (final Element row : rows) {
+      Elements cols = row.select("td");
+
+      // final String name = cols.get(0).text();
+      final String rut = cols.get(1).text();
+      final String gender = cols.get(2).text();
+      // final String address = cols.get(3).text();
+      // final String city = cols.get(4).text();
+
+      // data.add(name);
+      data.add(rut);
+      data.add(gender);
+      // data.add(address);
+      // data.add(city);
+    }
+
+    return data;
   }
 }

@@ -24,7 +24,7 @@ package cl.ucn.disc.pdis.scrapper;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
-import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
 /**
  * Model Class Contact.
@@ -38,13 +38,25 @@ public class Contact {
    * Numeric id. Uses the one provided by UCN's web directory (Not correlative).
    */
   @DatabaseField(id = true)
-  private Integer id;
+  private Integer cod;
 
   /**
    * Contact's Name.
    */
   @DatabaseField
   private String name;
+
+  /**
+   * Contact's Rut.
+   */
+  @DatabaseField
+  private String rut;
+
+  /**
+   * Contact's Gender.
+   */
+  @DatabaseField
+  private String gender;
 
   /**
    * Contact's Position.
@@ -88,6 +100,11 @@ public class Contact {
   @DatabaseField
   private String city;
 
+  /*
+  TODO: There's still 3 more attribute from the website https://www.nombrerutyfirma.com
+        [Name - Rut - Sex - Address - Region]. What would Jesus do !?????
+   */
+
   /**
    * ORMlite constructor.
    */
@@ -95,13 +112,16 @@ public class Contact {
     // ORM lite needs an no-arg constructor.
   }
 
+  // TODO: Rut and Gender need to be checkout ...
   /**
    * Constructor.
    */
-  public Contact(Integer id, String name, String position, String unit, String email,
-                 String phone, String office, String address, String city) {
-    this.id = id;
+  public Contact(Integer cod, String name, String rut, String gender, String position, String unit,
+                 String email, String phone, String office, String address, String city) {
+    this.cod = cod;
     this.name = name;
+    this.rut = rut;
+    this.gender = gender;
     this.position = position;
     this.unit = unit;
     this.email = email;
@@ -111,18 +131,55 @@ public class Contact {
     this.city = city;
   }
 
+  // TODO: Rut and Gender need to be checkout ...
+  /**
+   * Exceptions from the contacts directory.
+   *
+   * @param contact The contacts info.
+   * @return The new contacts.
+   */
+  public Contact throwingExceptions(Contact contact) {
+    if(!contact.name.isEmpty()) {
+
+      if(contact.rut.isEmpty()) { rut = null; }
+
+      if (!contact.gender.isEmpty()) {
+        if(contact.gender.equals("VAR")) { gender = "MASCULINO"; }
+        else if(contact.gender.equals("MUJ")) { gender = "FEMENINO"; }
+
+      } else { gender = null; }
+
+      if(contact.position.isEmpty()) { position = null; }
+
+      if(contact.unit.isEmpty()) { unit = null; }
+
+      if(contact.email.isEmpty()) { email = null; }
+
+      if(contact.phone.isEmpty()) { phone = null; }
+
+      if(contact.office.isEmpty()) { office = null; }
+
+      if(!contact.address.isEmpty() && !contact.city.isEmpty()) {
+        address = address.substring(0, contact.address.indexOf(","));
+        city = city.substring(contact.city.indexOf(",") + 2);
+
+      } else {
+        address = null;
+        city = null;
+      }
+
+      return contact;
+    }
+    return null;
+  }
+
+  /**
+   * Determines the fields to append.
+   *
+   * @return
+   */
   @Override
   public String toString() {
-    return new ToStringBuilder(this)
-        .append("id", id)
-        .append("name", name)
-        .append("position", position)
-        .append("unit", unit)
-        .append("email", email)
-        .append("phone", phone)
-        .append("office", office)
-        .append("address", address)
-        .append("city", city)
-        .toString();
+    return ReflectionToStringBuilder.toString(this);
   }
 }
