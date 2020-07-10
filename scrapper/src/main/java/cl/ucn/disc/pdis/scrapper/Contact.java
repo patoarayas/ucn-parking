@@ -113,6 +113,7 @@ public class Contact {
   }
 
   // TODO: Rut and Gender need to be checkout ...
+
   /**
    * Constructor.
    */
@@ -132,6 +133,7 @@ public class Contact {
   }
 
   // TODO: Rut and Gender need to be checkout ...
+
   /**
    * Exceptions from the contacts directory.
    *
@@ -139,27 +141,44 @@ public class Contact {
    * @return The new contacts.
    */
   public Contact throwingExceptions(Contact contact) {
-    if(!contact.name.isEmpty()) {
+    if (!contact.name.isEmpty()) {
 
-      if(contact.rut.isEmpty()) { rut = null; }
+      if (contact.rut.isEmpty()) {
+        rut = null;
+      }
 
       if (!contact.gender.isEmpty()) {
-        if(contact.gender.equals("VAR")) { gender = "MASCULINO"; }
-        else if(contact.gender.equals("MUJ")) { gender = "FEMENINO"; }
+        if (contact.gender.equals("VAR")) {
+          gender = "MASCULINO";
+        } else if (contact.gender.equals("MUJ")) {
+          gender = "FEMENINO";
+        }
 
-      } else { gender = null; }
+      } else {
+        gender = null;
+      }
 
-      if(contact.position.isEmpty()) { position = null; }
+      if (contact.position.isEmpty()) {
+        position = null;
+      }
 
-      if(contact.unit.isEmpty()) { unit = null; }
+      if (contact.unit.isEmpty()) {
+        unit = null;
+      }
 
-      if(contact.email.isEmpty()) { email = null; }
+      if (contact.email.isEmpty()) {
+        email = null;
+      }
 
-      if(contact.phone.isEmpty()) { phone = null; }
+      if (contact.phone.isEmpty()) {
+        phone = null;
+      }
 
-      if(contact.office.isEmpty()) { office = null; }
+      if (contact.office.isEmpty()) {
+        office = null;
+      }
 
-      if(!contact.address.isEmpty() && !contact.city.isEmpty()) {
+      if (!contact.address.isEmpty() && !contact.city.isEmpty()) {
         address = address.substring(0, contact.address.indexOf(","));
         city = city.substring(contact.city.indexOf(",") + 2);
 
