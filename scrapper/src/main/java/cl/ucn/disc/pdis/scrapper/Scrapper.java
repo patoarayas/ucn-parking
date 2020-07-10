@@ -173,11 +173,12 @@ public class Scrapper {
   }
 
   // FIXME: Shitty method (but it does work, well ... kind of)
+
   /**
-   *
-   * @param term
-   * @return
-   * @throws IOException
+   * www.nombrerutyfirma.cl  scrapper
+   * @param term String to lookup
+   * @return List
+   * @throws IOException Fixme
    */
   private static List<String> getRut(String term) throws IOException {
     List<String> data = new ArrayList<>();
