@@ -24,7 +24,7 @@ package cl.ucn.disc.pdis.scrapper;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
-import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder
 
 /**
  * Model Class Contact.
@@ -182,4 +182,5 @@ public class Contact {
   public String toString() {
     return ReflectionToStringBuilder.toString(this);
   }
+
 }
