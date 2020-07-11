@@ -126,6 +126,9 @@ public class Contact {
 
   }
 
+  public Integer getCod() {
+    return cod;
+  }
 
   public String getName() {
     return name;
@@ -144,7 +147,7 @@ public class Contact {
   }
 
   /**
-   * Extract the city portion of the address
+   * Extract the city portion of the address.
    *
    * @param address The address of the contact.
    * @return the contact's city
