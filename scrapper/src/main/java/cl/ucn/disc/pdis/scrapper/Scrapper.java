@@ -77,6 +77,7 @@ public class Scrapper {
 
     // Searches for the last id inside the DB and starts scrapping from it.
     int lastId = 0;
+
     try {
       assert contactDao != null;
 
@@ -98,8 +99,9 @@ public class Scrapper {
     }
 
     // Gets the contact's info by each ID and then creates it.
-    int maxId = 30000;
+    int maxId = 40000;
     for (int id = lastId; id <= maxId; id++) {
+
       log.info("Getting contact's id: {}", id);
 
       // Contact's info.
@@ -212,5 +214,6 @@ public class Scrapper {
 
     return contact;
   }
+
 
 }
