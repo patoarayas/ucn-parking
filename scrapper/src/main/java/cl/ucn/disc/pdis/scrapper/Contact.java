@@ -100,11 +100,6 @@ public class Contact {
   @DatabaseField
   private String city;
 
-  /*
-  TODO: There's still 3 more attribute from the website https://www.nombrerutyfirma.com
-        [Name - Rut - Sex - Address - Region]. What would Jesus do !?????
-   */
-
   /**
    * ORMlite constructor.
    */
@@ -112,93 +107,66 @@ public class Contact {
     // ORM lite needs an no-arg constructor.
   }
 
-  // TODO: Rut and Gender need to be checkout ...
-
   /**
    * Constructor.
    */
-  public Contact(Integer cod, String name, String rut, String gender, String position, String unit,
-                 String email, String phone, String office, String address, String city) {
+  public Contact(Integer cod, String name, String position, String unit,
+                 String email, String phone, String office, String address) {
     this.cod = cod;
     this.name = name;
-    this.rut = rut;
-    this.gender = gender;
     this.position = position;
     this.unit = unit;
     this.email = email;
     this.phone = phone;
     this.office = office;
     this.address = address;
-    this.city = city;
+    this.rut = null;
+    this.gender = null;
+    this.city = stripCity(address);
+
   }
 
-  // TODO: Rut and Gender need to be checkout ...
+
+  public String getName() {
+    return name;
+  }
+
+  public String getRut() {
+    return rut;
+  }
+
+  public void setRut(String rut) {
+    this.rut = rut;
+  }
+
+  public void setGender(String gender) {
+    this.gender = gender;
+  }
 
   /**
-   * Exceptions from the contacts directory.
+   * Extract the city portion of the address
    *
-   * @param contact The contacts info.
-   * @return The new contacts.
+   * @param address The address of the contact.
+   * @return the contact's city
    */
-  public Contact throwingExceptions(Contact contact) {
-    if (!contact.name.isEmpty()) {
-
-      if (contact.rut.isEmpty()) {
-        rut = null;
-      }
-
-      if (!contact.gender.isEmpty()) {
-        if (contact.gender.equals("VAR")) {
-          gender = "MASCULINO";
-        } else if (contact.gender.equals("MUJ")) {
-          gender = "FEMENINO";
-        }
-
-      } else {
-        gender = null;
-      }
-
-      if (contact.position.isEmpty()) {
-        position = null;
-      }
-
-      if (contact.unit.isEmpty()) {
-        unit = null;
-      }
-
-      if (contact.email.isEmpty()) {
-        email = null;
-      }
-
-      if (contact.phone.isEmpty()) {
-        phone = null;
-      }
-
-      if (contact.office.isEmpty()) {
-        office = null;
-      }
-
-      if (!contact.address.isEmpty() && !contact.city.isEmpty()) {
-        address = address.substring(0, contact.address.indexOf(","));
-        city = city.substring(contact.city.indexOf(",") + 2);
-
-      } else {
-        address = null;
-        city = null;
-      }
-
-      return contact;
+  private String stripCity(String address) {
+    String city = null;
+    if (!address.isEmpty()) {
+      city = address.split("[,-]")[1].trim();
     }
-    return null;
+    return city;
   }
 
   /**
-   * Determines the fields to append.
+   * toString method via reflection.
    *
-   * @return
+   * @return Object's attributes.
    */
   @Override
   public String toString() {
     return ReflectionToStringBuilder.toString(this);
   }
+
+
 }
+
