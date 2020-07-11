@@ -3,7 +3,7 @@
  * Copyright (c) 2020 Patricio Araya, David Canto, Ariel Vejar
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this
- * software and associated documentation files (the “Software”), to deal in the Software
+ * software and associated documentation files (the "Software"), to deal in the Software
  * without restriction, including without limitation the rights to use, copy, modify, merge,
  * publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons
  * to whom the Software is furnished to do so, subject to the following conditions:
@@ -11,7 +11,7 @@
  * The above copyright notice and this permission notice shall be included in all copies or
  * substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
  * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
@@ -24,6 +24,9 @@ package cl.ucn.disc.pdis.scrapper;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
 /**
@@ -32,13 +35,16 @@ import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
  * This class is used by ORMLite to build the DB.
  */
 @DatabaseTable(tableName = "contactos")
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Contact {
 
   /**
    * Numeric id. Uses the one provided by UCN's web directory (Not correlative).
    */
   @DatabaseField(id = true)
-  private Integer cod;
+  private Integer id;
 
   /**
    * Contact's Name.
@@ -57,6 +63,18 @@ public class Contact {
    */
   @DatabaseField
   private String gender;
+
+  /**
+   * Contact's Address.
+   */
+  @DatabaseField
+  private String address;
+
+  /**
+   * Contact's City.
+   */
+  @DatabaseField
+  private String city;
 
   /**
    * Contact's Position.
@@ -89,50 +107,16 @@ public class Contact {
   private String office;
 
   /**
-   * Contact's Address (workplace or university campus).
+   * Contact's Workplace-Address.
    */
   @DatabaseField
-  private String address;
+  private String workplaceAddress;
 
   /**
-   * Contact's City.
+   * Contact's Workplace-City.
    */
   @DatabaseField
-  private String city;
-
-  /*
-  TODO: There's still 3 more attribute from the website https://www.nombrerutyfirma.com
-        [Name - Rut - Sex - Address - Region]. What would Jesus do !?????
-   */
-
-  /**
-   * ORMlite constructor.
-   */
-  public Contact() {
-    // ORM lite needs an no-arg constructor.
-  }
-
-  // TODO: Rut and Gender need to be checkout ...
-
-  /**
-   * Constructor.
-   */
-  public Contact(Integer cod, String name, String rut, String gender, String position, String unit,
-                 String email, String phone, String office, String address, String city) {
-    this.cod = cod;
-    this.name = name;
-    this.rut = rut;
-    this.gender = gender;
-    this.position = position;
-    this.unit = unit;
-    this.email = email;
-    this.phone = phone;
-    this.office = office;
-    this.address = address;
-    this.city = city;
-  }
-
-  // TODO: Rut and Gender need to be checkout ...
+  private String workplaceCity;
 
   /**
    * Exceptions from the contacts directory.
@@ -141,54 +125,48 @@ public class Contact {
    * @return The new contacts.
    */
   public Contact throwingExceptions(Contact contact) {
-    if (!contact.name.isEmpty()) {
+      if (!contact.name.isEmpty()) {
 
-      if (contact.rut.isEmpty()) {
-        rut = null;
-      }
+        if (!contact.gender.isEmpty()) {
+          if (contact.gender.equals("VAR")) { gender = "MASCULINO"; }
+          else if (contact.gender.equals("MUJ")) { gender = "FEMENINO"; }
 
-      if (!contact.gender.isEmpty()) {
-        if (contact.gender.equals("VAR")) {
-          gender = "MASCULINO";
-        } else if (contact.gender.equals("MUJ")) {
-          gender = "FEMENINO";
+        } else {
+          gender = null;
         }
 
-      } else {
-        gender = null;
+        if (contact.position.isEmpty()) {
+          position = null;
+        }
+
+        if (contact.unit.isEmpty()) {
+          unit = null;
+        }
+
+        if (contact.email.isEmpty()) {
+          email = null;
+        }
+
+        if (contact.phone.isEmpty()) {
+          phone = null;
+        }
+
+        if (contact.office.isEmpty()) {
+          office = null;
+        }
+
+        if (!contact.workplaceAddress.isEmpty() && !contact.workplaceCity.isEmpty()) {
+          workplaceAddress = workplaceAddress.substring(0, contact.workplaceAddress.indexOf(","));
+          workplaceCity = workplaceCity.substring(contact.workplaceCity.indexOf(",") + 2);
+
+        } else {
+          workplaceAddress = null;
+          workplaceCity = null;
+        }
+
+        return contact;
       }
 
-      if (contact.position.isEmpty()) {
-        position = null;
-      }
-
-      if (contact.unit.isEmpty()) {
-        unit = null;
-      }
-
-      if (contact.email.isEmpty()) {
-        email = null;
-      }
-
-      if (contact.phone.isEmpty()) {
-        phone = null;
-      }
-
-      if (contact.office.isEmpty()) {
-        office = null;
-      }
-
-      if (!contact.address.isEmpty() && !contact.city.isEmpty()) {
-        address = address.substring(0, contact.address.indexOf(","));
-        city = city.substring(contact.city.indexOf(",") + 2);
-
-      } else {
-        address = null;
-        city = null;
-      }
-
-      return contact;
-    }
     return null;
   }
 
