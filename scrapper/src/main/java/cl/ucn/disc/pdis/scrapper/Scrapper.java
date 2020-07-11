@@ -3,7 +3,7 @@
  * Copyright (c) 2020 Patricio Araya, David Canto, Ariel Vejar
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this
- * software and associated documentation files (the “Software”), to deal in the Software
+ * software and associated documentation files (the "Software"), to deal in the Software
  * without restriction, including without limitation the rights to use, copy, modify, merge,
  * publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons
  * to whom the Software is furnished to do so, subject to the following conditions:
@@ -11,7 +11,7 @@
  * The above copyright notice and this permission notice shall be included in all copies or
  * substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
  * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
@@ -29,184 +29,155 @@ import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Scrapper Class.
  */
+@Slf4j
 public class Scrapper {
 
   /**
-   * Logger.
+   * Database setup.
    */
-  private static Logger log = LoggerFactory.getLogger(Scrapper.class);
+  private static final String dbUrl = "jdbc:sqlite:directorio.db";
 
   /**
-   * Website info.
+   * DirectorioUCN.
    */
-  private static final String URL = "http://online.ucn.cl/directoriotelefonicoemail/fichaGenerica/?cod=";
+  private static DirectorioUCN directorioUCN;
+
+  /**
+   * NombreRutFirma.
+   */
+  private static NombreRutFirma nombreRutFirma;
 
   /**
    * Main method.
    */
-  public static void main(String[] args) {
+  public static void main(String[] args) throws IOException {
 
-    // Setup DB.
-    String dbUrl = "jdbc:sqlite:directorio.db";
-    Dao<Contact, Integer> contactDao = null;
+    Dao<Contact, Integer> dao = null;
 
-    // Starts the connection with the DB.
+    // Database connection.
     try (final ConnectionSource connectionSource = new JdbcConnectionSource(dbUrl)) {
-      log.debug("DB connection open");
+      // Starts the connection.
+      log.debug("Database connection open ...");
 
       // Creates the DAO.
-      contactDao = DaoManager.createDao(connectionSource, Contact.class);
+      dao = DaoManager.createDao(connectionSource, Contact.class);
 
       // Creates the tables.
       TableUtils.createTableIfNotExists(connectionSource, Contact.class);
 
-    } catch (SQLException | IOException e) {
-      log.error("Error creating a DB connection: {}", e);
-    }
-
-    // Searches for the last id inside the DB and starts scrapping from it.
-    int lastId = 0;
-    try {
-      assert contactDao != null;
-
-      // Gets the max id-value from the DB.
-      String strId = contactDao
-          .queryRaw("select max(id) from contactos").getFirstResult()[0];
-
-      try {
-        // Parses into an int.
-        lastId = Integer.parseInt(strId);
-
-      } catch (Exception e) {
-        log.error("Error parsing id. Empty db?: {}", e.getMessage());
-      }
-      log.info("Starting scrapping from ID: {}", lastId);
-
     } catch (SQLException e) {
-      log.error("Error getting last inserted id: {}", e);
+      log.error("Database connection error = {}", e);
     }
+
+    // Gets the id.
+    int lastId = getLastId(dao);
 
     // Gets the contact's info by each ID and then creates it.
-    int maxId = 30000;
-    for (int id = lastId; id <= maxId; id++) {
-      log.info("Getting contact's id: {}", id);
+    for (int id = lastId; id <= 30000; id++) {
+      log.debug("Testing contact's id = {} ...", id);
 
       // Contact's info.
-      Contact contact = getContactInfo(id);
+      Contact contact = getData(id);
 
       if (contact != null) {
         try {
-          contactDao.create(contact);
+          // Adds the row in the database.
+          dao.create(contact);
 
         } catch (SQLException e) {
-          log.debug("Duplicated entry.");
+          log.debug("Duplicated entry");
         }
       }
 
-      try {
-        // Random class.
-        Random random = new Random();
-
-        // Set a delay.
-        int delay = 1000 + random.nextInt(500);
-        Thread.sleep(delay);
-        log.info("Delay: {}", delay);
-
-      } catch (InterruptedException e) {
-        log.debug("Delay was interrupted: {}", e.getMessage());
-      }
+      // Delay.
+      sleep();
     }
   }
 
   /**
-   * Gets the contact's info from UCN phone directory website.
+   * Searches for the last id inside the database and starts scrapping from it.
    *
-   * @param id The id to search for.
-   * @return A Contact with the information or null if there isn't any.
+   * @param dao The DAO.
+   * @return The ID.
    */
-  private static Contact getContactInfo(Integer id) {
-    Contact newContact = null;
+  private static int getLastId(Dao<Contact, Integer> dao) {
+    int lastId = 0;
 
     try {
-      // Connection with the website.
-      Document document = Jsoup.connect(URL + id).get();
+      assert dao != null;
 
-      // Gets the contact's information.
-      String name = document.getElementById("lblNombre").text();
-      String position = document.getElementById("lblCargo").text();
-      String unit = document.getElementById("lblUnidad").text();
-      String email = document.getElementById("lblEmail").text();
-      String phone = document.getElementById("lblTelefono").text();
-      String office = document.getElementById("lblOficina").text();
+      // Gets the max id-value from the database.
+      String strId = dao
+          .queryRaw("SELECT MAX(id) FROM contactos")
+          .getFirstResult()[0];
 
-      // Takes this data and divide it into address and city.
-      String data = document.getElementById("lblDireccion").text();
+      // Parses into an int.
+      lastId = Integer.parseInt(strId);
 
-      // FIXME: Need to be checkout ...
-      List<String> info = getRut(name);
-      String rut = info.get(0);
-      String gender = info.get(1);
-
-      // Exceptions.
-      Contact aux =
-          new Contact(id, name, rut, gender, position, unit, email, phone, office, data, data);
-      newContact = aux.throwingExceptions(aux);
-
-    } catch (IOException e) {
-      log.error("Error retrieving contact info: {}", e);
+    } catch (NumberFormatException | SQLException e) {
+      log.error("Error getting last inserted id = {}", e);
     }
 
-    return newContact;
+    return lastId;
   }
 
-  // FIXME: Shitty method (but it does work, well ... kind of)
+  private static Contact getData(int id) {
+    Contact contact = null;
 
-  /**
-   * www.nombrerutyfirma.cl  scrapper
-   * @param term String to lookup
-   * @return List
-   * @throws IOException Fixme
-   */
-  private static List<String> getRut(String term) throws IOException {
-    List<String> data = new ArrayList<>();
+    try {
+      // Gets the info form the UCN website.
+      directorioUCN = DirectorioUCN.scrapper(id);
+      String name = directorioUCN.getName();
+      String position = directorioUCN.getPosition();
+      String unit = directorioUCN.getUnit();
+      String email = directorioUCN.getEmail();
+      String phone = directorioUCN.getPhone();
+      String office = directorioUCN.getOffice();
+      String workplaceAddress = directorioUCN.getAddress();
+      String workplaceCity = directorioUCN.getCity();
 
-    Document document = Jsoup.connect("https://www.nombrerutyfirma.com/buscar")
-        .data("term", term)
-        .referrer("https://www.nombrerutyfirma.com")
-        .post();
+      // Gets the info from the NombreRutFirma website.
+      nombreRutFirma = NombreRutFirma.scrapper(name);
+      String rut = nombreRutFirma.getRut();
+      String gender = nombreRutFirma.getGender();
+      String address = nombreRutFirma.getAddress();
+      String city = nombreRutFirma.getCity();
 
-    final Element table = document.select("table").get(0);
-    final Elements rows = table.select("tbody").select("tr");
+      Contact aux = new Contact(id, name, rut, gender, address, city, position, unit, email,
+          phone, office, workplaceAddress, workplaceCity);
 
-    for (final Element row : rows) {
-      Elements cols = row.select("td");
+      // Exceptions.
+      contact = aux.throwingExceptions(aux);
 
-      // final String name = cols.get(0).text();
-      final String rut = cols.get(1).text();
-      final String gender = cols.get(2).text();
-      // final String address = cols.get(3).text();
-      // final String city = cols.get(4).text();
-
-      // data.add(name);
-      data.add(rut);
-      data.add(gender);
-      // data.add(address);
-      // data.add(city);
+    } catch (NullPointerException | IOException e) {
+      log.error("Error in getting the contact = {}", e);
     }
 
-    return data;
+    return contact;
+  }
+
+  /**
+   * Set the delay.
+   */
+  private static void sleep() {
+    // Random class.
+    Random random = new Random();
+
+    try {
+      // Delay.
+      int delay = 1000 + random.nextInt(500);
+      Thread.sleep(delay);
+      log.debug("Delay = {}", delay);
+
+    } catch (InterruptedException e) {
+      log.error("Delay was interrupted = {}", e);
+    }
   }
 }
