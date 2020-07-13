@@ -22,16 +22,19 @@
 
 package cl.ucn.disc.pdis.scrapper;
 
+import com.j256.ormlite.dao.CloseableWrappedIterable;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.jdbc.JdbcConnectionSource;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
+
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -47,12 +50,7 @@ public class Scrapper {
   /**
    * Logger.
    */
-  private static Logger log = LoggerFactory.getLogger(Scrapper.class);
-
-  /**
-   * Website info.
-   */
-  private static final String URL = "http://online.ucn.cl/directoriotelefonicoemail/fichaGenerica/?cod=";
+  private static final Logger log = LoggerFactory.getLogger(Scrapper.class);
 
   /**
    * Main method.
@@ -74,17 +72,18 @@ public class Scrapper {
       TableUtils.createTableIfNotExists(connectionSource, Contact.class);
 
     } catch (SQLException | IOException e) {
-      log.error("Error creating a DB connection: {}", e);
+      log.error("Error creating a DB connection: ", e);
     }
 
     // Searches for the last id inside the DB and starts scrapping from it.
     int lastId = 0;
+
     try {
       assert contactDao != null;
 
       // Gets the max id-value from the DB.
       String strId = contactDao
-          .queryRaw("select max(id) from contactos").getFirstResult()[0];
+          .queryRaw("select max(cod) from contactos").getFirstResult()[0];
 
       try {
         // Parses into an int.
@@ -96,12 +95,13 @@ public class Scrapper {
       log.info("Starting scrapping from ID: {}", lastId);
 
     } catch (SQLException e) {
-      log.error("Error getting last inserted id: {}", e);
+      log.error("Error getting last inserted id: ", e);
     }
 
     // Gets the contact's info by each ID and then creates it.
-    int maxId = 30000;
+    int maxId = 40000;
     for (int id = lastId; id <= maxId; id++) {
+
       log.info("Getting contact's id: {}", id);
 
       // Contact's info.
@@ -116,8 +116,9 @@ public class Scrapper {
         }
       }
 
+      // Generate a random delay
       try {
-        // Random class.
+        // Random generator
         Random random = new Random();
 
         // Set a delay.
@@ -138,11 +139,13 @@ public class Scrapper {
    * @return A Contact with the information or null if there isn't any.
    */
   private static Contact getContactInfo(Integer id) {
+
+    final String url = "http://online.ucn.cl/directoriotelefonicoemail/fichaGenerica/?cod=";
     Contact newContact = null;
 
     try {
       // Connection with the website.
-      Document document = Jsoup.connect(URL + id).get();
+      Document document = Jsoup.connect(url + id).get();
 
       // Gets the contact's information.
       String name = document.getElementById("lblNombre").text();
@@ -151,62 +154,66 @@ public class Scrapper {
       String email = document.getElementById("lblEmail").text();
       String phone = document.getElementById("lblTelefono").text();
       String office = document.getElementById("lblOficina").text();
+      String address = document.getElementById("lblDireccion").text();
 
-      // Takes this data and divide it into address and city.
-      String data = document.getElementById("lblDireccion").text();
-
-      // FIXME: Need to be checkout ...
-      List<String> info = getRut(name);
-      String rut = info.get(0);
-      String gender = info.get(1);
-
-      // Exceptions.
-      Contact aux =
-          new Contact(id, name, rut, gender, position, unit, email, phone, office, data, data);
-      newContact = aux.throwingExceptions(aux);
-
+      // If name is not empty, get rut and create contact, if not continue.
+      if (!name.isEmpty()) {
+        newContact = getRut(new Contact(id, name, position, unit, email, phone, office, address));
+        log.debug(newContact.toString());
+      }
     } catch (IOException e) {
-      log.error("Error retrieving contact info: {}", e);
+      log.error("Error retrieving contact info:", e);
     }
 
     return newContact;
   }
 
-  // FIXME: Shitty method (but it does work, well ... kind of)
 
   /**
-   * www.nombrerutyfirma.cl  scrapper
-   * @param term String to lookup
-   * @return List
-   * @throws IOException Fixme
+   * Get the rut and gender of a Contact scrapping the information
+   * from nombrerutyfirma.com.
+   *
+   * @param contact the contact to search for
+   * @return the contact with the information appended
    */
-  private static List<String> getRut(String term) throws IOException {
-    List<String> data = new ArrayList<>();
+  private static Contact getRut(Contact contact) {
 
-    Document document = Jsoup.connect("https://www.nombrerutyfirma.com/buscar")
-        .data("term", term)
-        .referrer("https://www.nombrerutyfirma.com")
-        .post();
+    Document document = null;
+    try {
+      document = Jsoup.connect("https://www.nombrerutyfirma.com/buscar")
+          .data("term", contact.getName())
+          .referrer("https://www.nombrerutyfirma.com")
+          .post();
+
+    } catch (Exception e) {
+      log.error("Error at JSoup POST: ", e);
+    }
 
     final Element table = document.select("table").get(0);
     final Elements rows = table.select("tbody").select("tr");
 
-    for (final Element row : rows) {
-      Elements cols = row.select("td");
+    String rut = null;
+    String gender = null;
 
-      // final String name = cols.get(0).text();
-      final String rut = cols.get(1).text();
-      final String gender = cols.get(2).text();
-      // final String address = cols.get(3).text();
-      // final String city = cols.get(4).text();
-
-      // data.add(name);
-      data.add(rut);
-      data.add(gender);
-      // data.add(address);
-      // data.add(city);
+    log.debug("Rutificador: {} matches: ", rows.size());
+    // Only fill if 1 match is found
+    if (rows.size() == 1) {
+      Elements cols = rows.first().select("td");
+      rut = cols.get(1).text();
+      gender = cols.get(2).text();
     }
 
-    return data;
+    if (rows.size() > 1) {
+      log.warn("Rutificador: Several matches.");
+    } else if (rows.size() == 0) {
+      log.warn("Rutificador: No matches found");
+    }
+
+    contact.setRut(rut);
+    contact.setGender(gender);
+
+    return contact;
   }
+
+
 }
