@@ -1,0 +1,52 @@
+@startuml diagram
+
+class Contact {
+ - cod: String
+ - name: String
+ - rut: String
+ - gender: String
+ - position: String
+ - unit: String
+ - email: String
+ - phone: String
+ - office: String
+ - address: String
+ - city: String
+ + getCod(): String
+ + getName(): String
+ + getRut(): String
+ + setRut(): String
+ + setGender(): String
+ - stripCity(address: String): String
+ + toString(): String
+}
+
+class Rutificador {
+ - name: String
+ - rut: String
+ - gender: String
+ - address: String
+ - city: String
+}
+
+class Scrapper {
+
+}
+
+class Vehicle {
+ - patent: String
+ - admissionTime: Time
+ - departureTime: Time
+ - personInCharge: Contact
+ - entry: String
+}
+
+class UCNDirectory {
+ - URL: String
+}
+
+class NameRutSignature {
+ - URL: String
+}
+
+@enduml
