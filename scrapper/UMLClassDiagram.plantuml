@@ -1,6 +1,6 @@
 @startuml diagram
 
-class Contact {
+class Contact <<Entity>> {
  - cod: String
  - name: String
  - rut: String
@@ -21,32 +21,11 @@ class Contact {
  + toString(): String
 }
 
-class Rutificador {
- - name: String
- - rut: String
- - gender: String
- - address: String
- - city: String
-}
-
 class Scrapper {
-
+ - getContactInfo(id: Integer): Contact
+ - getRut(contact:): Contact
 }
 
-class Vehicle {
- - patent: String
- - admissionTime: Time
- - departureTime: Time
- - personInCharge: Contact
- - entry: String
-}
-
-class UCNDirectory {
- - URL: String
-}
-
-class NameRutSignature {
- - URL: String
-}
+Scrapper "1" --> "0..*" Contact: Instance
 
 @enduml
