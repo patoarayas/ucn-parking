@@ -1,0 +1,31 @@
+@startuml diagram
+
+class Contact <<Entity>> {
+ - cod: String
+ - name: String
+ - rut: String
+ - gender: String
+ - position: String
+ - unit: String
+ - email: String
+ - phone: String
+ - office: String
+ - address: String
+ - city: String
+ + getCod(): String
+ + getName(): String
+ + getRut(): String
+ + setRut(): String
+ + setGender(): String
+ - stripCity(address: String): String
+ + toString(): String
+}
+
+class Scrapper {
+ - getContactInfo(id: Integer): Contact
+ - getRut(contact:): Contact
+}
+
+Scrapper "1" --> "0..*" Contact: Instance
+
+@enduml
