@@ -3,7 +3,7 @@
  * Copyright (c) 2020 Patricio Araya, David Canto, Ariel Vejar
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this
- * software and associated documentation files (the “Software”), to deal in the Software
+ * software and associated documentation files (the "Software"), to deal in the Software
  * without restriction, including without limitation the rights to use, copy, modify, merge,
  * publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons
  * to whom the Software is furnished to do so, subject to the following conditions:
@@ -11,7 +11,7 @@
  * The above copyright notice and this permission notice shall be included in all copies or
  * substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
  * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
@@ -22,7 +22,6 @@
 
 package cl.ucn.disc.pdis.scrapper;
 
-import com.j256.ormlite.dao.CloseableWrappedIterable;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.jdbc.JdbcConnectionSource;
@@ -31,8 +30,6 @@ import com.j256.ormlite.table.TableUtils;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 import org.jsoup.Jsoup;
@@ -158,7 +155,10 @@ public class Scrapper {
 
       // If name is not empty, get rut and create contact, if not continue.
       if (!name.isEmpty()) {
-        newContact = getRut(new Contact(id, name, position, unit, email, phone, office, address));
+        newContact = getRut(
+            new Contact(id, name, position, unit, email, phone, office, address)
+        );
+
         log.debug(newContact.toString());
       }
     } catch (IOException e) {
@@ -214,6 +214,4 @@ public class Scrapper {
 
     return contact;
   }
-
-
 }
