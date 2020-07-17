@@ -42,8 +42,7 @@ module model {
         /** Email */
         string email;
         /** Telefono */
-        string fono
-
+        string fono;
      }
 
      /**
@@ -59,10 +58,10 @@ module model {
          /** Modelo del vehiculo **/
          string modelo;
          /** Año del vehiculo**/
-         int año;
+         int anio;
          /** Observaciónes **/
          string observacion;
-         /** Logo TODO: Verificar atributos del logo **/
+         /** Logo TODO: Verificar atributos del logo o separar en entidad aparte**/
          string logo;
 
      }
@@ -83,75 +82,81 @@ module model {
         string porteria;
      }
 
+
+     // Sequences
+     sequence<Persona> Personas;
+     sequence<Vehiculo> Vehiculos;
+     sequence<Acceso> Accesos;
      /**
      * Operaciones del sistema
      */
      interface Sistema {
 
-         /**
+        /**
         * Crea una persona en el sistema
         * @param Persona: Persona a crear
         * @return Persona creada
         */
-        Persona createPersona(Persona);
+        Persona createPersona(Persona persona);
 
-         /**
+        /**
         * Crea un vehiculo en el sistema
         * @param Vehiculo: vehiculo a crear
         * @return Vehiculo creado
         */
-        Vehiculo createVehiculo(Vehiculo);
+        Vehiculo createVehiculo(Vehiculo vehiculo);
 
-         /**
+        /**
         * Elimina una persona del sistema
         * @param rut: rut de la persona a eliminar
         * @return bool: eliminación exitosa o no
         */
-        bool deletePersona(rut);
+        bool deletePersona(string rut);
 
-         /**
+        /**
         * Elimina un vehiculo del sistema
         * @param patente: patente del vehiculo a eliminar
         * @return bool: eliminación exitosa o no
         */
-        bool deleteVehiculo(patente);
+        bool deleteVehiculo(string patente);
 
-         /**
+        /**
         * Actualiza la información de una persona en el sistema
         * @param Persona: persona actualizada
         * @return bool: actualizacion exitosa o no
         */
-        bool updatePersona(Persona);
+        bool updatePersona(Persona persona);
 
-         /**
+        /**
         * Actualiza la información de un vehiculo
         * @param Vehiculo: Vehiculo actualizado
         * @return bool: actualizacion exitosa o no
         */
-        bool updateVehiculo(Vehiculo);
+        bool updateVehiculo(Vehiculo vehiculo);
 
-         /**
+        /**
         * Mostrar personas registradas en el sistema
         * @return Sequence con las personas registrados en el sistema
         */
-        sequence<Persona> showPersonas();
+        Personas showPersonas();
 
-         /**
+        /**
         * Mostrar vehiculos registrados en el sistema
         * @return Sequence con los vehiculos registrados en el sistema
         */
-        sequence<Vehiculo> showVehiculos();
+        Vehiculos showVehiculos();
 
-         /**
+        /**
         * Mostrar registro de accesos en el sistema
         * @return Sequence con los registros de acceso.
         */
-        sequence<Acceso> showAccesos();
+        Accesos showAccesos();
 
         /**
         * Envia datos del registro.
         * @param patente: patente del vehiculo a eliminar
         * @return bool: registro exitosa o no.
         */
-        bool registrarAcceso(timestamp, portería, patente)
+        bool registrarAcceso(string timestamp, string porteria, string patente);
+        }
 }
