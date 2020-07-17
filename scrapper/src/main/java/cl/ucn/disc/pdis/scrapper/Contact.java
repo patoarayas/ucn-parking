@@ -24,110 +24,153 @@ package cl.ucn.disc.pdis.scrapper;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
-import lombok.*;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
 /**
- * Contact class (ORMLite its added here to build the database).
+ * Model Class Contact.
+ * Represents the contact information of a academic or employee.
+ * This class is used by ORMLite to build the DB.
  */
 @DatabaseTable(tableName = "contactos")
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class Contact {
 
   /**
-   * Numeric Cod (Not correlative). Cod provided by UCN's website.
+   * Numeric id. Uses the one provided by UCN's web directory (Not correlative).
    */
   @DatabaseField(id = true)
-  @Getter
-  @Setter
   private Integer cod;
 
   /**
    * Contact's Name.
    */
   @DatabaseField
-  @Getter
-  @Setter
   private String name;
 
   /**
    * Contact's Rut.
    */
   @DatabaseField
-  @Getter
-  @Setter
   private String rut;
 
   /**
    * Contact's Gender.
    */
   @DatabaseField
-  @Getter
-  @Setter
   private String gender;
 
   /**
    * Contact's Position.
    */
   @DatabaseField
-  @Getter
-  @Setter
   private String position;
 
   /**
    * Contact's Unit.
    **/
   @DatabaseField
-  @Getter
-  @Setter
   private String unit;
 
   /**
    * Contact's E-Mail.
    */
   @DatabaseField
-  @Getter
-  @Setter
   private String email;
 
   /**
    * Contact's Phone.
    */
   @DatabaseField
-  @Getter
-  @Setter
   private String phone;
 
   /**
    * Contact's Office.
    */
   @DatabaseField
-  @Getter
-  @Setter
   private String office;
 
   /**
    * Contact's Address (workplace or university campus).
    */
   @DatabaseField
-  @Getter
-  @Setter
   private String address;
 
   /**
    * Contact's City.
    */
   @DatabaseField
-  @Getter
-  @Setter
   private String city;
+
+  /**
+   * ORMlite constructor.
+   */
+  public Contact() {
+    // ORM lite needs an no-arg constructor.
+  }
+
+  /**
+   * Constructor.
+   */
+  public Contact(Integer cod, String name, String position, String unit,
+                 String email, String phone, String office, String address) {
+    this.cod = cod;
+    this.name = name;
+    this.position = position;
+    this.unit = unit;
+    this.email = email;
+    this.phone = phone;
+    this.office = office;
+    this.address = address;
+    this.rut = null;
+    this.gender = null;
+    this.city = stripCity(address);
+  }
+
+  public Integer getCod() {
+    return cod;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public String getRut() {
+    return rut;
+  }
+
+  public String getGender() {
+    return gender;
+  }
+
+  public String getEmail() {
+    return email;
+  }
+
+  public void setRut(String rut) {
+    this.rut = rut;
+  }
+
+  public void setGender(String gender) {
+    this.gender = gender;
+  }
+
+  /**
+   * Extract the city portion of the address.
+   *
+   * @param address The address of the contact.
+   * @return the contact's city
+   */
+  private String stripCity(String address) {
+    String city = null;
+    if (!address.isEmpty()) {
+      city = address.split("[,-]")[1].trim();
+    }
+    return city;
+  }
 
   /**
    * toString method via reflection.
    *
-   * @return - Object's attributes.
+   * @return Object's attributes.
    */
   @Override
   public String toString() {
