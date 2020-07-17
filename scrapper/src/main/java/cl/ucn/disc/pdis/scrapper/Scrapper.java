@@ -3,7 +3,7 @@
  * Copyright (c) 2020 Patricio Araya, David Canto, Ariel Vejar
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this
- * software and associated documentation files (the "Software"), to deal in the Software
+ * software and associated documentation files (the “Software”), to deal in the Software
  * without restriction, including without limitation the rights to use, copy, modify, merge,
  * publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons
  * to whom the Software is furnished to do so, subject to the following conditions:
@@ -11,7 +11,7 @@
  * The above copyright notice and this permission notice shall be included in all copies or
  * substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
  * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
@@ -22,195 +22,173 @@
 
 package cl.ucn.disc.pdis.scrapper;
 
-import com.j256.ormlite.dao.Dao;
-import com.j256.ormlite.dao.DaoManager;
-import com.j256.ormlite.jdbc.JdbcConnectionSource;
-import com.j256.ormlite.support.ConnectionSource;
-import com.j256.ormlite.table.TableUtils;
-
 import java.io.IOException;
-import java.sql.SQLException;
-import java.util.Random;
-
+import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Scrapper Class.
  */
+@Slf4j
 public class Scrapper {
 
   /**
-   * Logger.
+   * URL.
    */
-  private static final Logger log = LoggerFactory.getLogger(Scrapper.class);
+  private static String URL;
 
   /**
-   * Main method.
+   * Document.
    */
-  public static void main(String[] args) {
+  private static Document document;
 
-    // Setup DB.
-    String dbUrl = "jdbc:sqlite:directorio.db";
-    Dao<Contact, Integer> contactDao = null;
-
-    // Starts the connection with the DB.
-    try (final ConnectionSource connectionSource = new JdbcConnectionSource(dbUrl)) {
-      log.debug("DB connection open");
-
-      // Creates the DAO.
-      contactDao = DaoManager.createDao(connectionSource, Contact.class);
-
-      // Creates the tables.
-      TableUtils.createTableIfNotExists(connectionSource, Contact.class);
-
-    } catch (SQLException | IOException e) {
-      log.error("Error creating a DB connection: ", e);
-    }
-
-    // Searches for the last id inside the DB and starts scrapping from it.
-    int lastId = 0;
-
-    try {
-      assert contactDao != null;
-
-      // Gets the max id-value from the DB.
-      String strId = contactDao
-          .queryRaw("select max(cod) from contactos").getFirstResult()[0];
-
-      try {
-        // Parses into an int.
-        lastId = Integer.parseInt(strId);
-
-      } catch (Exception e) {
-        log.error("Error parsing id. Empty db?: {}", e.getMessage());
-      }
-      log.info("Starting scrapping from ID: {}", lastId);
-
-    } catch (SQLException e) {
-      log.error("Error getting last inserted id: ", e);
-    }
-
-    // Gets the contact's info by each ID and then creates it.
-    int maxId = 40000;
-    for (int id = lastId; id <= maxId; id++) {
-
-      log.info("Getting contact's id: {}", id);
-
-      // Contact's info.
-      Contact contact = getContactInfo(id);
-
-      if (contact != null) {
-        try {
-          contactDao.create(contact);
-
-        } catch (SQLException e) {
-          log.debug("Duplicated entry.");
-        }
-      }
-
-      // Generate a random delay
-      try {
-        // Random generator
-        Random random = new Random();
-
-        // Set a delay.
-        int delay = 1000 + random.nextInt(500);
-        Thread.sleep(delay);
-        log.info("Delay: {}", delay);
-
-      } catch (InterruptedException e) {
-        log.debug("Delay was interrupted: {}", e.getMessage());
-      }
-    }
+  /**
+   * Gets the contact's info.
+   *
+   * @param id - The id.
+   * @return - The contact data.
+   */
+  public static Contact getData(int id) throws IOException {
+    return scrapperUCN(id);
   }
 
   /**
-   * Gets the contact's info from UCN phone directory website.
+   * Gets the contact's info from the 'UCN' website.
    *
-   * @param id The id to search for.
-   * @return A Contact with the information or null if there isn't any.
+   * @param id - The id to search for.
+   * @return - A Contact object.
    */
-  private static Contact getContactInfo(Integer id) {
+  private static Contact scrapperUCN(Integer id) throws IOException {
+    Contact contact = null;
 
-    final String url = "http://online.ucn.cl/directoriotelefonicoemail/fichaGenerica/?cod=";
-    Contact newContact = null;
+    // URL.
+    URL = "http://online.ucn.cl/directoriotelefonicoemail/fichaGenerica/?cod=";
 
-    try {
-      // Connection with the website.
-      Document document = Jsoup.connect(url + id).get();
+    // Website connection.
+    document = Jsoup.connect(URL + id).get();
 
-      // Gets the contact's information.
-      String name = document.getElementById("lblNombre").text();
-      String position = document.getElementById("lblCargo").text();
-      String unit = document.getElementById("lblUnidad").text();
-      String email = document.getElementById("lblEmail").text();
-      String phone = document.getElementById("lblTelefono").text();
-      String office = document.getElementById("lblOficina").text();
-      String address = document.getElementById("lblDireccion").text();
+    // Element's values.
+    String[] elements = {"lblNombre", "lblCargo", "lblUnidad", "lblEmail",
+        "lblTelefono", "lblOficina", "lblDireccion"};
 
-      // If name is not empty, get rut and create contact, if not continue.
-      if (!name.isEmpty()) {
-        newContact = getRut(
-            new Contact(id, name, position, unit, email, phone, office, address)
-        );
-
-        log.debug(newContact.toString());
-      }
-    } catch (IOException e) {
-      log.error("Error retrieving contact info:", e);
+    // Gets the contact's information.
+    String[] data = new String[elements.length];
+    for(int i = 0; i < elements.length; i++) {
+      data[i] = document.getElementById(elements[i]).text();
     }
 
-    return newContact;
+    if (!data[0].isEmpty()) {
+
+      contact = scrapperNRF(
+          new Contact(
+              id,
+              data[0],      // Name
+              null,     // Rut
+              null,  // Gender
+              data[1],  // Position
+              data[2],  // Unit
+              data[3],  // Email
+              data[4],  // Phone
+              data[5],  // Office
+              data[6],  // Address
+              null  // City
+          )
+      );
+
+      log.debug(contact.toString());
+    }
+
+    // Exceptions.
+    return exceptions(contact);
   }
 
-
   /**
-   * Get the rut and gender of a Contact scrapping the information
-   * from nombrerutyfirma.com.
+   * Gets the contact's rut and gender from the 'nombrerutyfirma' website.
    *
-   * @param contact the contact to search for
-   * @return the contact with the information appended
+   * @param contact - The name to search for.
+   * @return - The contact with the information appended.
    */
-  private static Contact getRut(Contact contact) {
+  private static Contact scrapperNRF(Contact contact) throws IOException {
 
-    Document document = null;
-    try {
-      document = Jsoup.connect("https://www.nombrerutyfirma.com/buscar")
-          .data("term", contact.getName())
-          .referrer("https://www.nombrerutyfirma.com")
-          .post();
+    // URL.
+    URL = "https://www.nombrerutyfirma.com/buscar";
 
-    } catch (Exception e) {
-      log.error("Error at JSoup POST: ", e);
-    }
+    document = Jsoup.connect(URL)
+        .data("term", contact.getName())
+        .referrer("https://www.nombrerutyfirma.com")
+        .post();
 
     final Element table = document.select("table").get(0);
     final Elements rows = table.select("tbody").select("tr");
 
-    String rut = null;
-    String gender = null;
+    log.debug("[RUT] - Matches founded {}: ", rows.size());
 
-    log.debug("Rutificador: {} matches: ", rows.size());
-    // Only fill if 1 match is found
+    // Only fill if 1 match is found.
     if (rows.size() == 1) {
       Elements cols = rows.first().select("td");
-      rut = cols.get(1).text();
-      gender = cols.get(2).text();
+      contact.setRut(cols.get(1).text());
+      contact.setGender(cols.get(2).text());
     }
 
     if (rows.size() > 1) {
-      log.warn("Rutificador: Several matches.");
+      log.warn("[RUT] - Several matches found.");
+
     } else if (rows.size() == 0) {
-      log.warn("Rutificador: No matches found");
+      log.warn("[RUT] - No matches found");
     }
 
-    contact.setRut(rut);
-    contact.setGender(gender);
+    return contact;
+  }
+
+  /**
+   * Exceptions.
+   *
+   * @param contact - The contact object.
+   * @return - The new contact object.
+   */
+  private static Contact exceptions(Contact contact) {
+    if(contact != null) {
+
+      if (contact.getGender() != null) {
+        if (contact.getGender().equals("VAR")) {
+          contact.setGender("MASCULINO");
+
+        } else if (contact.getGender().equals("MUJ")) {
+          contact.setGender("FEMENINO");
+        }
+      }
+
+      if (contact.getPosition().isEmpty()) {
+        contact.setPosition(null);
+      }
+
+      if (contact.getUnit().isEmpty()) {
+        contact.setUnit(null);
+      }
+
+      if (contact.getEmail().isEmpty()) {
+        contact.setEmail(null);
+      }
+
+      if (contact.getPhone().isEmpty()) {
+        contact.setPhone(null);
+      }
+
+      if (contact.getOffice().isEmpty()) {
+        contact.setOffice(null);
+      }
+
+      if (!contact.getAddress().isEmpty()) {
+        contact.setAddress(contact.getAddress().split("[-]")[0].trim());
+        contact.setCity(contact.getAddress().split("[,-]")[1].trim());
+
+      } else {
+        contact.setAddress(null);
+      }
+    }
 
     return contact;
   }
