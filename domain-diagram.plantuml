@@ -5,11 +5,12 @@ object Persona {
  nombre
  rut
  genero
- fono
  email
+ fono
 }
 
 object Vehiculo {
+ uid
  patente
  marca
  modelo
@@ -19,11 +20,12 @@ object Vehiculo {
 }
 
 object Acceso {
- timestamp
+ uid
+ hora
  patente
  porteria
 }
 
-Acceso "1" --> "1" Vehiculo: Registra
+Acceso "0..*" --> "1" Vehiculo: Registra
 Vehiculo "1" --> "1" Persona: Asocia
 @enduml
