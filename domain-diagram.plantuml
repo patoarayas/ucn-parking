@@ -1,8 +1,10 @@
 @startuml diagram
 
 object Persona {
+ uid
  nombre
  rut
+ genero
  fono
  email
 }
@@ -13,7 +15,7 @@ object Vehiculo {
  modelo
  año
  observacion
-
+ logo
 }
 
 object Acceso {

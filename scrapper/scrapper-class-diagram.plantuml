@@ -32,6 +32,6 @@ class Scrapper {
  - {static} getRut(contact : Contact) : Contact
 }
 
-Scrapper "1" --> "0..*" Contact: Instance
+Scrapper "1" --> "0..*" Contact
 
 @enduml
