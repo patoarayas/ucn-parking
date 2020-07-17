@@ -1,0 +1,27 @@
+@startuml diagram
+
+object Persona {
+ nombre
+ rut
+ fono
+ email
+}
+
+object Vehiculo {
+ patente
+ marca
+ modelo
+ año
+ observacion
+
+}
+
+object Acceso {
+ timestamp
+ patente
+ porteria
+}
+
+Acceso "1" --> "1" Vehiculo: Registra
+Vehiculo "1" --> "1" Persona: Asocia
+@enduml
