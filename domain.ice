@@ -1,8 +1,7 @@
-  
 /*
  * MIT License
  *
- * Copyright (c) 2020 Patricio Araya González <patricio.araya@alumnos.ucn.cl>
+ * Copyright (c) 2020 Patricio Araya, David canto, Ariel Vejar
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,38 +22,27 @@
  * SOFTWARE.
  */
 
-// https://doc.zeroc.com/ice/3.7/language-mappings/java-mapping/client-side-slice-to-java-mapping/customizing-the-java-mapping
-["java:package:cl.ucn.disc.pdis.fivet.zeroice", "cs:namespace:Fivet.ZeroIce"]
+["cs:namespace:Parking.ZeroIce"]
 module model {
 
      /**
-     * Contact
+     * Clase Persona
      */
      ["cs:property"]
      class Persona{
-         
+
         /** Codigo identificador*/
-        //int cod;
+        int uid;
         /** Nombre */
-        string name;
+        string nombre;
         /** Rut */
         string rut;
         /** Sexo */
-        //string gender;
-        /** Position */
-        //string position;
-        /** Unit */
-        //string unit;
+        string genero;
         /** Email */
-        //string email;
+        string email;
         /** Telefono */
-        //String phone
-        /** Oficina */
-        //String office;
-        /** Dirección */
-        //String address;
-        /** Ciudad*/
-        //String city;
+        string fono
 
      }
 
@@ -64,10 +52,18 @@ module model {
      ["cs:property"]
      class Vehiculo{
 
-         /** Identificador numérico */
-         //int uid;
          /** Patente Vehicular*/
-         string patent;
+         string patente;
+         /** Marca del vehiculo**/
+         string marca;
+         /** Modelo del vehiculo **/
+         string modelo;
+         /** Año del vehiculo**/
+         int año;
+         /** Observaciónes **/
+         string observacion;
+         /** Logo TODO: Verificar atributos del logo **/
+         string logo;
 
      }
 
@@ -75,23 +71,22 @@ module model {
      * Registro de acceso
      */
      ["cs:property"]
-     class Acceso{
+     class Acceso {
 
         /** Id */
-        //int uid;
+        int uid;
         /** Timestamp*/
-        string timestamp;
+        string hora;
         /** Patente vehicular */
-        string patent;
+        string patente;
         /** Puerta de acceso (Porteria) */
-        string accessGate;
-
+        string porteria;
      }
 
      /**
-     * Cruds del sistema
+     * Operaciones del sistema
      */
-     interface Cruds {
+     interface Sistema {
 
          /**
         * Crea una persona en el sistema
@@ -99,19 +94,13 @@ module model {
         * @return Persona creada
         */
         Persona createPersona(Persona);
-        
-         /**
-        * Crea un vehiculo en el sistema
-        * @param Vehiculo: vehiculo a crear
-        * @return Vehiculo creado
-        */
-        Vehiculo createVehiculo(Vehiculo);
 
          /**
         * Crea un vehiculo en el sistema
         * @param Vehiculo: vehiculo a crear
         * @return Vehiculo creado
         */
+        Vehiculo createVehiculo(Vehiculo);
 
          /**
         * Elimina una persona del sistema
@@ -128,56 +117,41 @@ module model {
         bool deleteVehiculo(patente);
 
          /**
-        * Actualiza una persona en el sistema
+        * Actualiza la información de una persona en el sistema
         * @param Persona: persona actualizada
         * @return bool: actualizacion exitosa o no
         */
         bool updatePersona(Persona);
 
          /**
-        * Actualiza un vehiculo
-        * @param Vehiculo: vehiculo actualizado
+        * Actualiza la información de un vehiculo
+        * @param Vehiculo: Vehiculo actualizado
         * @return bool: actualizacion exitosa o no
         */
-        updateVehiculo(Vehiculo);
+        bool updateVehiculo(Vehiculo);
 
          /**
         * Mostrar personas registradas en el sistema
-        * @param
-        * @return
+        * @return Sequence con las personas registrados en el sistema
         */
-        showPersonas();
+        sequence<Persona> showPersonas();
 
          /**
         * Mostrar vehiculos registrados en el sistema
-        * @param
-        * @return
+        * @return Sequence con los vehiculos registrados en el sistema
         */
-        showVehiculos();
+        sequence<Vehiculo> showVehiculos();
 
          /**
         * Mostrar registro de accesos en el sistema
-        * @param
-        * @return
+        * @return Sequence con los registros de acceso.
         */
-        showAccesos();
+        sequence<Acceso> showAccesos();
 
-     }
-
-     interface Operacion {
-
-          /**
-        * Recibe datos en el backend para guardarlos en el movil
-        * @param
-        * @return
-        */
-        getDatos() // Recibe los datos en el backend para guardarlos en el movil
-
-          /**
-        * Envia datos del registro
+        /**
+        * Envia datos del registro.
         * @param patente: patente del vehiculo a eliminar
-        * @return bool: eliminación exitosa o no
+        * @return bool: registro exitosa o no.
         */
-        registrarAcceso(timestamp, portería, patente) // Envia los datos del registro
-     }
+        bool registrarAcceso(timestamp, portería, patente)
 }
