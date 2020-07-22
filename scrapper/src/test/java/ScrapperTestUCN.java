@@ -57,7 +57,7 @@ public class ScrapperTestUCN {
 
     Contact contact = getData(cod);
 
-    Assertions.assertEquals(cod, contact.getCod());
+    Assertions.assertEquals(cod, contact.getCodigo());
     Assertions.assertEquals(name, contact.getName());
     Assertions.assertEquals(email, contact.getEmail());
 

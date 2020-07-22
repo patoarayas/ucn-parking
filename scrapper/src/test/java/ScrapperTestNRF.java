@@ -65,7 +65,7 @@ public class ScrapperTestNRF {
         new Contact(cod, name, position, unit, email, phone, office, address)
     );
 
-    Assertions.assertEquals(cod, contact.getCod());
+    Assertions.assertEquals(cod, contact.getCodigo());
     Assertions.assertEquals(name, contact.getName());
     Assertions.assertEquals(email, contact.getEmail());
     Assertions.assertNotNull(contact.getRut());
@@ -96,7 +96,7 @@ public class ScrapperTestNRF {
         new Contact(cod, name, position, unit, email, phone, office, address)
     );
 
-    Assertions.assertEquals(cod, contact.getCod());
+    Assertions.assertEquals(cod, contact.getCodigo());
     Assertions.assertEquals(name, contact.getName());
     Assertions.assertEquals(email, contact.getEmail());
     Assertions.assertNull(contact.getRut());
