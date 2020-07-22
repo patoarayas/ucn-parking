@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Parking.ZeroIce.model;
 
 namespace backend
 {
@@ -51,8 +52,11 @@ namespace backend
                     // Host options config
                     services.Configure<HostOptions>(option =>
                     {
+                        
                         option.ShutdownTimeout = System.TimeSpan.FromSeconds(15);
                     });
+                    // Add Sistema interface
+                    services.AddSingleton<SistemaDisp_, SistemaImpl>();
                 });
     }
 }

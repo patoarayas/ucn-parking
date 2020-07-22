@@ -112,66 +112,68 @@ module model {
         * @param Persona: Persona a crear
         * @return Persona creada
         */
-        Persona createPersona(Persona persona);
+        //Persona createPersona(Persona persona);
 
         /**
         * Crea un vehiculo en el sistema
         * @param Vehiculo: vehiculo a crear
         * @return Vehiculo creado
         */
-        Vehiculo createVehiculo(Vehiculo vehiculo);
+        //Vehiculo createVehiculo(Vehiculo vehiculo);
 
         /**
         * Elimina una persona del sistema
         * @param rut: rut de la persona a eliminar
         * @return bool: eliminación exitosa o no
         */
-        bool deletePersona(string rut);
+        //bool deletePersona(string rut);
 
         /**
         * Elimina un vehiculo del sistema
         * @param patente: patente del vehiculo a eliminar
         * @return bool: eliminación exitosa o no
         */
-        bool deleteVehiculo(string patente);
+        //bool deleteVehiculo(string patente);
 
         /**
         * Actualiza la información de una persona en el sistema
         * @param Persona: persona actualizada
         * @return bool: actualizacion exitosa o no
         */
-        bool updatePersona(Persona persona);
+        //bool updatePersona(Persona persona);
 
         /**
         * Actualiza la información de un vehiculo
         * @param Vehiculo: Vehiculo actualizado
         * @return bool: actualizacion exitosa o no
         */
-        bool updateVehiculo(Vehiculo vehiculo);
+        //bool updateVehiculo(Vehiculo vehiculo);
 
         /**
         * Mostrar personas registradas en el sistema
         * @return Sequence con las personas registrados en el sistema
         */
-        Personas showPersonas();
+        //Personas showPersonas();
 
         /**
         * Mostrar vehiculos registrados en el sistema
         * @return Sequence con los vehiculos registrados en el sistema
         */
-        Vehiculos showVehiculos();
+        //Vehiculos showVehiculos();
 
         /**
         * Mostrar registro de accesos en el sistema
         * @return Sequence con los registros de acceso.
         */
-        Accesos showAccesos();
+        //Accesos showAccesos();
 
         /**
         * Envia datos del registro.
         * @param patente: patente del vehiculo a eliminar
         * @return bool: registro exitosa o no.
         */
-        bool registrarAcceso(string timestamp, string porteria, string patente);
+        //bool registrarAcceso(string timestamp, string porteria, string patente);
+     
         }
+        
 }
