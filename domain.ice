@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2020 Patricio Araya, David canto, Ariel Vejar
+ * Copyright (c) 2020 Patricio Araya, David Canto, Ariel Vejar
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -25,29 +25,32 @@
 ["cs:namespace:Parking.ZeroIce"]
 module model {
 
+     enum Genero {MASCULINO, FEMENINO}
+     
      /**
      * Clase Persona
      */
      ["cs:property"]
      class Persona{
 
-        /** Codigo identificador*/
-        int uid;
         /** Nombre */
         string nombre;
         /** Rut */
         string rut;
-        /** Sexo */
-        string genero;
+        /** Genero */
+        Genero genero;
         /** Email */
         string email;
         /** Telefono */
         string fono;
         /** Telefono movil **/
         string movil;
+        /** Unidad académica */
+        string unidadAcademica;
         
      }
-
+     
+     
      /**
      *  Vehiculo
      */
@@ -64,9 +67,20 @@ module model {
          int anio;
          /** Observaciónes **/
          string observacion;
-         /** Logo TODO: Verificar atributos del logo o separar en entidad aparte**/
-         string logo;
-
+         /** Color **/
+         string color;
+     }
+     /** Duración del logo **/
+     enum Duracion {SEMESTRAL, ANUAL}
+     
+     /**
+      * Logo
+      */
+     class Logo {
+        string serie;
+        string fechaActivacion;
+        Duracion duracion;
+    
      }
 
      /**
@@ -78,7 +92,7 @@ module model {
         /** Id */
         int uid;
         /** Timestamp*/
-        string hora;
+        string horaEntrada;
         /** Patente vehicular */
         string patente;
         /** Puerta de acceso (Porteria) */
@@ -96,7 +110,7 @@ module model {
      */
      interface Contratos {
      
-        
+        //registrarAcceso(string patente, )
         
      } 
      
