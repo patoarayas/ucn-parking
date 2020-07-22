@@ -38,7 +38,7 @@ public class Contact {
    * Numeric id. Uses the one provided by UCN's web directory (Not correlative).
    */
   @DatabaseField(id = true)
-  private Integer cod;
+  private Integer codigo;
 
   /**
    * Contact's Name.
@@ -110,9 +110,9 @@ public class Contact {
   /**
    * Constructor.
    */
-  public Contact(Integer cod, String name, String position, String unit,
+  public Contact(Integer codigo, String name, String position, String unit,
                  String email, String phone, String office, String address) {
-    this.cod = cod;
+    this.codigo = codigo;
     this.name = name;
     this.position = position;
     this.unit = unit;
@@ -125,8 +125,8 @@ public class Contact {
     this.city = stripCity(address);
   }
 
-  public Integer getCod() {
-    return cod;
+  public Integer getCodigo() {
+    return codigo;
   }
 
   public String getName() {

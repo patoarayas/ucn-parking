@@ -80,7 +80,7 @@ public class Scrapper {
 
       // Gets the max id-value from the DB.
       String strId = contactDao
-          .queryRaw("select max(cod) from contactos").getFirstResult()[0];
+          .queryRaw("select max(codigo) from contactos").getFirstResult()[0];
 
       try {
         // Parses into an int.
