@@ -43,6 +43,9 @@ module model {
         string email;
         /** Telefono */
         string fono;
+        /** Telefono movil **/
+        string movil;
+        
      }
 
      /**
@@ -87,10 +90,22 @@ module model {
      sequence<Persona> Personas;
      sequence<Vehiculo> Vehiculos;
      sequence<Acceso> Accesos;
+     
      /**
      * Operaciones del sistema
      */
+     interface Contratos {
+     
+        
+        
+     } 
+     
      interface Sistema {
+     
+        /**
+         * @return the diference in time between client and server.
+         */
+        long getDelay(long clientTime);
 
         /**
         * Crea una persona en el sistema
