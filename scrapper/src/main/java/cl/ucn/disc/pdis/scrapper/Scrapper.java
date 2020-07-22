@@ -22,7 +22,6 @@
 
 package cl.ucn.disc.pdis.scrapper;
 
-import com.j256.ormlite.dao.CloseableWrappedIterable;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.jdbc.JdbcConnectionSource;
@@ -31,8 +30,6 @@ import com.j256.ormlite.table.TableUtils;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 import org.jsoup.Jsoup;
@@ -158,9 +155,14 @@ public class Scrapper {
 
       // If name is not empty, get rut and create contact, if not continue.
       if (!name.isEmpty()) {
-        newContact = getRut(new Contact(id, name, position, unit, email, phone, office, address));
+
+        newContact = getRut(
+            new Contact(id, name, position, unit, email, phone, office, address)
+        );
+
         log.debug(newContact.toString());
       }
+
     } catch (IOException e) {
       log.error("Error retrieving contact info:", e);
     }
@@ -214,6 +216,4 @@ public class Scrapper {
 
     return contact;
   }
-
-
 }

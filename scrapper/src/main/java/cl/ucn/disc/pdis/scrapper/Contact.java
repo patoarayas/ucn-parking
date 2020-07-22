@@ -123,7 +123,6 @@ public class Contact {
     this.rut = null;
     this.gender = null;
     this.city = stripCity(address);
-
   }
 
   public Integer getCod() {
@@ -136,6 +135,14 @@ public class Contact {
 
   public String getRut() {
     return rut;
+  }
+
+  public String getGender() {
+    return gender;
+  }
+
+  public String getEmail() {
+    return email;
   }
 
   public void setRut(String rut) {
@@ -169,7 +176,4 @@ public class Contact {
   public String toString() {
     return ReflectionToStringBuilder.toString(this);
   }
-
-
 }
-

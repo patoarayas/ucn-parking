@@ -32,9 +32,15 @@ repositories {
 }
 
 dependencies {
+    // Test
+    //testImplementation 'junit:junit:4.13'
 
-    //Junit
-    testCompile group: 'junit', name: 'junit', version: '4.12'
+    // JUnit
+    testCompile 'org.junit.jupiter:junit-jupiter-engine:5.7.0-M1'
+    testCompile 'org.junit.vintage:junit-vintage-engine:5.7.0-M1'
+    testCompile 'org.junit.jupiter:junit-jupiter-api:5.7.0-M1'
+    testCompile 'org.junit.jupiter:junit-jupiter:5.7.0-M1'
+    testCompile 'junit:junit:4.13'
 
     //Jsoup
     implementation 'org.jsoup:jsoup:1.13.1'
@@ -52,4 +58,14 @@ dependencies {
 
     // Apache Commons Lang
     implementation 'org.apache.commons:commons-lang3:3.10'
+}
+
+test {
+    useJUnitPlatform()
+
+    testLogging.showStandardStreams = true
+
+    testLogging {
+        events "passed","skipped", "failed"
+    }
 }
