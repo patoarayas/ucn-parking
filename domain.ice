@@ -25,7 +25,8 @@
 ["cs:namespace:Parking.ZeroIce"]
 module model {
 
-     enum Genero {MASCULINO, FEMENINO}
+     enum Genero {MASCULINO, FEMENINO, OTRO}
+     enum Rol {ESTUDIANTE,ACADEMICO,FUNCIONARIO}
      
      /**
      * Clase Persona
@@ -33,10 +34,10 @@ module model {
      ["cs:property"]
      class Persona{
 
-        /** Nombre */
-        string nombre;
         /** Rut */
         string rut;
+        /** Nombre */
+        string nombre;
         /** Genero */
         Genero genero;
         /** Email */
@@ -47,6 +48,8 @@ module model {
         string movil;
         /** Unidad académica */
         string unidadAcademica;
+        /** Rol dentron de la universidad */
+        Rol rol;
         
      }
      
@@ -70,19 +73,9 @@ module model {
          /** Color **/
          string color;
      }
-     /** Duración del logo **/
-     enum Duracion {SEMESTRAL, ANUAL}
      
-     /**
-      * Logo
-      */
-     class Logo {
-        string serie;
-        string fechaActivacion;
-        Duracion duracion;
-    
-     }
-
+     // TODO: Colocar los nombres de las porterias
+     enum Porteria {SANGRA, SUR, CERRO}
      /**
      * Registro de acceso
      */
@@ -96,7 +89,7 @@ module model {
         /** Patente vehicular */
         string patente;
         /** Puerta de acceso (Porteria) */
-        string porteria;
+        Porteria porteria;
      }
 
 
@@ -105,89 +98,61 @@ module model {
      sequence<Vehiculo> Vehiculos;
      sequence<Acceso> Accesos;
      
+     exception VehicleNotFoundException {
+        string msg = "Vehicle not found on the system.";
+     }
+     
      /**
      * Operaciones del sistema
      */
      interface Contratos {
      
-        //registrarAcceso(string patente, )
+        /**
+         * Registra un acceso a la universidad.
+         * @param patente La patente del vehiculo.
+         * @param porteria La portería por la que se realiza el acceso
+         * @return Acceso Los datos del acceso
+         */
+        Acceso registrarAcceso(string patente, Porteria porteria )
+             throws VehicleNotFoundException;
         
+        /**
+         * Registrar un nuevo usuario del sistema.
+         * @param persona La persona a ser registrado
+         * @param vehiculo El vehiculo a ser registrado
+         * 
+         */
+        void registrarUsuario(Persona persona, Vehiculo vehiculo); 
+            //throws PersonaException;
+            //throws VehiculoExeption;
+               
      } 
      
      interface Sistema {
-     
+
+        /**
+         * Retorna la información de las personas registradas en el servidor
+         * @return Lista de Persona
+         */
+        Personas getPersonas();
+        
+        /**
+         * Retorna la información de los vehiculos en el servidor
+         * @return Lista de Vehiculos
+         */
+        Vehiculos getVehiculos();
+        
+        /**
+         * Retorna los registros de accesos
+         * @return Lista de Accesos
+         */
+         Accesos getAcccesos();
+         
         /**
          * @return the diference in time between client and server.
          */
         long getDelay(long clientTime);
-
-        /**
-        * Crea una persona en el sistema
-        * @param Persona: Persona a crear
-        * @return Persona creada
-        */
-        //Persona createPersona(Persona persona);
-
-        /**
-        * Crea un vehiculo en el sistema
-        * @param Vehiculo: vehiculo a crear
-        * @return Vehiculo creado
-        */
-        //Vehiculo createVehiculo(Vehiculo vehiculo);
-
-        /**
-        * Elimina una persona del sistema
-        * @param rut: rut de la persona a eliminar
-        * @return bool: eliminación exitosa o no
-        */
-        //bool deletePersona(string rut);
-
-        /**
-        * Elimina un vehiculo del sistema
-        * @param patente: patente del vehiculo a eliminar
-        * @return bool: eliminación exitosa o no
-        */
-        //bool deleteVehiculo(string patente);
-
-        /**
-        * Actualiza la información de una persona en el sistema
-        * @param Persona: persona actualizada
-        * @return bool: actualizacion exitosa o no
-        */
-        //bool updatePersona(Persona persona);
-
-        /**
-        * Actualiza la información de un vehiculo
-        * @param Vehiculo: Vehiculo actualizado
-        * @return bool: actualizacion exitosa o no
-        */
-        //bool updateVehiculo(Vehiculo vehiculo);
-
-        /**
-        * Mostrar personas registradas en el sistema
-        * @return Sequence con las personas registrados en el sistema
-        */
-        //Personas showPersonas();
-
-        /**
-        * Mostrar vehiculos registrados en el sistema
-        * @return Sequence con los vehiculos registrados en el sistema
-        */
-        //Vehiculos showVehiculos();
-
-        /**
-        * Mostrar registro de accesos en el sistema
-        * @return Sequence con los registros de acceso.
-        */
-        //Accesos showAccesos();
-
-        /**
-        * Envia datos del registro.
-        * @param patente: patente del vehiculo a eliminar
-        * @return bool: registro exitosa o no.
-        */
-        //bool registrarAcceso(string timestamp, string porteria, string patente);
-     
+        
         }
         
 }
