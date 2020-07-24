@@ -30,6 +30,6 @@ object Acceso {
  porteria
 }
 
-Acceso "0..*" --> "1" Vehiculo: Registra
-Vehiculo "1" --> "1" Persona: Asocia
+Acceso "0..*" <-- "1" Vehiculo: Registra
+Vehiculo "1" <-- "1" Persona: Tiene
 @enduml
