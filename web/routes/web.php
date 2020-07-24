@@ -14,3 +14,6 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/test','ConnectionController@connection');
+Route::post('/receive','ConnectionController@receive');
