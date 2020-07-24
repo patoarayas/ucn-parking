@@ -56,14 +56,20 @@ namespace backend
         private readonly SistemaDisp_ _sistema;
 
         /// <summary>
+        /// Contratos
+        /// </summary>
+        private readonly ContratosDisp_ _contratos;
+
+        /// <summary>
         /// Constructor.
         /// </summary>
         /// <param name="logger">Logger via DI</param>
         /// <param name="sistema">SistemaDisp_ via DI</param>
-        public ParkingService(ILogger<ParkingService> logger, SistemaDisp_ sistema)
+        public ParkingService(ILogger<ParkingService> logger, SistemaDisp_ sistema, ContratosDisp_ contratos)
         {
             _logger = logger;
             _sistema = sistema;
+            _contratos = contratos;
             _communicator = BuildCommunicator();
         }
 
@@ -76,11 +82,12 @@ namespace backend
             
             // Ice adapter
             var adapter = _communicator.createObjectAdapterWithEndpoints(
-                "Sistema",
+                "Parking",
                 "tcp -z -t 15000 -p " + _port);
             
             // Register in the adapter
             adapter.add(_sistema, Util.stringToIdentity("Sistema"));
+            adapter.add(_contratos, Util.stringToIdentity("Contratos"));
             
             adapter.activate();
             

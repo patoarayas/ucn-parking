@@ -68,6 +68,8 @@ namespace backend
                 // Services inside DI
                 .ConfigureServices((hostContext, services) =>
                 {
+                    // Db context
+                    services.AddDbContext<ParkingContext>();
                     // UCN parking service
                     services.AddHostedService<ParkingService>();
                     // Logging service
@@ -75,9 +77,10 @@ namespace backend
                     // Host options config
                     services.Configure<HostOptions>(option =>
                     {
-                        
                         option.ShutdownTimeout = System.TimeSpan.FromSeconds(15);
                     });
+                    // Add Contratos interface
+                    services.AddSingleton<ContratosDisp_, ContratosImpl>();
                     // Add Sistema interface
                     services.AddSingleton<SistemaDisp_, SistemaImpl>();
                 });
