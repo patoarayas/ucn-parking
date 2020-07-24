@@ -9,10 +9,9 @@
 <br>
 <form action="{{action('ConnectionController@receive')}}" method="POST">
     {{csrf_field()}}
-    <label for="testData">Dato de prueba:</label>
+    <label for="testData">Dato de prueba (Y-m-d H:i:s):</label>
     <input type="text" id="testData" name="testData"><br><br>
-    <button type="submit">Submit</button>
-    <button type="submit" formmethod="post" value="enviar">Submit using POST</button>
+    <button type="submit" value="enviar">Submit</button>
 </form>
 
 </body>

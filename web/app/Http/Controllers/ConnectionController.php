@@ -14,9 +14,11 @@ class ConnectionController
     {
         $data = $request->input('testData');
         if ($data != null){
-            $timeNow = $data;
+            $timeFormat = new DateTime();
+            $timeFormat = date("Y-m-d H:i:s", $data);
+            $timeNow = $timeFormat->format('U');
         }else{
-            $timeNow = date("h:i:s");
+            $timeNow = time();
         }
 
         $ic = null;
@@ -30,7 +32,7 @@ class ConnectionController
                 throw new RuntimeException("Invalid proxy");
             }
 
-            $connection->getDelay($data);
+            $connection->getDelay($timeNow);
         }
         catch(Exception $ex)
         {
