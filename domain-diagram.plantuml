@@ -1,27 +1,31 @@
 @startuml diagram
 
 object Persona {
- uid
- nombre
+
  rut
+ nombre
  genero
  email
  fono
+ movil
+ unidad academica
+ rol
 }
 
 object Vehiculo {
- uid
+
  patente
  marca
  modelo
  año
+ color
  observacion
- logo
+
 }
 
 object Acceso {
  uid
- hora
+ hora entrada
  patente
  porteria
 }
