@@ -60,6 +60,8 @@ module model {
      ["cs:property"]
      class Vehiculo{
 
+         /**Rut dueño */
+         string rut;
          /** Patente Vehicular*/
          string patente;
          /** Marca del vehiculo**/

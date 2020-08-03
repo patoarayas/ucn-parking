@@ -2,7 +2,7 @@
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 require 'Ice.php';
-require 'test.ice';
+//require 'test.ice';
 class ConnectionController
 {
     public function connection()
