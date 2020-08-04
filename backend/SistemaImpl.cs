@@ -23,6 +23,8 @@
  */
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using Ice;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -66,20 +68,47 @@ namespace backend
             _logger.LogDebug("Done");
         }
 
-
+        /// <summary>
+        /// Return a list with the Personas on the DB.
+        /// </summary>
+        /// <param name="current">.</param>
+        /// <returns>A Personas Array</returns>
         public override Persona[] getPersonas(Current current = null)
         {
-            throw new NotImplementedException();
-        }
+            using (var scope = _serviceScopeFactory.CreateScope())
+            {
+                ParkingContext pc = scope.ServiceProvider.GetService<ParkingContext>();
+                return pc.Personas.ToArray();
+            }
 
+        }
+        
+        /// <summary>
+        /// Returns a list with all vehicles on the DB.
+        /// </summary>
+        /// <param name="current">.</param>
+        /// <returns>A Vehiculo Array.</returns>
         public override Vehiculo[] getVehiculos(Current current = null)
         {
-            throw new NotImplementedException();
+            using (var scope = _serviceScopeFactory.CreateScope())
+            {
+                ParkingContext pc = scope.ServiceProvider.GetService<ParkingContext>();
+                return pc.Vehiculos.ToArray();
+            }
         }
 
+        /// <summary>
+        /// Returns a list with all the Accesos on the DB.
+        /// </summary>
+        /// <param name="current">.</param>
+        /// <returns>An Accesos Array</returns>
         public override Acceso[] getAcccesos(Current current = null)
         {
-            throw new NotImplementedException();
+            using (var scope = _serviceScopeFactory.CreateScope())
+            {
+                ParkingContext pc = scope.ServiceProvider.GetService<ParkingContext>();
+                return pc.Accesos.ToArray();
+            }
         }
 
         /// <summary>
