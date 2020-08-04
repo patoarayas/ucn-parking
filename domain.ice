@@ -78,9 +78,11 @@ module model {
      
      // TODO: Colocar los nombres de las porterias
      enum Porteria {SANGRA, SUR, CERRO}
+     
+     
      /**
-     * Registro de acceso
-     */
+      * Registro de acceso
+      */
      ["cs:property"]
      class Acceso {
 
@@ -100,9 +102,18 @@ module model {
      sequence<Vehiculo> Vehiculos;
      sequence<Acceso> Accesos;
      
-     exception VehicleNotFoundException {
-        string msg = "Vehicle not found on the system.";
+     /* 
+      * Exceptions definitions
+      */
+     
+     exception PersonaException {
+        string msg;
      }
+     
+     exception VehicleException{
+        string msg;
+     }
+     
      
      /**
      * Operaciones del sistema
@@ -116,17 +127,23 @@ module model {
          * @return Acceso Los datos del acceso
          */
         Acceso registrarAcceso(string patente, Porteria porteria )
-             throws VehicleNotFoundException;
+             throws VehicleException;
         
         /**
-         * Registrar un nuevo usuario del sistema.
-         * @param persona La persona a ser registrado
-         * @param vehiculo El vehiculo a ser registrado
-         * 
-         */
-        void registrarUsuario(Persona persona, Vehiculo vehiculo); 
-            //throws PersonaException;
-            //throws VehiculoExeption;
+         * Registrar una persona en el sistema
+         * @param persona Usuario a ser registrado
+         * @throws PersonaException
+         */    
+        void registrarPersona(Persona persona)
+            throws PersonaException;
+            
+        /**
+         * Registrar una persona en el sistema
+         * @param persona Usuario a ser registrado
+         * @throws VehicleException
+         */    
+        void registrarVehiculo(Vehiculo vehiculo)
+            throws VehicleException;
                
      } 
      
