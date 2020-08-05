@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-["cs:namespace:Parking.ZeroIce"]
+["cs:namespace:Parking.ZeroIce","java:package:cl.ucn.disc.pdis.parking.zeroice"]
 module model {
 
      enum Genero {MASCULINO, FEMENINO, OTRO}
