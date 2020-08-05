@@ -119,7 +119,10 @@ namespace backend
         /// <returns>Delay</returns>
         public override long getDelay(long clientTime, Current current = null)
         {
-            return DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() - clientTime;
+            var serverTime = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+            _logger.LogDebug("Server time:"+serverTime);
+            return serverTime - clientTime;
+            
         }
     }
 }
