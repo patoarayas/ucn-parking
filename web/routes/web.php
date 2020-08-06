@@ -22,8 +22,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/test','ConnectionController@connection');
-Route::post('/receive','ConnectionController@receive');
+Route::get('/test','ConnectionController@personForm');
+Route::post('/receive','ConnectionController@sendPerson');
 
 /**
  * Test connection with the backend
