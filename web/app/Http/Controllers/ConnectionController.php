@@ -28,7 +28,7 @@ class ConnectionController
             $sistema_proxy = $communicator->StringToProxy("Sistema:tcp -z -t 15000 -p 3000");
             $sistema = \model\PersonaPrxHelper::uncheckedCast($sistema_proxy);
             // Calls interface method
-            $delay = $sistema->_construct($rut,$nombre,$genero,$email,$fono,$movil,$unidadAcademica,$rol);
+            $sistema->_construct($rut,$nombre,$genero,$email,$fono,$movil,$unidadAcademica,$rol);
             echo "<br>";
 
             if(!$sistema_proxy)
