@@ -20,10 +20,10 @@
         <input type="radio" name="rol" value="1"> Academico
         <input type="radio" name="rol" value="2"> Funcionario
     </p>
-    <p>Sexo:
-        <input type="radio" name="sexo" value="0"> Masculino
-        <input type="radio" name="sexo" value="1"> Femenino
-        <input type="radio" name="sexo" value="2"> Otro
+    <p>Genero:
+        <input type="radio" name="genero" value="0"> Masculino
+        <input type="radio" name="genero" value="1"> Femenino
+        <input type="radio" name="genero" value="2"> Otro
     </p>
     <p>
         <input type="submit" value="Enviar">

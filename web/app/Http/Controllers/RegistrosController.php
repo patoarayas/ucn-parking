@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 use http\Url;
 use Illuminate\Http\Request;
+use model\Persona;
 require_once 'Ice.php';
 require_once base_path().'/domain.php';
 
@@ -20,11 +21,11 @@ class RegistrosController
         $fono = $request->input('fono');
         $movil = $request->input('movil');
         $unidadAcademica = $request->input('unidadAcademica');
-        $rol = $request->input('rol');
-        $genero = $request->input('sexo');
+        $rol = intval($request->input('rol'));
+        $genero = intval($request->input('genero'));
         try
         {
-            $communicator = \Ice\initialize();
+            $communicator = \Ice\Initialize();
             $persona = new Persona($rut, $nombre, $genero, $email, $fono, $movil, $unidadAcademica, $rol);
             $sistema_proxy = $communicator->StringToProxy("Contratos:tcp -z -t 15000 -p 3000");
             $sistema = \model\ContratosPrxHelper::uncheckedCast($sistema_proxy);
