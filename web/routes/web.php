@@ -15,7 +15,8 @@
 require_once 'Ice.php';
 // Ruta relativa del domain.php (resultado de compilar el domain.ice)
 // Asume que el domain.php esta en la siguiente ubicación /ucn-parking/web/domain.php
-require_once __DIR__."/../domain.php";
+//require_once __DIR__."/../domain.php";
+require_once base_path().'/domain.php';
 
 Route::get('/', function () {
 

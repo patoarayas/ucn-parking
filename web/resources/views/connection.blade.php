@@ -7,7 +7,7 @@
 
 <h1>Registro de Personas</h1>
 <br>
-<form action="{{action('ConnectionController@sendPerson')}}" method="get">
+<form action="{{action('ConnectionController@sendPerson')}}" method="post">
     {{csrf_field()}}
     <p>Rut: <input type="text" name="rut" size="40"></p>
     <p>Nombre <input type="text" name="nombre" min="1900"></p>

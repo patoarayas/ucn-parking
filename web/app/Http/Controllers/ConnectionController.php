@@ -1,8 +1,10 @@
 <?php
 namespace App\Http\Controllers;
+use http\Url;
 use Illuminate\Http\Request;
-require 'Ice.php';
-//require 'test.ice';
+require_once 'Ice.php';
+require_once base_path().'/domain.php';
+
 class ConnectionController
 {
     public function personForm()
@@ -24,7 +26,7 @@ class ConnectionController
         $communicator = null;
         try
         {
-            $communicator = Ice\initialize();
+            $communicator = Ice\Initialize();
             $sistema_proxy = $communicator->StringToProxy("Sistema:tcp -z -t 15000 -p 3000");
             $sistema = \model\PersonaPrxHelper::uncheckedCast($sistema_proxy);
             // Calls interface method
