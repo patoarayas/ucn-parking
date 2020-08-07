@@ -7,14 +7,14 @@
 
 <h1>Registro de Personas</h1>
 <br>
-<form action="{{action('ConnectionController@sendPerson')}}" method="post">
+<form action="{{action('RegistrosController@storeUser')}}" method="post">
     {{csrf_field()}}
-    <p>Rut: <input type="text" name="rut" size="40"></p>
-    <p>Nombre <input type="text" name="nombre" min="1900"></p>
-    <p>E-Mail: <input type="text" name="email" min="1900"></p>
-    <p>Fono: <input type="text" name="fono" min="1900"></p>
-    <p>Movil: <input type="text" name="movil" min="1900"></p>
-    <p>Unidad Academica: <input type="text" name="unidadAcademica" min="1900"></p>
+    <p>Rut: <input type="text" name="rut"></p>
+    <p>Nombre <input type="text" name="nombre"></p>
+    <p>E-Mail: <input type="text" name="email"></p>
+    <p>Fono: <input type="text" name="fono"></p>
+    <p>Movil: <input type="text" name="movil"></p>
+    <p>Unidad Academica: <input type="text" name="unidadAcademica"></p>
     <p>Rol:
         <input type="radio" name="rol" value="0"> Estudiante
         <input type="radio" name="rol" value="1"> Academico
