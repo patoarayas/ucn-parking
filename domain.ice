@@ -182,7 +182,7 @@ module model {
          * Retorna los registros de accesos
          * @return Lista de Accesos
          */
-         Accesos getAcccesos();
+         Accesos getAccesos();
          
         /**
          * @return the diference in time between client and server.

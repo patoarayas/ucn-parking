@@ -104,7 +104,7 @@ namespace backend
         /// </summary>
         /// <param name="current">.</param>
         /// <returns>An Accesos Array</returns>
-        public override Acceso[] getAcccesos(Current current = null)
+        public override Acceso[] getAccesos(Current current = null)
         {
             _logger.LogDebug("GetPersonas request received.");
             using (var scope = _serviceScopeFactory.CreateScope())
