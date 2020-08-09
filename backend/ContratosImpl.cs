@@ -75,6 +75,7 @@ namespace backend
         /// <exception cref="VehicleNotFoundException">If the vehicle is not in the db</exception>
         public override Acceso registrarAcceso(string patente, Porteria porteria, Current current = null)
         {
+            _logger.LogDebug("RegistrarAcceso request received.");
             // Check if the patente exist on db
             using (var scope = _serviceScopeFactory.CreateScope())
             {
@@ -108,6 +109,7 @@ namespace backend
         /// <param name="current">.</param>
         public override void registrarPersona(Persona persona, Current current = null)
         {
+            _logger.LogDebug("RegistrarPersona request received.");
             using (var scope = _serviceScopeFactory.CreateScope())
             {
                 ParkingContext pc = scope.ServiceProvider.GetService<ParkingContext>();
@@ -126,6 +128,7 @@ namespace backend
         /// <param name="current">.</param>
         public override void registrarVehiculo(Vehiculo vehiculo, Current current = null)
         {
+            _logger.LogDebug("RegistrarVehiculo request received.");
             using (var scope = _serviceScopeFactory.CreateScope())
             {
                 ParkingContext pc = scope.ServiceProvider.GetService<ParkingContext>();
