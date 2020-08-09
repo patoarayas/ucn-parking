@@ -135,5 +135,54 @@ namespace backend
                 pc.SaveChanges();
             }
         }
+
+        /// <summary>
+        /// Find a Persona in the db by its rut.
+        /// </summary>
+        /// <param name="rut">Persona's rut</param>
+        /// <param name="current">.</param>
+        /// <returns>A Persona</returns>
+        /// <exception cref="PersonaException">If the Persona wasn't found</exception>
+        public override Persona findPersonaByRut(string rut, Current current = null)
+        {
+            using (var scope = _serviceScopeFactory.CreateScope())
+            {
+                _logger.LogDebug("Searching for Persona with rut: ",rut);
+                ParkingContext pc = scope.ServiceProvider.GetService<ParkingContext>();
+                var persona =  pc.Personas.Find(rut);
+                if (persona != null)
+                {
+                    _logger.LogDebug("Persona found!");
+                    return persona;
+                }
+                else
+                {
+                    _logger.LogDebug("Persona not found!");
+                    throw new PersonaException("Persona not found");
+                }
+            }
+            
+        }
+
+        public override Vehiculo findVehiculoByPatente(string patente, Current current = null)
+        {
+            using (var scope = _serviceScopeFactory.CreateScope())
+            {
+                _logger.LogDebug("Searching for Vehiculo with rut: ",patente);
+                ParkingContext pc = scope.ServiceProvider.GetService<ParkingContext>();
+                
+                var vehiculo =  pc.Vehiculos.Find(patente);
+                if (vehiculo != null)
+                {
+                    _logger.LogDebug("Vehiculo found!");
+                    return vehiculo;
+                }
+                else
+                {
+                    _logger.LogDebug("Vehiculo not found!");
+                    throw new PersonaException("Vehiculo not found");
+                }
+            }
+        }
     }
 }

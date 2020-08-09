@@ -214,39 +214,6 @@ namespace model
 
 namespace model
 {
-    global $model__t_Personas;
-
-    if(!isset($model__t_Personas))
-    {
-        global $model__t_Persona;
-        $model__t_Personas = IcePHP_defineSequence('::model::Personas', $model__t_Persona);
-    }
-}
-
-namespace model
-{
-    global $model__t_Vehiculos;
-
-    if(!isset($model__t_Vehiculos))
-    {
-        global $model__t_Vehiculo;
-        $model__t_Vehiculos = IcePHP_defineSequence('::model::Vehiculos', $model__t_Vehiculo);
-    }
-}
-
-namespace model
-{
-    global $model__t_Accesos;
-
-    if(!isset($model__t_Accesos))
-    {
-        global $model__t_Acceso;
-        $model__t_Accesos = IcePHP_defineSequence('::model::Accesos', $model__t_Acceso);
-    }
-}
-
-namespace model
-{
     global $model__t_PersonaException;
     class PersonaException extends \Ice\UserException
     {
@@ -338,6 +305,41 @@ namespace model
     IcePHP_defineOperation($model__t_ContratosPrx, 'registrarAcceso', 0, 0, 0, array(array($IcePHP__t_string), array($model__t_Porteria)), null, array($model__t_Acceso), array($model__t_VehicleException));
     IcePHP_defineOperation($model__t_ContratosPrx, 'registrarPersona', 0, 0, 0, array(array($model__t_Persona)), null, null, array($model__t_PersonaException));
     IcePHP_defineOperation($model__t_ContratosPrx, 'registrarVehiculo', 0, 0, 0, array(array($model__t_Vehiculo)), null, null, array($model__t_VehicleException));
+    IcePHP_defineOperation($model__t_ContratosPrx, 'findPersonaByRut', 0, 0, 0, array(array($IcePHP__t_string)), null, array($model__t_Persona), array($model__t_PersonaException));
+    IcePHP_defineOperation($model__t_ContratosPrx, 'findVehiculoByPatente', 0, 0, 0, array(array($IcePHP__t_string)), null, array($model__t_Vehiculo), array($model__t_VehicleException));
+}
+
+namespace model
+{
+    global $model__t_Personas;
+
+    if(!isset($model__t_Personas))
+    {
+        global $model__t_Persona;
+        $model__t_Personas = IcePHP_defineSequence('::model::Personas', $model__t_Persona);
+    }
+}
+
+namespace model
+{
+    global $model__t_Vehiculos;
+
+    if(!isset($model__t_Vehiculos))
+    {
+        global $model__t_Vehiculo;
+        $model__t_Vehiculos = IcePHP_defineSequence('::model::Vehiculos', $model__t_Vehiculo);
+    }
+}
+
+namespace model
+{
+    global $model__t_Accesos;
+
+    if(!isset($model__t_Accesos))
+    {
+        global $model__t_Acceso;
+        $model__t_Accesos = IcePHP_defineSequence('::model::Accesos', $model__t_Acceso);
+    }
 }
 
 namespace model
