@@ -375,7 +375,7 @@ namespace model
     global $IcePHP__t_long;
     IcePHP_defineOperation($model__t_SistemaPrx, 'getPersonas', 0, 0, 0, null, null, array($model__t_Personas), null);
     IcePHP_defineOperation($model__t_SistemaPrx, 'getVehiculos', 0, 0, 0, null, null, array($model__t_Vehiculos), null);
-    IcePHP_defineOperation($model__t_SistemaPrx, 'getAcccesos', 0, 0, 0, null, null, array($model__t_Accesos), null);
+    IcePHP_defineOperation($model__t_SistemaPrx, 'getAccesos', 0, 0, 0, null, null, array($model__t_Accesos), null);
     IcePHP_defineOperation($model__t_SistemaPrx, 'getDelay', 0, 0, 0, array(array($IcePHP__t_long)), null, array($IcePHP__t_long), null);
 }
 ?>
