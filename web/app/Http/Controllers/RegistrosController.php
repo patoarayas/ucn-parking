@@ -10,7 +10,7 @@ class RegistrosController
 {
     public function createUser()
     {
-        return view('connection');
+        return view('userRegister');
     }
 
     public function storeUser(Request $request)

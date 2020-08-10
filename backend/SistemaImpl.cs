@@ -110,6 +110,10 @@ namespace backend
             using (var scope = _serviceScopeFactory.CreateScope())
             {
                 ParkingContext pc = scope.ServiceProvider.GetService<ParkingContext>();
+                foreach (var a in pc.Accesos)
+                {
+                    _logger.LogDebug(a.patente);
+                }
                 return pc.Accesos.ToArray();
             }
         }
