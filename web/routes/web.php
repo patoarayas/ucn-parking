@@ -23,7 +23,14 @@ Route::get('/', function () {
 });
 
 Route::get('/test','RegistrosController@createUser');
+
+
 Route::post('/receive','RegistrosController@storeUser');
+
+Route::get('/home', 'HomeController@index');
+
+
+
 
 /**
  * Test connection with the backend. Get delay.
