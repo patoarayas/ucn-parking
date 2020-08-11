@@ -44,8 +44,7 @@ public class PersonasRepositoryTest {
   @Test
   public void getPersonasByRutTest(){
 
-    Persona testPersona = personasRepository.getPersonaByRut("1");
-
+    Persona testPersona = personasRepository.getPersonaByRut("test_rut");
     log.debug(testPersona.nombre);
 
   }

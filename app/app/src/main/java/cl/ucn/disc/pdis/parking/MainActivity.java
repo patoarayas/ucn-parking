@@ -54,19 +54,20 @@ public class MainActivity extends AppCompatActivity {
     String patente = editTextPatente.getText().toString();
 
     ZeroIce zeroIce = ZeroIce.getInstance();
+    zeroIce.start();
     try {
       zeroIce.contratosPrx.findVehiculoByPatente(patente);
       log.debug("Vehicle found!");
     } catch (VehicleException ve){
       // Vehicle not found
       log.debug("Vehicle not found");
+    } finally {
+      zeroIce.stop();
     }
 
     intent.putExtra(EXTRA_PATENTE, patente);
     startActivity(intent);
 
-
-
-
   }
+
 }

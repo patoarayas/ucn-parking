@@ -33,6 +33,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import cl.ucn.disc.pdis.parking.zeroice.model.Persona;
+import cl.ucn.disc.pdis.parking.zeroice.model.PersonaException;
 import cl.ucn.disc.pdis.parking.zeroice.model.VehicleException;
 import cl.ucn.disc.pdis.parking.zeroice.model.Vehiculo;
 
@@ -51,14 +52,36 @@ public class DisplayInfoActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String patente = intent.getStringExtra(MainActivity.EXTRA_PATENTE);
 
-        try {
-            Vehiculo vehiculo = zeroIce.contratosPrx.findVehiculoByPatente(patente);
-            Persona persona = zeroIce.contratosPrx.findPersonaByRut(vehiculo.rut);
-        } catch (Exception e){
-            log.error("ERROR",e);
-        }
+        // Todo: refactor
+        Vehiculo vehiculo = getVehiculo(patente);
+        Persona persona = getPersona(vehiculo.rut);
 
         TextView patente_field = findViewById(R.id.patente_field);
         patente_field.setText(patente);
     }
+
+    private Vehiculo getVehiculo(String patente){
+
+        zeroIce.start();
+        try {
+            return zeroIce.contratosPrx.findVehiculoByPatente(patente);
+        } catch (VehicleException ve){
+            log.error("Error retrieving vehicle.",ve);
+        }
+        zeroIce.stop();
+        return null;
+    }
+
+    private Persona getPersona(String rut){
+
+        zeroIce.start();
+        try {
+            return zeroIce.contratosPrx.findPersonaByRut(rut);
+        } catch (PersonaException pe){
+            log.error("Error retrieving persona.",pe);
+        }
+        zeroIce.stop();
+        return null;
+    }
+
 }
