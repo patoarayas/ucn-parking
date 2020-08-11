@@ -156,6 +156,7 @@ namespace backend
                 if (persona != null)
                 {
                     _logger.LogDebug("Persona found!");
+                    
                     return persona;
                 }
                 else
@@ -171,7 +172,7 @@ namespace backend
         {
             using (var scope = _serviceScopeFactory.CreateScope())
             {
-                _logger.LogDebug("Searching for Vehiculo with rut: ",patente);
+                _logger.LogDebug("Searching for Vehiculo with patente: "+patente);
                 ParkingContext pc = scope.ServiceProvider.GetService<ParkingContext>();
                 
                 var vehiculo =  pc.Vehiculos.Find(patente);
@@ -183,7 +184,7 @@ namespace backend
                 else
                 {
                     _logger.LogDebug("Vehiculo not found!");
-                    throw new PersonaException("Vehiculo not found");
+                    throw new VehicleException("Vehiculo not found");
                 }
             }
         }
