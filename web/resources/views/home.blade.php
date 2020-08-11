@@ -11,6 +11,7 @@
                         <a href ="#" class="btn btn-primary btn-medium btn-block">Personas</a>
                         <a href ="#" class="btn btn-primary btn-medium btn-block">Vehiculos</a>
                         <a href ="#" class="btn btn-primary btn-medium btn-block">Accesos</a>
+                        <a href ="{{route('registroUsuario')}}" class="btn btn-primary btn-medium btn-block">Registrar Usuario</a>
                     </div>
                 </div>
             </div>

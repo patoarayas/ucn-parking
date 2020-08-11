@@ -22,12 +22,13 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/test','RegistrosController@createUser');
-
 
 Route::post('/receive','RegistrosController@storeUser');
 
 Route::get('/home', 'HomeController@index');
+
+Route::get('/home', ['uses' => 'HomeController@index', 'as' => 'home']);
+Route::get('/registroUsuario', ['uses' => 'RegistrosController@createUser', 'as' => 'registroUsuario']);
 
 
 

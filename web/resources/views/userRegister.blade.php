@@ -201,7 +201,7 @@
                         <button type="submit" class="btn btn-primary">Registrar</button>
                     </div>
                     <div class="col-1">
-                        <button type="submit" class="btn btn-dark">Volver</button>
+                        <a href ="{{route('home')}}" class="btn btn-primary btn-medium btn-block">Volver</a>
                     </div>
                 </div>
             </form>
