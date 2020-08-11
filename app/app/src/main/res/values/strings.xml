@@ -1,3 +1,26 @@
 <resources>
     <string name="app_name">ParkingApp</string>
+    <string name="ingrese_patente">Ingrese patente</string>
+    <string name="patente">patente</string>
+    <string name="enviar">Enviar</string>
+    <string name="registrar_acceso">Registrar</string>
+
+    <string name="vehiculo_info">Información del vehículo</string>
+    <string name="patente_info">Patente:</string>
+    <string name="marca">Marca:</string>
+    <string name="modelo">Modelo:</string>
+    <string name="color">Color:</string>
+    <string name="anio">Año:</string>
+    <string name="observaciones">Observaciones:</string>
+
+    <string name="persona_info">Información de la persona</string>
+    <string name="rut">Rut:</string>
+    <string name="nombre">Nombre:</string>
+    <string name="genero">Género:</string>
+    <string name="rol">Rol:</string>
+    <string name="unidad">Unidad académica:</string>
+    <string name="correo">Correo:</string>
+    <string name="fono">Teléfono:</string>
+    <string name="movil">Celular:</string>
+
 </resources>

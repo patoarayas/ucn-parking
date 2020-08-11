@@ -27,46 +27,38 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.EditText;
+import android.widget.TextView;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import cl.ucn.disc.pdis.parking.zeroice.model.Persona;
 import cl.ucn.disc.pdis.parking.zeroice.model.VehicleException;
 import cl.ucn.disc.pdis.parking.zeroice.model.Vehiculo;
 
-public class MainActivity extends AppCompatActivity {
+public class DisplayInfoActivity extends AppCompatActivity {
 
-  private static final Logger log = LoggerFactory.getLogger(MainActivity.class);
-  public static final String EXTRA_PATENTE = "cl.ucn.disc.pdis.parking.MESSAGE";
+    // Logger
+    private static final Logger log = LoggerFactory.getLogger(DisplayInfoActivity.class);
+    // Zero Ice
+    private final ZeroIce zeroIce = ZeroIce.getInstance();
 
-  @Override
-  protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_main);
-  }
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_display_info);
 
-  public void checkPatente(View view){
-    log.debug("Check patent clicked");
-    Intent intent = new Intent(this,DisplayInfoActivity.class);
-    EditText editTextPatente = (EditText) findViewById(R.id.editTextPatente);
-    String patente = editTextPatente.getText().toString();
+        Intent intent = getIntent();
+        String patente = intent.getStringExtra(MainActivity.EXTRA_PATENTE);
 
-    ZeroIce zeroIce = ZeroIce.getInstance();
-    try {
-      zeroIce.contratosPrx.findVehiculoByPatente(patente);
-      log.debug("Vehicle found!");
-    } catch (VehicleException ve){
-      // Vehicle not found
-      log.debug("Vehicle not found");
+        try {
+            Vehiculo vehiculo = zeroIce.contratosPrx.findVehiculoByPatente(patente);
+            Persona persona = zeroIce.contratosPrx.findPersonaByRut(vehiculo.rut);
+        } catch (Exception e){
+            log.error("ERROR",e);
+        }
+
+        TextView patente_field = findViewById(R.id.patente_field);
+        patente_field.setText(patente);
     }
-
-    intent.putExtra(EXTRA_PATENTE, patente);
-    startActivity(intent);
-
-
-
-
-  }
 }
