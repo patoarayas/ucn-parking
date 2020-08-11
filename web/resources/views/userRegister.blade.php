@@ -1,16 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <!--Required meta tags-->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, inicial-scale=1, shrink-to-fit=no">
+@extends('layouts.layout')
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
-    <title>Connection Test</title>
-</head>
-<body>
+@section('content')
 <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
@@ -53,6 +43,11 @@
             {{csrf_field()}}
             <!-- Input Rut -->
                 <div class="form-group row">
+                    <div class="col-sm-12">
+                        <h4> Datos de la persona </h4>
+                    </div>
+                </div>
+                <div class="form-group row">
                     <label for="inputRut" class="col-sm-2 col-form-label">Rut</label>
                     <div class="col-sm-10">
                         <input type="text" class="form-control" id="inputRut" name="rut" placeholder="12345678-9">
@@ -76,14 +71,14 @@
                 <div class="form-group row">
                     <label for="inputFono" class="col-sm-2 col-form-label">Fono fijo</label>
                     <div class="col-sm-10">
-                        <input type="number" class="form-control" id="inputFono" name="fono" placeholder="XXXXXX">
+                        <input type="number" class="form-control" id="inputFono" name="fono" placeholder="111111">
                     </div>
                 </div>
                 <!-- Input Movil -->
                 <div class="form-group row">
                     <label for="inputMovil" class="col-sm-2 col-form-label">Fono movil</label>
                     <div class="col-sm-10">
-                        <input type="number" class="form-control" id="inputMovil" name="movil" placeholder="9XXXXXXXX">
+                        <input type="number" class="form-control" id="inputMovil" name="movil" placeholder="911111111">
                     </div>
                 </div>
                 <!-- Input Unidad Academica -->
@@ -152,6 +147,11 @@
                 <br/>
                 <hr/>
                 <br/>
+                <div class="form-group row">
+                    <div class="col-sm-12">
+                        <h4> Datos del vehículo </h4>
+                    </div>
+                </div>
                 <!-- Input Patente -->
                 <div class="form-group row">
                     <label for="inputPatente" class="col-sm-2 col-form-label">Patente</label>
@@ -201,12 +201,11 @@
                         <button type="submit" class="btn btn-primary">Registrar</button>
                     </div>
                     <div class="col-1">
-                        <a href ="{{route('home')}}" class="btn btn-primary btn-medium btn-block">Volver</a>
+                        <a href ="{{route('home')}}" class="btn btn-secondary btn-medium btn-block">Volver</a>
                     </div>
                 </div>
             </form>
         </div>
     </div>
 </section>
-</body>
-</html>
+@endsection
