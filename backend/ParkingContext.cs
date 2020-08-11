@@ -77,8 +77,42 @@ namespace backend
                 a.Property(a => a.uid).ValueGeneratedOnAdd();
             });
             
+            // Test entities
+            modelBuilder.Entity<Persona>().HasData(
+                new Persona()
+                {
+                    rut = "test_rut",
+                    nombre = "test_nombre",
+                    genero = Genero.OTRO,
+                    email = "test_email",
+                    fono = "test_fono",
+                    movil = "test_movil",
+                    rol = Rol.ACADEMICO,
+                    unidadAcademica = "test_unidad_academica"
+                });
+            modelBuilder.Entity<Vehiculo>().HasData(
+                new Vehiculo()
+                {
+                    anio = 1998,
+                    color = "test_color",
+                    marca = "test_marca",
+                    modelo = "test_modelo",
+                    observacion = "test_observacion",
+                    patente = "test_patente",
+                    rut = "test_rut"
+                });
+            modelBuilder.Entity<Acceso>().HasData(
+                new Acceso()
+                {
+                    horaEntrada = "test_horaEntrada",
+                    patente = "test_patente",
+                    porteria = Porteria.CERRO,
+                    uid = 1
+
+                });
             
             base.OnModelCreating(modelBuilder);
+            
         }
     }
 }

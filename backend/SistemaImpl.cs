@@ -75,6 +75,7 @@ namespace backend
         /// <returns>A Personas Array</returns>
         public override Persona[] getPersonas(Current current = null)
         {
+            _logger.LogDebug("GetPersonas request received.");
             using (var scope = _serviceScopeFactory.CreateScope())
             {
                 ParkingContext pc = scope.ServiceProvider.GetService<ParkingContext>();
@@ -90,6 +91,7 @@ namespace backend
         /// <returns>A Vehiculo Array.</returns>
         public override Vehiculo[] getVehiculos(Current current = null)
         {
+            _logger.LogDebug("GetVehiculos request received.");
             using (var scope = _serviceScopeFactory.CreateScope())
             {
                 ParkingContext pc = scope.ServiceProvider.GetService<ParkingContext>();
@@ -102,11 +104,16 @@ namespace backend
         /// </summary>
         /// <param name="current">.</param>
         /// <returns>An Accesos Array</returns>
-        public override Acceso[] getAcccesos(Current current = null)
+        public override Acceso[] getAccesos(Current current = null)
         {
+            _logger.LogDebug("GetPersonas request received.");
             using (var scope = _serviceScopeFactory.CreateScope())
             {
                 ParkingContext pc = scope.ServiceProvider.GetService<ParkingContext>();
+                foreach (var a in pc.Accesos)
+                {
+                    _logger.LogDebug(a.patente);
+                }
                 return pc.Accesos.ToArray();
             }
         }
@@ -120,7 +127,7 @@ namespace backend
         public override long getDelay(long clientTime, Current current = null)
         {
             var serverTime = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
-            _logger.LogDebug("Server time:"+serverTime);
+            _logger.LogDebug("GetDelay request received. Server time:"+serverTime);
             return serverTime - clientTime;
             
         }

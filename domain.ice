@@ -95,12 +95,6 @@ module model {
         /** Puerta de acceso (Porteria) */
         Porteria porteria;
      }
-
-
-     // Sequences
-     sequence<Persona> Personas;
-     sequence<Vehiculo> Vehiculos;
-     sequence<Acceso> Accesos;
      
      /* 
       * Exceptions definitions
@@ -130,7 +124,7 @@ module model {
              throws VehicleException;
         
         /**
-         * Registrar una persona en el sistema
+         * Registrar una persona en el sistema.
          * @param persona Usuario a ser registrado
          * @throws PersonaException
          */    
@@ -138,14 +132,37 @@ module model {
             throws PersonaException;
             
         /**
-         * Registrar una persona en el sistema
+         * Registrar una persona en el sistema.
          * @param persona Usuario a ser registrado
          * @throws VehicleException
          */    
         void registrarVehiculo(Vehiculo vehiculo)
             throws VehicleException;
+            
+        /**
+         * Busca una persona en el sistema por su rut.
+         * @param rut rut de la persona
+         * @return Persona La persona encontrada
+         * @throws PersonaException si no se encuentra la persona
+         */
+        Persona findPersonaByRut(string rut)
+            throws PersonaException;
+            
+        /**
+         * Busca un vehiculo en el sisteama por su patente.
+         * @param patente Patente del vehiculo
+         * @return Vehiculo El vehiculo encontrado
+         * @throws VehicleException Si no se encuentra el vehiculo
+         */
+        Vehiculo findVehiculoByPatente(string patente)
+            throws VehicleException;
                
      } 
+     
+     // Sequences
+     sequence<Persona> Personas;
+     sequence<Vehiculo> Vehiculos;
+     sequence<Acceso> Accesos;
      
      interface Sistema {
 
@@ -165,7 +182,7 @@ module model {
          * Retorna los registros de accesos
          * @return Lista de Accesos
          */
-         Accesos getAcccesos();
+         Accesos getAccesos();
          
         /**
          * @return the diference in time between client and server.
