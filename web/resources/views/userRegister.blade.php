@@ -55,42 +55,98 @@
                 <div class="form-group row">
                     <label for="inputRut" class="col-sm-2 col-form-label">Rut</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="inputRut" placeholder="12345678-9">
+                        <input type="text" class="form-control" id="inputRut" name="rut" placeholder="12345678-9">
                     </div>
                 </div>
                 <!-- Input Nombre -->
                 <div class="form-group row">
                     <label for="inputNombre" class="col-sm-2 col-form-label">Nombre</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="inputNombre" placeholder="Pedro Castillo Gonzalez">
+                        <input type="text" class="form-control" id="inputNombre" name="nombre" placeholder="Pedro Castillo Gonzalez">
                     </div>
                 </div>
                 <!-- Input Email -->
                 <div class="form-group row">
                     <label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
                     <div class="col-sm-10">
-                        <input type="email" class="form-control" id="inputEmail" placeholder="example@mail.com">
+                        <input type="email" class="form-control" id="inputEmail" name="email" placeholder="example@mail.com">
                     </div>
                 </div>
                 <!-- Input Fono -->
                 <div class="form-group row">
                     <label for="inputFono" class="col-sm-2 col-form-label">Fono fijo</label>
                     <div class="col-sm-10">
-                        <input type="number" class="form-control" id="inputFono" placeholder="XXXXXX">
+                        <input type="number" class="form-control" id="inputFono" name="fono" placeholder="XXXXXX">
                     </div>
                 </div>
                 <!-- Input Movil -->
                 <div class="form-group row">
                     <label for="inputMovil" class="col-sm-2 col-form-label">Fono movil</label>
                     <div class="col-sm-10">
-                        <input type="number" class="form-control" id="inputMovil" placeholder="9XXXXXXXX">
+                        <input type="number" class="form-control" id="inputMovil" name="movil" placeholder="9XXXXXXXX">
                     </div>
                 </div>
                 <!-- Input Unidad Academica -->
                 <div class="form-group row">
                     <label for="inputUnidadAcademica" class="col-sm-2 col-form-label">Unidad Academica</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="inputUnidadAcademica" placeholder="">
+                        <input type="number" class="form-control" id="inputUnidadAcademica" name="unidadAcademica" placeholder="--------">
+                    </div>
+                </div>
+                <!-- Input Genero -->
+                <div class="form-group row">
+                    <label for="Genero" class="col-sm-2 col-form-label">Genero </label>
+                    <div class="col-2">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="genero" id="generoRadio1" value="0" checked>
+                            <label class="form-check-label" for="generoRadio1">
+                                Masculino
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="genero" id="generoRadio2" value="1" checked>
+                            <label class="form-check-label" for="generoRadio2">
+                                Femenino
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="genero" id="generoRadio3" value="2" checked>
+                            <label class="form-check-label" for="generoRadio3">
+                                Otro
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <!-- Input Rol -->
+                <div class="form-group row">
+                    <label for="Rol" class="col-sm-2 col-form-label">Rol </label>
+                    <div class="col-2">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="rol" id="rolRadio1" value="0" checked>
+                            <label class="form-check-label" for="rolRadio1">
+                                Estudiante
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="rol" id="rolRadio2" value="1" checked>
+                            <label class="form-check-label" for="rolRadio2">
+                                Academico
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="rol" id="rolRadio3" value="2" checked>
+                            <label class="form-check-label" for="rolRadio3">
+                                Funcionario
+                            </label>
+                        </div>
                     </div>
                 </div>
                 <br/>
@@ -100,42 +156,42 @@
                 <div class="form-group row">
                     <label for="inputPatente" class="col-sm-2 col-form-label">Patente</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="inputPatente" placeholder="AA*AA-00">
+                        <input type="text" class="form-control" id="inputPatente" name="patente" placeholder="AA*AA-00">
                     </div>
                 </div>
                 <!-- Input Marca -->
                 <div class="form-group row">
                     <label for="inputMarca" class="col-sm-2 col-form-label">Marca</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="inputMarca" placeholder="Hyundai">
+                        <input type="text" class="form-control" id="inputMarca" name="marca" placeholder="Hyundai">
                     </div>
                 </div>
                 <!-- Input Modelo -->
                 <div class="form-group row">
                     <label for="inputModelo" class="col-sm-2 col-form-label">Modelo</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="inputModelo" placeholder="Grand i10 Sedan">
+                        <input type="text" class="form-control" id="inputModelo" name="modelo" placeholder="Grand i10 Sedan">
                     </div>
                 </div>
                 <!-- Input Anio -->
                 <div class="form-group row">
                     <label for="inputAnio" class="col-sm-2 col-form-label">Año</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="inputAnio" placeholder="AAAA">
+                        <input type="text" class="form-control" id="inputAnio" name="anio" placeholder="AAAA">
                     </div>
                 </div>
                 <!-- Input Observacion -->
                 <div class="form-group row">
                     <label for="inputObservacion" class="col-sm-2 col-form-label">Observacion</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="inputObservacion" placeholder="--------">
+                        <input type="text" class="form-control" id="inputObservacion" name="observacion" placeholder="--------">
                     </div>
                 </div>
                 <!-- Input Color -->
                 <div class="form-group row">
                     <label for="inputColor" class="col-sm-2 col-form-label">Color</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="inputColor" placeholder="Rojo">
+                        <input type="text" class="form-control" id="inputColor" name="color" placeholder="Rojo">
                     </div>
                 </div>
                 <br/>
