@@ -29,6 +29,9 @@ import org.slf4j.LoggerFactory;
 
 import java.sql.Time;
 
+import cl.ucn.disc.pdis.parking.zeroice.model.VehicleException;
+import cl.ucn.disc.pdis.parking.zeroice.model.Vehiculo;
+
 public class ZeroIceTest {
   // Logger
   private static final Logger log = LoggerFactory.getLogger(ZeroIceTest.class);
@@ -44,6 +47,18 @@ public class ZeroIceTest {
     long clientTime = System.currentTimeMillis();
     long delay = zeroIce.sistemaPrx.getDelay(clientTime);
     log.debug("Delay of: " + String.valueOf(delay) + " milliseconds");
+    zeroIce.stop();
+
+  }
+
+  @Test
+  public void findVehicleByPatente(){
+    zeroIce.start();
+    try {
+      Vehiculo v = zeroIce.contratosPrx.findVehiculoByPatente("test_patente");
+    } catch (VehicleException ve){
+      log.debug("Vehicle exception:",ve);
+    }
     zeroIce.stop();
 
   }

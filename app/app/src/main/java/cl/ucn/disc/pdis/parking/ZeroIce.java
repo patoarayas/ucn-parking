@@ -33,7 +33,6 @@ import org.slf4j.LoggerFactory;
 
 import cl.ucn.disc.pdis.parking.zeroice.model.ContratosPrx;
 import cl.ucn.disc.pdis.parking.zeroice.model.SistemaPrx;
-
 import static com.zeroc.Ice.Util.createProperties;
 
 public class ZeroIce {
@@ -79,7 +78,15 @@ public class ZeroIce {
       return;
     }
 
-    this.communicator = Util.initialize();
+    // Set properties
+    Properties properties = Util.createProperties();
+    properties.setProperty("Ice.Package.model", "cl.ucn.disc.pdis.parking.zeroice");
+
+    InitializationData initializationData = new InitializationData();
+    initializationData.properties = properties;
+
+    // Initialize communicator
+    this.communicator = Util.initialize(initializationData);
 
     this.contratosPrx = ContratosPrx.checkedCast(this.communicator.stringToProxy("Contratos:tcp -z -t 15000 -p 3000"));
     this.sistemaPrx = SistemaPrx.checkedCast(this.communicator.stringToProxy("Sistema:tcp -z -t 15000 -p 3000"));
@@ -95,6 +102,7 @@ public class ZeroIce {
       return;
     }
     this.contratosPrx = null;
+    this.sistemaPrx = null;
     this.communicator.destroy();
     log.debug("Communication stopped");
   }
