@@ -29,6 +29,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import cl.ucn.disc.pdis.parking.zeroice.model.Persona;
+import cl.ucn.disc.pdis.parking.zeroice.model.Porteria;
 
 /**
  * Test for PersonasRepository
@@ -45,7 +46,7 @@ public class PersonasRepositoryTest {
   public void getPersonasByRutTest(){
 
     Persona testPersona = personasRepository.getPersonaByRut("test_rut");
-    log.debug(testPersona.nombre);
+    log.debug(testPersona.rol.toString());
 
   }
 

@@ -317,18 +317,16 @@
     <Button
         android:id="@+id/register_button"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginTop="16dp"
         android:text="@string/registrar_acceso"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/porteria" />
+        app:layout_constraintTop_toBottomOf="@+id/porteria_group" />
 
     <RadioGroup
-        android:id="@+id/porteria"
+        android:id="@+id/porteria_group"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
