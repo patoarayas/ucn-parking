@@ -65,6 +65,7 @@ public class ZeroIce {
    * @return Instance
    */
   public static ZeroIce getInstance() {
+    log.debug("Retrieving ZeroIce instance.");
     return ZERO_ICE;
   }
 
@@ -73,6 +74,7 @@ public class ZeroIce {
    * Start communication
    */
   public void start() {
+
     if (this.communicator != null) {
       log.warn("Communicator was already initialized");
       return;

@@ -25,17 +25,47 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/unidad_title"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".DisplayInfoActivity">
 
     <TextView
-        android:id="@+id/info_vehiculo_title"
+        android:id="@+id/genero_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
+        android:text="@string/genero"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/nombre_title" />
+
+    <TextView
+        android:id="@+id/rol_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/rol"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView5" />
+
+    <TextView
+        android:id="@+id/nombre_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:text="@string/nombre"
+        app:layout_constraintStart_toEndOf="@+id/rut_field"
+        app:layout_constraintTop_toTopOf="@+id/rut_field" />
+
+    <TextView
+        android:id="@+id/info_vehiculo_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
         android:text="@string/vehiculo_info"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -104,58 +134,226 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:text="TextView"
+        android:text="@string/error"
         app:layout_constraintStart_toEndOf="@+id/color_title"
-        app:layout_constraintTop_toBottomOf="@+id/modelo_field" />
+        app:layout_constraintTop_toTopOf="@+id/color_title" />
 
     <TextView
         android:id="@+id/anio_field"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:text="TextView"
+        android:text="@string/error"
         app:layout_constraintStart_toEndOf="@+id/anio_title"
-        app:layout_constraintTop_toBottomOf="@+id/color_field" />
+        app:layout_constraintTop_toTopOf="@+id/anio_title" />
 
     <TextView
         android:id="@+id/observaciones_field"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:text="TextView"
+        android:text="@string/error"
         app:layout_constraintStart_toEndOf="@+id/observaciones_title"
-        app:layout_constraintTop_toBottomOf="@+id/anio_field" />
+        app:layout_constraintTop_toTopOf="@+id/observaciones_title" />
 
     <TextView
         android:id="@+id/modelo_field"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:text="TextView"
+        android:text="@string/error"
         app:layout_constraintStart_toEndOf="@+id/modelo_title"
-        app:layout_constraintTop_toBottomOf="@+id/marca_field" />
+        app:layout_constraintTop_toTopOf="@+id/modelo_title" />
 
     <TextView
         android:id="@+id/patente_field"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:text="TextView"
+        android:text="@string/error"
         app:layout_constraintStart_toEndOf="@+id/patente_title"
-        app:layout_constraintTop_toBottomOf="@+id/info_vehiculo_title" />
+        app:layout_constraintTop_toTopOf="@+id/patente_title" />
 
     <TextView
         android:id="@+id/marca_field"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:text="TextView"
+        android:text="@string/error"
         app:layout_constraintStart_toEndOf="@+id/marca_title"
-        app:layout_constraintTop_toBottomOf="@+id/patente_field" />
+        app:layout_constraintTop_toTopOf="@+id/marca_title" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="@string/persona_info"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/observaciones_title" />
+
+    <TextView
+        android:id="@+id/rut_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/rut"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    <TextView
+        android:id="@+id/correo_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:text="@string/correo"
+        app:layout_constraintStart_toEndOf="@+id/genero_field"
+        app:layout_constraintTop_toTopOf="@+id/genero_field" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/unidad"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/genero_title" />
+
+    <TextView
+        android:id="@+id/telefono_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/fono"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rol_title" />
+
+    <TextView
+        android:id="@+id/movil_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:text="@string/movil"
+        app:layout_constraintStart_toEndOf="@+id/fono_field"
+        app:layout_constraintTop_toTopOf="@+id/fono_field" />
+
+    <TextView
+        android:id="@+id/rut_field"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="@string/error"
+        app:layout_constraintStart_toEndOf="@+id/rut_title"
+        app:layout_constraintTop_toTopOf="@+id/rut_title" />
+
+    <TextView
+        android:id="@+id/unidad_field"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="@string/error"
+        app:layout_constraintStart_toEndOf="@+id/textView5"
+        app:layout_constraintTop_toTopOf="@+id/textView5" />
+
+    <TextView
+        android:id="@+id/nombre_field"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="@string/error"
+        app:layout_constraintStart_toEndOf="@+id/nombre_title"
+        app:layout_constraintTop_toTopOf="@+id/nombre_title" />
+
+    <TextView
+        android:id="@+id/fono_field"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="@string/error"
+        app:layout_constraintStart_toEndOf="@+id/telefono_title"
+        app:layout_constraintTop_toTopOf="@+id/telefono_title" />
+
+    <TextView
+        android:id="@+id/correo_field"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="@string/error"
+        app:layout_constraintStart_toEndOf="@+id/correo_title"
+        app:layout_constraintTop_toTopOf="@+id/correo_title" />
+
+    <TextView
+        android:id="@+id/movil_field"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="@string/error"
+        app:layout_constraintStart_toEndOf="@+id/movil_title"
+        app:layout_constraintTop_toTopOf="@+id/movil_title" />
+
+    <TextView
+        android:id="@+id/genero_field"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="@string/error"
+        app:layout_constraintStart_toEndOf="@+id/genero_title"
+        app:layout_constraintTop_toTopOf="@+id/genero_title" />
+
+    <TextView
+        android:id="@+id/rol_field"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="@string/error"
+        app:layout_constraintStart_toEndOf="@+id/rol_title"
+        app:layout_constraintTop_toTopOf="@+id/rol_title" />
+
+    <Button
+        android:id="@+id/register_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="16dp"
+        android:text="@string/registrar_acceso"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/porteria" />
+
+    <RadioGroup
+        android:id="@+id/porteria"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/telefono_title">
+
+        <RadioButton
+            android:id="@+id/porteria_0"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Porteria 0" />
+
+        <RadioButton
+            android:id="@+id/porteria_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Porteria 1" />
+
+        <RadioButton
+            android:id="@+id/porteria_2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Porteria 2" />
+    </RadioGroup>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

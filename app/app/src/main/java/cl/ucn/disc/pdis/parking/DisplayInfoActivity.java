@@ -27,6 +27,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
 import org.slf4j.Logger;
@@ -34,15 +35,16 @@ import org.slf4j.LoggerFactory;
 
 import cl.ucn.disc.pdis.parking.zeroice.model.Persona;
 import cl.ucn.disc.pdis.parking.zeroice.model.PersonaException;
+import cl.ucn.disc.pdis.parking.zeroice.model.Porteria;
 import cl.ucn.disc.pdis.parking.zeroice.model.VehicleException;
 import cl.ucn.disc.pdis.parking.zeroice.model.Vehiculo;
 
 public class DisplayInfoActivity extends AppCompatActivity {
 
+    // ICE instance
+    private final static ZeroIce zeroIce = ZeroIce.getInstance();
     // Logger
     private static final Logger log = LoggerFactory.getLogger(DisplayInfoActivity.class);
-    // Zero Ice
-    private final ZeroIce zeroIce = ZeroIce.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,36 +54,98 @@ public class DisplayInfoActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String patente = intent.getStringExtra(MainActivity.EXTRA_PATENTE);
 
-        // Todo: refactor
-        Vehiculo vehiculo = getVehiculo(patente);
-        Persona persona = getPersona(vehiculo.rut);
+        // Get data
+        loadData(patente);
 
-        TextView patente_field = findViewById(R.id.patente_field);
-        patente_field.setText(patente);
     }
 
-    private Vehiculo getVehiculo(String patente){
+    /**
+     * Call zeroIce and retrieve data of Persona and Vehicle.
+     * @param patente The patente of vehiculo
+     */
+    private void loadData(String patente){
 
+        // Start communication.
         zeroIce.start();
-        try {
-            return zeroIce.contratosPrx.findVehiculoByPatente(patente);
+
+        try{
+            // Get vehicle data
+           Vehiculo vehiculo = zeroIce.contratosPrx.findVehiculoByPatente(patente);
+           fillVehiculoView(vehiculo);
+           try {
+               // Get persona data
+               Persona persona = zeroIce.contratosPrx.findPersonaByRut(vehiculo.rut);
+               fillPersonaView(persona);
+
+           }catch (PersonaException pe){
+               log.error("Error retrieving Persona.",pe);
+           }
         } catch (VehicleException ve){
             log.error("Error retrieving vehicle.",ve);
         }
-        zeroIce.stop();
-        return null;
+       // Stop ICE
+       zeroIce.stop();
     }
 
-    private Persona getPersona(String rut){
+    public void register(View view){
 
         zeroIce.start();
-        try {
-            return zeroIce.contratosPrx.findPersonaByRut(rut);
-        } catch (PersonaException pe){
-            log.error("Error retrieving persona.",pe);
-        }
-        zeroIce.stop();
-        return null;
+       try {
+           zeroIce.contratosPrx.registrarAcceso(MainActivity.EXTRA_PATENTE, Porteria.SANGRA);
+       } catch (VehicleException ve){
+           log.error("Vehicle not found!",ve);
+       }
+
+    }
+    /**
+     * Fill the layout with the data of Vehiculo.
+     * @param v The vehicle.
+     */
+    private void fillVehiculoView(Vehiculo v){
+
+        // Load the textView
+        TextView patente = findViewById(R.id.patente_field);
+        TextView marca = findViewById(R.id.marca_field);
+        TextView modelo = findViewById(R.id.modelo_field);
+        TextView anio = findViewById(R.id.anio_field);
+        TextView color = findViewById(R.id.color_field);
+        TextView observaciones = findViewById(R.id.observaciones_field);
+
+        // Fill the textView
+        patente.setText(v.patente);
+        marca.setText(v.marca);
+        modelo.setText(v.modelo);
+        anio.setText(v.anio);
+        color.setText(v.color);
+        observaciones.setText(v.observacion);
+    }
+
+    /**
+     * Fill the layout with the data of Persona
+     * @param p The person.
+     */
+    private void fillPersonaView(Persona p){
+
+        // Load the textView
+        TextView rut = findViewById(R.id.rut_field);
+        TextView nombre = findViewById(R.id.nombre_field);
+        TextView genero = findViewById(R.id.genero_field);
+        TextView correo = findViewById(R.id.correo_field);
+        TextView fono = findViewById(R.id.fono_field);
+        TextView movil = findViewById(R.id.movil_field);
+        TextView unidad = findViewById(R.id.unidad_field);
+        TextView rol = findViewById(R.id.rol_field);
+
+        // Fill the textView
+        rut.setText(p.rut);
+        nombre.setText(p.nombre);
+        genero.setText(p.genero.toString());
+        correo.setText(p.email);
+        fono.setText(p.fono);
+        movil.setText(p.movil);
+        unidad.setText(p.unidadAcademica);
+        rol.setText(p.rol.toString());
+
     }
 
 }

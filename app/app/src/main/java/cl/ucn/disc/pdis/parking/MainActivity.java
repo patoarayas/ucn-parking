@@ -55,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
 
     ZeroIce zeroIce = ZeroIce.getInstance();
     zeroIce.start();
+
     try {
       zeroIce.contratosPrx.findVehiculoByPatente(patente);
       log.debug("Vehicle found!");

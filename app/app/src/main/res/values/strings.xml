@@ -3,7 +3,8 @@
     <string name="ingrese_patente">Ingrese patente</string>
     <string name="patente">patente</string>
     <string name="enviar">Enviar</string>
-    <string name="registrar_acceso">Registrar</string>
+    <string name="registrar_acceso">Registrar acceso</string>
+    <string name="error">Error</string>
 
     <string name="vehiculo_info">Información del vehículo</string>
     <string name="patente_info">Patente:</string>
