@@ -47,36 +47,31 @@ namespace backend
             optionsBuilder.UseSqlite("Data Source=parking.db", options =>
             {
                 options.MigrationsAssembly(Assembly.GetExecutingAssembly().FullName);
-
             });
             base.OnConfiguring(optionsBuilder);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            
-            
             // Model Persona
             modelBuilder.Entity<Persona>(p =>
             {
                 p.HasKey(p => p.rut);
-                
             });
 
             // Model Vehiculo
             modelBuilder.Entity<Vehiculo>(v =>
             {
                 v.HasKey(v => v.patente);
-                
             });
-            
+
             // Model Acceso
             modelBuilder.Entity<Acceso>(a =>
             {
                 a.HasKey(a => a.uid);
                 a.Property(a => a.uid).ValueGeneratedOnAdd();
             });
-            
+
             // Test entities
             modelBuilder.Entity<Persona>().HasData(
                 new Persona()
@@ -90,6 +85,7 @@ namespace backend
                     rol = Rol.ACADEMICO,
                     unidadAcademica = "test_unidad_academica"
                 });
+
             modelBuilder.Entity<Vehiculo>().HasData(
                 new Vehiculo()
                 {
@@ -101,6 +97,7 @@ namespace backend
                     patente = "test_patente",
                     rut = "test_rut"
                 });
+
             modelBuilder.Entity<Acceso>().HasData(
                 new Acceso()
                 {
@@ -108,11 +105,9 @@ namespace backend
                     patente = "test_patente",
                     porteria = Porteria.CERRO,
                     uid = 1
-
                 });
-            
+
             base.OnModelCreating(modelBuilder);
-            
         }
     }
 }

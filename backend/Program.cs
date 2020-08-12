@@ -40,7 +40,6 @@ namespace backend
             CreateHostBuilder(args).Build().Run();
         }
 
-
         /// <summary>
         /// Build the Host
         /// </summary>
