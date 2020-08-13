@@ -22,21 +22,20 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-
-
+/**
+ * RegistrosController route
+ */
 Route::resource('registro', 'RegistrosController');
-Route::get('/home', ['uses' => 'HomeController@index', 'as' => 'home']);
-
 
 /**
- *
+ * Home view route -> name: home
  */
 Route::get('/home', function(){
    return view('home');
 })->name('home');
 
 /**
- * Test connection with the backend. Get delay.
+ * Test connection with the backend. Get delay. -> name: delay
  */
 Route::get('/delay', function(){
 
@@ -62,7 +61,7 @@ Route::get('/delay', function(){
 })->name('delay');
 
 /**
- * Show access register
+ * Show access register -> name: accesos
  */
 Route::get('/accesos', function(){
 
