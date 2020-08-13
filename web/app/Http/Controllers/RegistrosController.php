@@ -37,8 +37,8 @@ class RegistrosController extends Controller
      */
     public function store(Request $request)
     {
-        $rut = $request->input('Rut');
-        $nombre = $request->input('Nombre');
+        $rut = $request->input('rut');
+        $nombre = $request->input('nombre');
         $email = $request->input('email');
         $fono = $request->input('fono');
         $movil = $request->input('movil');
