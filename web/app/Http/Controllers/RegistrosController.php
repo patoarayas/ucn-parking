@@ -49,7 +49,7 @@ class RegistrosController extends Controller
         $patente = $request->input('patente');
         $marca = $request->input('marca');
         $modelo = $request->input('modelo');
-        $anio = $request->input('anio');
+        $anio = intval($request->input('anio'));
         $observacion = $request->input('observacion');
         $color = $request->input('color');
 
