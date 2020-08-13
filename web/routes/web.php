@@ -22,11 +22,20 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/test','RegistrosController@createUser');
-Route::post('/receive','RegistrosController@storeUser');
+/**
+ * RegistrosController route
+ */
+Route::resource('registro', 'RegistrosController');
 
 /**
- * Test connection with the backend. Get delay.
+ * Home view route -> name: home
+ */
+Route::get('/home', function(){
+   return view('home');
+})->name('home');
+
+/**
+ * Test connection with the backend. Get delay. -> name: delay
  */
 Route::get('/delay', function(){
 
@@ -43,16 +52,16 @@ Route::get('/delay', function(){
     $sistema = \model\SistemaPrxHelper::uncheckedCast($sistema_proxy);
 
     $client_time = (int) round(microtime(true)*1000);
-    echo("Client time: ".$client_time);
 
     // Calls interface method
     $delay = $sistema->getDelay($client_time);
-    echo("<br>");
-    echo("Delay: ".$delay);
-});
+    $times['client'] = $client_time;
+    $times['delay'] = $delay;
+    return view('delay',['times'=>$times]);
+})->name('delay');
 
 /**
- * Show access register
+ * Show access register -> name: accesos
  */
 Route::get('/accesos', function(){
 
@@ -62,6 +71,7 @@ Route::get('/accesos', function(){
     $accesos = $sistema->getAccesos();
 
     return view('accesos',['accesos'=>$accesos]);
-});
+})->name('accesos');
+
 
 
