@@ -8,7 +8,7 @@
     </div>
     <div class="row">
         <div class="col-12">
-            <form action="{{action('RegistrosController@storeUser')}}" method="post">
+            <form action="{{action('RegistrosController@store')}}" method="post">
             {{csrf_field()}}
             <!-- Input Rut -->
                 <div class="form-group row">
