@@ -41,12 +41,12 @@ namespace backend
         /// Logger
         /// </summary>
         private readonly ILogger<SistemaImpl> _logger;
-        
+
         /// <summary>
         /// IServiceScope, provider of DbContext.
         /// </summary>
         private readonly IServiceScopeFactory _serviceScopeFactory;
-        
+
         /// <summary>
         /// Constructor
         /// </summary>
@@ -55,10 +55,11 @@ namespace backend
         {
             _logger = logger;
             _logger.LogDebug("Building SistemaImpl");
-            
-            // Db
+
+            // Database
             _serviceScopeFactory = serviceScopeFactory;
             _logger.LogDebug("Connecting to DB");
+
             using (var scope = _serviceScopeFactory.CreateScope())
             {
                 ParkingContext pc = scope.ServiceProvider.GetService<ParkingContext>();
@@ -81,9 +82,8 @@ namespace backend
                 ParkingContext pc = scope.ServiceProvider.GetService<ParkingContext>();
                 return pc.Personas.ToArray();
             }
-
         }
-        
+
         /// <summary>
         /// Returns a list with all vehicles on the DB.
         /// </summary>
@@ -119,7 +119,7 @@ namespace backend
         }
 
         /// <summary>
-        /// Get delay between server and client
+        /// Get delay between server and client (for testing)
         /// </summary>
         /// <param name="clientTime"> Client time in ms</param>
         /// <param name="current">.</param>
@@ -129,7 +129,6 @@ namespace backend
             var serverTime = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
             _logger.LogDebug("GetDelay request received. Server time:"+serverTime);
             return serverTime - clientTime;
-            
         }
     }
 }

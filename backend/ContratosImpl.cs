@@ -30,6 +30,9 @@ using Parking.ZeroIce.model;
 
 namespace backend
 {
+    /// <summary>
+    /// Implements Contratos interface from Zero Ice.
+    /// </summary>
     public class ContratosImpl : ContratosDisp_
     {
         /// <summary>
@@ -41,8 +44,7 @@ namespace backend
         /// IServiceScope, provider of DbContext.
         /// </summary>
         private readonly IServiceScopeFactory _serviceScopeFactory;
-        
-        
+
         /// <summary>
         /// Constructor
         /// </summary>
@@ -51,10 +53,11 @@ namespace backend
         {
             _logger = logger;
             _logger.LogDebug("Building ContratosImpl");
-            
-            // Db
+
+            // Database
             _serviceScopeFactory = serviceScopeFactory;
             _logger.LogDebug("Connecting to DB");
+
             using (var scope = _serviceScopeFactory.CreateScope())
             {
                 ParkingContext pc = scope.ServiceProvider.GetService<ParkingContext>();
@@ -62,9 +65,8 @@ namespace backend
                 pc.SaveChanges();
             }
             _logger.LogDebug("Done");
-            
-            
         }
+
         /// <summary>
         /// Register an access to the the UCN
         /// </summary>
@@ -76,10 +78,12 @@ namespace backend
         public override Acceso registrarAcceso(string patente, Porteria porteria, Current current = null)
         {
             _logger.LogDebug("RegistrarAcceso request received.");
-            // Check if the patente exist on db
+
+            // Check if the patente exist in db
             using (var scope = _serviceScopeFactory.CreateScope())
             {
                 ParkingContext pc = scope.ServiceProvider.GetService<ParkingContext>();
+
                 if (pc.Vehiculos.Find(patente) == null)
                 {
                     _logger.LogError("Invalid vehicle: "+patente);
@@ -98,10 +102,9 @@ namespace backend
                 pc.Accesos.Add(ac);
                 _logger.LogInformation("New access: ",ac.ToString());
                 return ac;
-
             }
-            
         }
+
         /// <summary>
         /// Register a new Person in the db
         /// </summary>
@@ -113,12 +116,11 @@ namespace backend
             using (var scope = _serviceScopeFactory.CreateScope())
             {
                 ParkingContext pc = scope.ServiceProvider.GetService<ParkingContext>();
-                
+
                 // TODO: Validation, if not throws PersonaException
                 pc.Personas.Add(persona);
                 pc.SaveChanges();
             }
-            
         }
 
         /// <summary>
@@ -132,7 +134,7 @@ namespace backend
             using (var scope = _serviceScopeFactory.CreateScope())
             {
                 ParkingContext pc = scope.ServiceProvider.GetService<ParkingContext>();
-                
+
                 // TODO: Validation, if not throws VehicleException
                 pc.Vehiculos.Add(vehiculo);
                 pc.SaveChanges();
@@ -153,34 +155,42 @@ namespace backend
                 _logger.LogDebug("Searching for Persona with rut: ",rut);
                 ParkingContext pc = scope.ServiceProvider.GetService<ParkingContext>();
                 var persona =  pc.Personas.Find(rut);
+
                 if (persona != null)
                 {
                     _logger.LogDebug("Persona found!");
-                    
                     return persona;
                 }
+
                 else
                 {
                     _logger.LogDebug("Persona not found!");
                     throw new PersonaException("Persona not found");
                 }
             }
-            
         }
 
+        /// <summary>
+        /// Find a Vehiculo in the db by its rut.
+        /// </summary>
+        /// <param name="patente">Vehiculo's patente</param>
+        /// <param name="current">.</param>
+        /// <returns>A Vehiculo</returns>
+        /// <exception cref="VehicleException">If the Vehiculo wasn't found</exception>
         public override Vehiculo findVehiculoByPatente(string patente, Current current = null)
         {
             using (var scope = _serviceScopeFactory.CreateScope())
             {
                 _logger.LogDebug("Searching for Vehiculo with patente: "+patente);
                 ParkingContext pc = scope.ServiceProvider.GetService<ParkingContext>();
-                
-                var vehiculo =  pc.Vehiculos.Find(patente);
+                var vehiculo = pc.Vehiculos.Find(patente);
+
                 if (vehiculo != null)
                 {
                     _logger.LogDebug("Vehiculo found!");
                     return vehiculo;
                 }
+
                 else
                 {
                     _logger.LogDebug("Vehiculo not found!");

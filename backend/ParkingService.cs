@@ -31,7 +31,7 @@ using Parking.ZeroIce.model;
 namespace backend
 {
     /// <summary>
-    /// ParkingService. 
+    /// ParkingService.
     /// </summary>
     public class ParkingService : IHostedService
     {
@@ -51,7 +51,7 @@ namespace backend
         private readonly Communicator _communicator;
 
         /// <summary>
-        /// Sistema 
+        /// Sistema
         /// </summary>
         private readonly SistemaDisp_ _sistema;
 
@@ -79,18 +79,18 @@ namespace backend
         public Task StartAsync(CancellationToken cancellationToken)
         {
             _logger.LogInformation("ParkingService started.");
-            
+
             // Ice adapter
             var adapter = _communicator.createObjectAdapterWithEndpoints(
                 "Parking",
-                "tcp -z -t 15000 -p " + _port);
-            
+                "tcp -z -t 15000 -p " + _port
+                );
+
             // Register in the adapter
             adapter.add(_sistema, Util.stringToIdentity("Sistema"));
             adapter.add(_contratos, Util.stringToIdentity("Contratos"));
-            
             adapter.activate();
-            
+
             return Task.CompletedTask;
         }
 
@@ -100,11 +100,11 @@ namespace backend
         public Task StopAsync(CancellationToken cancellationToken)
         {
             _logger.LogInformation("ParkingService stopped.");
-            
+
             // Stop communicator
             _communicator.shutdown();
             _logger.LogInformation("Communicator stopped");
-            
+
             return Task.CompletedTask;
         }
 
@@ -115,7 +115,7 @@ namespace backend
         private Communicator BuildCommunicator()
         {
             _logger.LogDebug("Initializing communicator");
-            
+
             // ZeroC properties
             Properties properties = Util.createProperties();
             InitializationData initializationData = new InitializationData();

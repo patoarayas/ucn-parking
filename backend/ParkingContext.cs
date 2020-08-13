@@ -47,49 +47,45 @@ namespace backend
             optionsBuilder.UseSqlite("Data Source=parking.db", options =>
             {
                 options.MigrationsAssembly(Assembly.GetExecutingAssembly().FullName);
-
             });
             base.OnConfiguring(optionsBuilder);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            
-            
             // Model Persona
             modelBuilder.Entity<Persona>(p =>
             {
                 p.HasKey(p => p.rut);
-                
             });
 
             // Model Vehiculo
             modelBuilder.Entity<Vehiculo>(v =>
             {
                 v.HasKey(v => v.patente);
-                
             });
-            
+
             // Model Acceso
             modelBuilder.Entity<Acceso>(a =>
             {
                 a.HasKey(a => a.uid);
                 a.Property(a => a.uid).ValueGeneratedOnAdd();
             });
-            
+
             // Test entities
             modelBuilder.Entity<Persona>().HasData(
                 new Persona()
                 {
                     rut = "test_rut",
                     nombre = "test_nombre",
-                    genero = Genero.OTRO,
+                    genero = Genero.Otro,
                     email = "test_email",
                     fono = "test_fono",
                     movil = "test_movil",
-                    rol = Rol.ACADEMICO,
+                    rol = Rol.Academico,
                     unidadAcademica = "test_unidad_academica"
                 });
+
             modelBuilder.Entity<Vehiculo>().HasData(
                 new Vehiculo()
                 {
@@ -101,18 +97,17 @@ namespace backend
                     patente = "test_patente",
                     rut = "test_rut"
                 });
+
             modelBuilder.Entity<Acceso>().HasData(
                 new Acceso()
                 {
                     horaEntrada = "test_horaEntrada",
                     patente = "test_patente",
-                    porteria = Porteria.CERRO,
+                    porteria = Porteria.Mancilla,
                     uid = 1
-
                 });
-            
+
             base.OnModelCreating(modelBuilder);
-            
         }
     }
 }
