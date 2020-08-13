@@ -28,9 +28,9 @@ module model {
      /**
      * Enums
      */
-     enum Genero {Masculino, Femenino, Otro}
-     enum Rol {Estudiante,Academico,Funcionario}
-     enum Porteria {Central, Sur, Mancilla, Humanista}
+     enum Genero {MASCULINO, FEMENINO, OTRO}
+     enum Rol {ACADEMICO,ESTUDIANTE,FUNCIONARIO}
+     enum Porteria {SUR, MANCILLA, SANGRA}
 
      /**
      * Clase Persona

@@ -33,12 +33,25 @@ namespace model
     global $model__t_Rol;
     class Rol
     {
-        const ESTUDIANTE = 0;
-        const ACADEMICO = 1;
+        const ACADEMICO = 0;
+        const ESTUDIANTE = 1;
         const FUNCIONARIO = 2;
     }
 
-    $model__t_Rol = IcePHP_defineEnum('::model::Rol', array('ESTUDIANTE', 0, 'ACADEMICO', 1, 'FUNCIONARIO', 2));
+    $model__t_Rol = IcePHP_defineEnum('::model::Rol', array('ACADEMICO', 0, 'ESTUDIANTE', 1, 'FUNCIONARIO', 2));
+}
+
+namespace model
+{
+    global $model__t_Porteria;
+    class Porteria
+    {
+        const SUR = 0;
+        const MANCILLA = 1;
+        const SANGRA = 2;
+    }
+
+    $model__t_Porteria = IcePHP_defineEnum('::model::Porteria', array('SUR', 0, 'MANCILLA', 1, 'SANGRA', 2));
 }
 
 namespace model
@@ -46,7 +59,7 @@ namespace model
     global $model__t_Persona;
     class Persona extends \Ice\Value
     {
-        public function __construct($rut='', $nombre='', $genero=\model\Genero::MASCULINO, $email='', $fono='', $movil='', $unidadAcademica='', $rol=\model\Rol::ESTUDIANTE)
+        public function __construct($rut='', $nombre='', $genero=\model\Genero::MASCULINO, $email='', $fono='', $movil='', $unidadAcademica='', $rol=\model\Rol::ACADEMICO)
         {
             $this->rut = $rut;
             $this->nombre = $nombre;
@@ -155,23 +168,10 @@ namespace model
 
 namespace model
 {
-    global $model__t_Porteria;
-    class Porteria
-    {
-        const SANGRA = 0;
-        const SUR = 1;
-        const CERRO = 2;
-    }
-
-    $model__t_Porteria = IcePHP_defineEnum('::model::Porteria', array('SANGRA', 0, 'SUR', 1, 'CERRO', 2));
-}
-
-namespace model
-{
     global $model__t_Acceso;
     class Acceso extends \Ice\Value
     {
-        public function __construct($uid=0, $horaEntrada='', $patente='', $porteria=\model\Porteria::SANGRA)
+        public function __construct($uid=0, $horaEntrada='', $patente='', $porteria=\model\Porteria::SUR)
         {
             $this->uid = $uid;
             $this->horaEntrada = $horaEntrada;
@@ -272,6 +272,39 @@ namespace model
 
 namespace model
 {
+    global $model__t_Personas;
+
+    if(!isset($model__t_Personas))
+    {
+        global $model__t_Persona;
+        $model__t_Personas = IcePHP_defineSequence('::model::Personas', $model__t_Persona);
+    }
+}
+
+namespace model
+{
+    global $model__t_Vehiculos;
+
+    if(!isset($model__t_Vehiculos))
+    {
+        global $model__t_Vehiculo;
+        $model__t_Vehiculos = IcePHP_defineSequence('::model::Vehiculos', $model__t_Vehiculo);
+    }
+}
+
+namespace model
+{
+    global $model__t_Accesos;
+
+    if(!isset($model__t_Accesos))
+    {
+        global $model__t_Acceso;
+        $model__t_Accesos = IcePHP_defineSequence('::model::Accesos', $model__t_Acceso);
+    }
+}
+
+namespace model
+{
     global $model__t_Contratos;
     global $model__t_ContratosPrx;
 
@@ -307,39 +340,6 @@ namespace model
     IcePHP_defineOperation($model__t_ContratosPrx, 'registrarVehiculo', 0, 0, 0, array(array($model__t_Vehiculo)), null, null, array($model__t_VehicleException));
     IcePHP_defineOperation($model__t_ContratosPrx, 'findPersonaByRut', 0, 0, 0, array(array($IcePHP__t_string)), null, array($model__t_Persona), array($model__t_PersonaException));
     IcePHP_defineOperation($model__t_ContratosPrx, 'findVehiculoByPatente', 0, 0, 0, array(array($IcePHP__t_string)), null, array($model__t_Vehiculo), array($model__t_VehicleException));
-}
-
-namespace model
-{
-    global $model__t_Personas;
-
-    if(!isset($model__t_Personas))
-    {
-        global $model__t_Persona;
-        $model__t_Personas = IcePHP_defineSequence('::model::Personas', $model__t_Persona);
-    }
-}
-
-namespace model
-{
-    global $model__t_Vehiculos;
-
-    if(!isset($model__t_Vehiculos))
-    {
-        global $model__t_Vehiculo;
-        $model__t_Vehiculos = IcePHP_defineSequence('::model::Vehiculos', $model__t_Vehiculo);
-    }
-}
-
-namespace model
-{
-    global $model__t_Accesos;
-
-    if(!isset($model__t_Accesos))
-    {
-        global $model__t_Acceso;
-        $model__t_Accesos = IcePHP_defineSequence('::model::Accesos', $model__t_Acceso);
-    }
 }
 
 namespace model

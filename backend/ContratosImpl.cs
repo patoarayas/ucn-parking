@@ -171,7 +171,7 @@ namespace backend
         }
 
         /// <summary>
-        /// Find a Vehiculo in the db by its rut.
+        /// Find a Vehiculo in the db by its patente.
         /// </summary>
         /// <param name="patente">Vehiculo's patente</param>
         /// <param name="current">.</param>

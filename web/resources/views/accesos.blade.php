@@ -25,13 +25,13 @@
                         <td>
                             @switch($acceso->porteria)
                                 @case(0)
-                                SANGRA
-                                @break
-                                @case(1)
                                 SUR
                                 @break
+                                @case(1)
+                                MANCILLA
+                                @break
                                 @case(2)
-                                CERRO
+                                SANGRA
                                 @break
                             @endswitch
 
