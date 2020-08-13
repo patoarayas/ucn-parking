@@ -1,44 +1,13 @@
 @extends('layouts.layout')
 
 @section('content')
-<!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-<br>
-<!--
-<form action="{{action('RegistrosController@storeUser')}}" method="post">
-    {{csrf_field()}}
-    <p>Rut: <input type="text" name="rut"></p>
-    <p>Nombre <input type="text" name="nombre"></p>
-    <p>E-Mail: <input type="text" name="email"></p>
-    <p>Fono: <input type="text" name="fono"></p>
-    <p>Movil: <input type="text" name="movil"></p>
-    <p>Unidad Academica: <input type="text" name="unidadAcademica"></p>
-    <p>Rol:
-        <input type="radio" name="rol" value="0"> Estudiante
-        <input type="radio" name="rol" value="1"> Academico
-        <input type="radio" name="rol" value="2"> Funcionario
-    </p>
-    <p>Genero:
-        <input type="radio" name="genero" value="0"> Masculino
-        <input type="radio" name="genero" value="1"> Femenino
-        <input type="radio" name="genero" value="2"> Otro
-    </p>
-    <p>
-        <input type="submit" value="Enviar">
-        <input type="reset" value="Borrar">
-    </p>
-</form>
-<br/>
--->
-
-<section>
-    <div class="m-2">
-        <div class="container p-2">
-            <h1> Registro de Usuarios </h1>
-            <br/>
+    <div class="row">
+        <div class="col-12">
+            <h1> Registro de Usuarios </h1><br/>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
             <form action="{{action('RegistrosController@storeUser')}}" method="post">
             {{csrf_field()}}
             <!-- Input Rut -->
@@ -207,5 +176,4 @@
             </form>
         </div>
     </div>
-</section>
 @endsection

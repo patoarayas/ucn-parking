@@ -29,16 +29,6 @@ Route::get('/home', 'HomeController@index');
 
 Route::get('/home', ['uses' => 'HomeController@index', 'as' => 'home']);
 Route::get('/registroUsuario', ['uses' => 'RegistrosController@createUser', 'as' => 'registroUsuario']);
-Route::get('/personas', ['uses' => 'PersonasController@index', 'as' => 'personas']);
-
-Route::get('/buscarPersonas', ['uses' => 'BuscarPersonaController@index', 'as' => 'buscarPersona']);
-
-Route::get('/vehiculos', ['uses' => 'VehiculosController@index', 'as' => 'vehiculos']);
-
-Route::get('/buscarVehiculo', ['uses' => 'BuscarVehiculoController@index', 'as' => 'buscarVehiculo']);
-
-Route::get('/accesos', ['uses' => 'AccesosController@index', 'as' => 'accesos']);
-
 
 
 
@@ -71,7 +61,7 @@ Route::get('/delay', function(){
 /**
  * Show access register
  */
-/**Route::get('/accesos', function(){
+Route::get('/accesos', function(){
 
     $communicator = \Ice\Initialize();
     $sistema_proxy = $communicator->StringToProxy("Sistema:tcp -z -t 15000 -p 3000");
@@ -80,6 +70,6 @@ Route::get('/delay', function(){
 
     return view('accesos',['accesos'=>$accesos]);
 });
-*/
+
 
 
