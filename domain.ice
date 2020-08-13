@@ -30,7 +30,7 @@ module model {
      */
      enum Genero {Masculino, Femenino, Otro}
      enum Rol {Estudiante,Academico,Funcionario}
-     enum Porteria {Central, Sur, Mancilla, Barrio-Humanista}
+     enum Porteria {Central, Sur, Mancilla, Humanista}
 
      /**
      * Clase Persona

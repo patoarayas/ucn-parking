@@ -78,11 +78,11 @@ namespace backend
                 {
                     rut = "test_rut",
                     nombre = "test_nombre",
-                    genero = Genero.OTRO,
+                    genero = Genero.Otro,
                     email = "test_email",
                     fono = "test_fono",
                     movil = "test_movil",
-                    rol = Rol.ACADEMICO,
+                    rol = Rol.Academico,
                     unidadAcademica = "test_unidad_academica"
                 });
 
@@ -103,7 +103,7 @@ namespace backend
                 {
                     horaEntrada = "test_horaEntrada",
                     patente = "test_patente",
-                    porteria = Porteria.CERRO,
+                    porteria = Porteria.Mancilla,
                     uid = 1
                 });
 
