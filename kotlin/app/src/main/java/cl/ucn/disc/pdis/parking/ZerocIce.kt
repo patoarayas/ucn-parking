@@ -9,7 +9,7 @@ import com.zeroc.Ice.Util
 import org.slf4j.LoggerFactory
 
 /**
- * Zeroc-Ice connection class
+ * Zeroc-Ice connection class.
  */
 class ZerocIce {
 

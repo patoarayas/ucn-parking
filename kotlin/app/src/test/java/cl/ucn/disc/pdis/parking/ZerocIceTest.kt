@@ -6,7 +6,7 @@ import org.junit.Test
 import org.slf4j.LoggerFactory
 
 /**
- * Connections testing class
+ * Connections testing class.
  */
 class ZerocIceTest {
 
@@ -57,7 +57,7 @@ class ZerocIceTest {
     }
 
     /**
-     * Get vehiculo's test
+     * Get vehiculo's test.
      */
     @Test
     fun getVehiculos() {
@@ -69,14 +69,23 @@ class ZerocIceTest {
             for(i in vehicles) {
                 log.debug("Vehiculo's: {}", i)
             }
-
         }catch(e: VehicleException) {
             log.error("Error ...", e)
         }
     }
+    @Test
+    fun getVehiculos2() {
+        zeroIce.start()
+        var vehicles = zeroIce.sistema.vehiculos
+        zeroIce.stop()
+
+        for(i in arrayOf(vehicles)) {
+            log.debug("Vehicles: {}", arrayOf(i))
+        }
+    }
 
     /**
-     * Find Vehiculo's patente test
+     * Find Vehiculo's patente test.
      */
     @Test
     fun findPatent() {
