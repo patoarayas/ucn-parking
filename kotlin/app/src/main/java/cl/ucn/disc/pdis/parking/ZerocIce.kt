@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory
 /**
  * Zeroc-Ice connection class.
  */
-class ZerocIce {
+class ZerocIce() {
 
     /**
      * Logger.
@@ -26,14 +26,9 @@ class ZerocIce {
     /**
      * Connections.
      */
-    private val CONNECTION = "tcp -z -t 15000 -p 3000"
+    private val CONNECTION = "tcp -z -t 15000 -p 3000" // tcp -p 3000 -t 15000 -z | tcp -z -t 15000 -p 3000
     lateinit var contratos: ContratosPrx
     lateinit var sistema: SistemaPrx
-
-    /**
-     * Empty Constructor.
-     */
-    constructor(){}
 
     /**
      * Singleton instance.
@@ -53,19 +48,17 @@ class ZerocIce {
         }
 
         // Property setup for ice
-        var properties: Properties = Util.createProperties()
+        val properties: Properties = Util.createProperties()
         properties.setProperty("Ice.Package.model", "cl.ucn.disc.pdis.parking.zeroice")
 
         // Initializes and creates the communicator
-        var initialization = InitializationData()
+        val initialization = InitializationData()
         initialization.properties = properties
         communicator = Util.initialize(initialization)
 
         // Connections
-        contratos = ContratosPrx.checkedCast(
-            communicator!!.stringToProxy("Contratos: " + CONNECTION))
-        sistema = SistemaPrx.checkedCast(
-            communicator!!.stringToProxy("Sistema: " + CONNECTION))
+        contratos = ContratosPrx.checkedCast(communicator!!.stringToProxy("Contratos: $CONNECTION"))
+        sistema = SistemaPrx.checkedCast(communicator!!.stringToProxy("Sistema :$CONNECTION"))
         log.debug("Connection started ...")
     }
 

@@ -32,7 +32,7 @@ fun LoadView(scope: CoroutineScope, scaffoldState: ScaffoldState = remember { Sc
 }
 
 /**
- * Delay initial view.
+ * Initial view delay.
  */
 fun launchInitialView(scope: CoroutineScope, launch: MutableLiveData<Boolean>) {
     scope.launch {

@@ -15,29 +15,41 @@ import cl.ucn.disc.pdis.parking.compose.navigateTo
 import cl.ucn.disc.pdis.parking.values.green
 import cl.ucn.disc.pdis.parking.values.lightGray
 
+/**
+ * Main View.
+ */
 @Composable
 fun MainView(scaffoldState: ScaffoldState = remember { ScaffoldState() }) {
 
+    // Implements basic material design (visual layout structure)
     Scaffold(
         scaffoldState = scaffoldState,
-        topAppBar = { MainTopBar() },
+        topAppBar = { MainToolbar() },
         bodyContent = { MainLayout(scaffoldState = scaffoldState) }
     )
 }
 
+/**
+ * Toolbar setup.
+ */
 @Composable
-fun MainTopBar() {
+fun MainToolbar() {
 
+    // Tabs that's can be selected in the main view.
+    val tabs = listOf("Add Vehicle", "Vehicles", "Access")
+
+    // Beginning state (starts at 'Access' tab)
     val clickedState: MutableState<Int> = state { 1 }
 
+    // Setup
     Column {
         TopAppBar(
             backgroundColor = lightGray(),
             elevation = 0.dp,
-            title = { Text("Vehicles Access", color = Color.White, style = MaterialTheme.typography.h5) }
+            title = { Text("UCN Access", color = Color.White, style = MaterialTheme.typography.h5) }
         )
         TabRow(
-            items = listOf("Add Vehicle", "Vehicles", "Access"),
+            items = tabs,
             backgroundColor = lightGray(),
             selectedIndex = clickedState.value,
             indicatorContainer = {
