@@ -86,7 +86,7 @@ namespace backend
 
                 if (pc.Vehiculos.Find(patente) == null)
                 {
-                    _logger.LogError("Invalid vehicle: "+patente);
+                    _logger.LogError("Invalid vehicle: " + patente);
                     throw new VehicleException("Vehicle not found on db");
                 }
 
@@ -152,7 +152,7 @@ namespace backend
         {
             using (var scope = _serviceScopeFactory.CreateScope())
             {
-                _logger.LogDebug("Searching for Persona with rut: ",rut);
+                _logger.LogDebug("Searching for Persona with rut: " + rut);
                 ParkingContext pc = scope.ServiceProvider.GetService<ParkingContext>();
                 var persona =  pc.Personas.Find(rut);
 
@@ -181,7 +181,7 @@ namespace backend
         {
             using (var scope = _serviceScopeFactory.CreateScope())
             {
-                _logger.LogDebug("Searching for Vehiculo with patente: "+patente);
+                _logger.LogDebug("Searching for Vehiculo with patente: " + patente);
                 ParkingContext pc = scope.ServiceProvider.GetService<ParkingContext>();
                 var vehiculo = pc.Vehiculos.Find(patente);
 
