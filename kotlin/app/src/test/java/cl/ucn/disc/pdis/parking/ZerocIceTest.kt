@@ -1,5 +1,6 @@
 package cl.ucn.disc.pdis.parking
 
+import androidx.lifecycle.MutableLiveData
 import cl.ucn.disc.pdis.parking.zeroice.model.VehicleException
 import cl.ucn.disc.pdis.parking.zeroice.model.Vehiculo
 import org.junit.Test
@@ -24,11 +25,11 @@ class ZerocIceTest {
      * Delay test.
      */
     @Test
-    fun getDelayTest() {
+    fun getDelay() {
         zeroIce.start()
 
-        var time = System.currentTimeMillis()
-        var delay = zeroIce.sistema.getDelay(time)
+        val time = System.currentTimeMillis()
+        val delay = zeroIce.sistema.getDelay(time)
 
         log.debug("Delay: {} milliseconds", delay)
         zeroIce.stop()
@@ -39,15 +40,15 @@ class ZerocIceTest {
      */
     @Test
     fun addVehiculo() {
-        var rut = "18.585.574-0"
-        var patent= "FZPC33"
-        var brand = "Suzuki"
-        var model = "Samurai"
-        var year = 2019
-        var observation = "Two doors"
-        var color = "Black"
+        val rut = "18.585.574-0"
+        val patent= "FZPC33"
+        val brand = "Suzuki"
+        val model = "Samurai"
+        val year = 2019
+        val observation = "Two doors"
+        val color = "Black"
 
-        var vehiculo = Vehiculo(rut, patent, brand, model, year, observation, color)
+        val vehiculo = Vehiculo(rut, patent, brand, model, year, observation, color)
 
         zeroIce.start()
         zeroIce.contratos.registrarVehiculo(vehiculo)
@@ -62,7 +63,7 @@ class ZerocIceTest {
     @Test
     fun getVehiculos() {
         zeroIce.start()
-        var vehicles = zeroIce.sistema.vehiculos
+        val vehicles = zeroIce.sistema.vehiculos
         zeroIce.stop()
 
         try {
@@ -73,32 +74,35 @@ class ZerocIceTest {
             log.error("Error ...", e)
         }
     }
-    @Test
-    fun getVehiculos2() {
-        zeroIce.start()
-        var vehicles = zeroIce.sistema.vehiculos
-        zeroIce.stop()
-
-        for(i in arrayOf(vehicles)) {
-            log.debug("Vehicles: {}", arrayOf(i))
-        }
-    }
 
     /**
      * Find Vehiculo's patente test.
      */
     @Test
-    fun findPatent() {
-        var patent = "FZPC33"
+    fun findPatente() {
+        val patent = "FZPC33"
 
         zeroIce.start()
         try {
-            var vehicle = zeroIce.contratos.findVehiculoByPatente(patent)
+            val vehicle = zeroIce.contratos.findVehiculoByPatente(patent)
             log.debug("Founded: {}", vehicle)
 
         }catch(e: VehicleException) {
             log.error("Error ...", e)
         }
         zeroIce.stop()
+    }
+
+    /**
+     * MutableLiveData Test.
+     */
+    @Test
+    fun getVehiculosMLD() {
+        zeroIce.start()
+        val vehicles = zeroIce.sistema.vehiculos.toMutableList()
+        zeroIce.stop()
+
+        log.debug("Vehicles: {}", MutableLiveData(vehicles).value)
+        //return MutableLiveData(vehicles)
     }
 }
