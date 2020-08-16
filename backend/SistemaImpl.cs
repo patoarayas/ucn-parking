@@ -127,7 +127,7 @@ namespace backend
         public override long getDelay(long clientTime, Current current = null)
         {
             var serverTime = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
-            _logger.LogDebug("GetDelay request received. Server time:"+serverTime);
+            _logger.LogDebug("GetDelay request received. Server time:" + serverTime);
             return serverTime - clientTime;
         }
     }

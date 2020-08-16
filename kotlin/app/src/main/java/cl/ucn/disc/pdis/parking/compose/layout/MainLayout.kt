@@ -10,17 +10,22 @@ import cl.ucn.disc.pdis.parking.compose.view.main.AccessView
 import cl.ucn.disc.pdis.parking.compose.view.main.AddView
 import cl.ucn.disc.pdis.parking.compose.view.main.VehiclesView
 
+/**
+ * Main view to navigates.
+ */
 @Composable
 fun MainLayout(scaffoldState: ScaffoldState) {
 
+    // Implements basic material design (visual layout structure)
     Scaffold(
         scaffoldState = scaffoldState,
         bodyContent = {
-            Crossfade(current = HomeNavigation.currentView) { screen ->
-                when (screen) {
+            // Allows switching between layouts with a crossfade animation
+            Crossfade(current = HomeNavigation.currentView) { view ->
+                when (view) {
                     is HomeNavigator.AddView -> AddView()
-                    is HomeNavigator.AccessView -> AccessView()
                     is HomeNavigator.VehiclesView -> VehiclesView()
+                    is HomeNavigator.AccessView -> AccessView()
                 }
             }
         }

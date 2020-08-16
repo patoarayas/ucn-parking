@@ -1,7 +1,6 @@
 package cl.ucn.disc.pdis.parking.compose.layout
 
 import androidx.compose.Composable
-import androidx.ui.core.ContentScale
 import androidx.ui.core.Modifier
 import androidx.ui.core.tag
 import androidx.ui.foundation.Box
@@ -29,17 +28,20 @@ import cl.ucn.disc.pdis.parking.values.green
 import cl.ucn.disc.pdis.parking.values.lightGreen
 
 /**
- * Reference corresponding to the constraint layout with a specific tag.
+ * Reference corresponding to the constraint layout tags.
  */
 private const val SURFACE_TAG = "surface"
 private const val TEXT_FROM_TAG = "textFrom"
 private const val TEXT_COMPANY_TAG = "textCompany"
 private const val IMAGE_TAG = "imageLogo"
 
+/**
+ * Layout setup.
+ */
 @Composable
 fun LoadLayout(initLaunch: Boolean, scaffoldState: ScaffoldState) {
 
-    // Set the layout
+    // Constraints used to layout the subclasses
     val constraintSet = ConstraintSet {
 
         // Define the constraints to be imposed by its tag
@@ -79,13 +81,13 @@ fun LoadLayout(initLaunch: Boolean, scaffoldState: ScaffoldState) {
                 // Combines common layout and draw logic
                 Box(Modifier.fillMaxSize() +
                         Modifier.drawBackground(lightGreen()) +
-                        Modifier.tag(SURFACE_TAG)
-                )
+                        Modifier.tag(SURFACE_TAG))
+
                 // Text
                 Text("from",
                     Modifier.tag(TEXT_FROM_TAG) + Modifier.padding(4.dp),
-                    Color.DarkGray
-                )
+                    Color.DarkGray)
+
                 // Divider (line)
                 Divider(color = Color.Transparent, thickness = 8.dp)
 
@@ -93,14 +95,13 @@ fun LoadLayout(initLaunch: Boolean, scaffoldState: ScaffoldState) {
                 Text("UCN",
                     Modifier.tag(TEXT_COMPANY_TAG) + Modifier.padding(16.dp),
                     color = green(),
-                    style = TextStyle(
-                        fontSize = 20.sp,
+                    style = TextStyle(fontSize = 20.sp,
                         fontFamily = FontFamily.SansSerif,
-                        fontStyle = FontStyle.Normal
-                    )
+                        fontStyle = FontStyle.Normal)
                 )
+
                 // Image
-                var image = imageResource(R.drawable.ucn)
+                val image = imageResource(R.drawable.ucn)
                 Image(image, Modifier.tag(IMAGE_TAG))
 
                 // Return to MainView
