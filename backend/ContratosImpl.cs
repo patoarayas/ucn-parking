@@ -64,6 +64,7 @@ namespace backend
                 pc.Database.EnsureCreated();
                 pc.SaveChanges();
             }
+
             _logger.LogDebug("Done");
         }
 
@@ -100,7 +101,7 @@ namespace backend
                 };
 
                 pc.Accesos.Add(ac);
-                _logger.LogInformation("New access: ",ac.ToString());
+                _logger.LogInformation("New access: ", ac.ToString());
                 return ac;
             }
         }
@@ -117,7 +118,13 @@ namespace backend
             {
                 ParkingContext pc = scope.ServiceProvider.GetService<ParkingContext>();
 
-                // TODO: Validation, if not throws PersonaException
+                // Check if already is a persona with the same rut in db
+                if (pc.Personas.Find(persona.rut) != null)
+                {
+                    _logger.LogDebug("Persona already on DB");
+                    throw new PersonaException("Rut is already registered on the db.");
+                }
+
                 pc.Personas.Add(persona);
                 pc.SaveChanges();
             }
@@ -135,7 +142,13 @@ namespace backend
             {
                 ParkingContext pc = scope.ServiceProvider.GetService<ParkingContext>();
 
-                // TODO: Validation, if not throws VehicleException
+                // Check if already is a vehcile with the same patente in the db
+                if (pc.Personas.Find(vehiculo.patente) != null)
+                {
+                    _logger.LogDebug("Vehicle's patente already on DB");
+                    throw new VehicleException("This vehicle patente is already registered on the db.");
+                }
+
                 pc.Vehiculos.Add(vehiculo);
                 pc.SaveChanges();
             }
@@ -154,7 +167,7 @@ namespace backend
             {
                 _logger.LogDebug("Searching for Persona with rut: " + rut);
                 ParkingContext pc = scope.ServiceProvider.GetService<ParkingContext>();
-                var persona =  pc.Personas.Find(rut);
+                var persona = pc.Personas.Find(rut);
 
                 if (persona != null)
                 {

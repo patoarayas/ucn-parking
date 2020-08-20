@@ -66,6 +66,7 @@ namespace backend
                 pc.Database.EnsureCreated();
                 pc.SaveChanges();
             }
+
             _logger.LogDebug("Done");
         }
 
@@ -114,6 +115,7 @@ namespace backend
                 {
                     _logger.LogDebug(a.patente);
                 }
+
                 return pc.Accesos.ToArray();
             }
         }

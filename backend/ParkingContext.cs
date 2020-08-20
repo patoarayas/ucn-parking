@@ -21,8 +21,8 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-using System.Reflection;
 
+using System.Reflection;
 using Microsoft.EntityFrameworkCore;
 using Parking.ZeroIce.model;
 
@@ -44,26 +44,18 @@ namespace backend
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             // Use Sqlite
-            optionsBuilder.UseSqlite("Data Source=parking.db", options =>
-            {
-                options.MigrationsAssembly(Assembly.GetExecutingAssembly().FullName);
-            });
+            optionsBuilder.UseSqlite("Data Source=parking.db",
+                options => { options.MigrationsAssembly(Assembly.GetExecutingAssembly().FullName); });
             base.OnConfiguring(optionsBuilder);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // Model Persona
-            modelBuilder.Entity<Persona>(p =>
-            {
-                p.HasKey(p => p.rut);
-            });
+            modelBuilder.Entity<Persona>(p => { p.HasKey(p => p.rut); });
 
             // Model Vehiculo
-            modelBuilder.Entity<Vehiculo>(v =>
-            {
-                v.HasKey(v => v.patente);
-            });
+            modelBuilder.Entity<Vehiculo>(v => { v.HasKey(v => v.patente); });
 
             // Model Acceso
             modelBuilder.Entity<Acceso>(a =>

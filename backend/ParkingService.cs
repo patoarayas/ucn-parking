@@ -21,6 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+
 using System.Threading;
 using System.Threading.Tasks;
 using Ice;
@@ -84,7 +85,7 @@ namespace backend
             var adapter = _communicator.createObjectAdapterWithEndpoints(
                 "Parking",
                 "tcp -z -t 15000 -p " + _port
-                );
+            );
 
             // Register in the adapter
             adapter.add(_sistema, Util.stringToIdentity("Sistema"));

@@ -25,14 +25,14 @@
 ["cs:namespace:Parking.ZeroIce","java:package:cl.ucn.disc.pdis.parking.zeroice"]
 module model {
 
-     /**
+    /**
      * Enums
      */
      enum Genero {MASCULINO, FEMENINO, OTRO}
      enum Rol {ACADEMICO,ESTUDIANTE,FUNCIONARIO}
      enum Porteria {SUR, MANCILLA, SANGRA}
 
-     /**
+    /**
      * Clase Persona
      */
      ["cs:property"]
@@ -56,13 +56,13 @@ module model {
         Rol rol;
      }
 
-     /**
+    /**
      *  Vehiculo
      */
      ["cs:property"]
      class Vehiculo {
 
-         /**Rut dueño */
+         /** Rut dueño */
          string rut;
          /** Patente Vehicular*/
          string patente;
@@ -94,24 +94,24 @@ module model {
         Porteria porteria;
      }
 
-     /**
+    /**
       * Exceptions
       */
      exception PersonaException {
         string msg;
      }
-     exception VehicleException{
+     exception VehicleException {
         string msg;
      }
 
-     /**
+    /**
      * Sequences
      */
      sequence<Persona> Personas;
      sequence<Vehiculo> Vehiculos;
      sequence<Acceso> Accesos;
 
-     /**
+    /**
      * Operaciones del sistema
      */
      interface Contratos {
