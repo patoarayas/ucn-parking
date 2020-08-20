@@ -15,6 +15,8 @@
 
                     <div class="card-body">
                         <a href ="{{route('registro.create')}}" class="btn btn-custom1 btn-custom1 btn-block">Registrar Usuario</a>
+                        <a href ="{{route('personas')}}" class="btn btn-primary btn-custom1 btn-block">Mostrar Personas</a>
+                        <a href ="{{route('vehiculos')}}" class="btn btn-primary btn-custom1 btn-block">Mostrar Vehiculos</a>
                         <a href ="{{route('accesos')}}" class="btn btn-primary btn-custom1 btn-block">Mostrar Accesos</a>
                         <a href ="{{route('delay')}}" class="btn btn-primary btn-custom1 btn-block">Delay Test</a>
                     </div>
