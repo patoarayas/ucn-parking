@@ -103,6 +103,5 @@ class ZerocIceTest {
         zeroIce.stop()
 
         log.debug("Vehicles: {}", MutableLiveData(vehicles).value)
-        //return MutableLiveData(vehicles)
     }
 }

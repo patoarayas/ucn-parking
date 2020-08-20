@@ -22,6 +22,7 @@ import cl.ucn.disc.pdis.parking.compose.AppNavigation
 import cl.ucn.disc.pdis.parking.compose.Navigator
 import cl.ucn.disc.pdis.parking.compose.view.LoadView
 import cl.ucn.disc.pdis.parking.compose.view.MainView
+import cl.ucn.disc.pdis.parking.compose.view.tab.Access
 import cl.ucn.disc.pdis.parking.repository.VehicleRepository
 import cl.ucn.disc.pdis.parking.repository.repository
 import kotlinx.coroutines.MainScope
@@ -53,53 +54,9 @@ class MainActivity : AppCompatActivity() {
         setContent {
             Providers(repository provides VehicleRepository()) {
                 Template()
-                //Test()
             }
         }
     }
-
-    /*
-    /**
-     * Test
-     */
-    @Composable
-    fun Test() {
-        val image= imageResource(R.drawable.ucn)
-
-        zeroIce.start()
-        Box(backgroundColor = lightGreen(), modifier = Modifier.fillMaxWidth()) {
-            Row(Modifier.padding(all = 10.dp)) {
-                Row(Modifier.weight(0.5f, true)) {
-                    Box(Modifier.fillMaxWidth().fillMaxHeight()) {
-                        Image(image, contentScale = ContentScale.Fit)
-                    }
-                }
-                Spacer(modifier = Modifier.preferredSize(12.dp))
-
-                Column(modifier = Modifier.weight(3.0f, true)) {
-                    var vehicles = zeroIce.sistema!!.vehiculos
-                    for(i in vehicles) {
-                        VehicleData(i.rut)
-                        Spacer(modifier = Modifier.preferredSize(2.dp))
-                        VehicleData(i.patente)
-                    }
-                }
-            }
-        }
-        zeroIce.stop()
-    }
-    @Composable
-    fun VehicleData(name: String) {
-        Text(
-            text = name,
-            style = TextStyle(
-                fontWeight = FontWeight.Bold,
-                fontSize = 16.sp,
-                color = Color(3, 183, 144)
-            )
-        )
-    }
-    */
 
     /**
      * UI view.
@@ -111,7 +68,7 @@ class MainActivity : AppCompatActivity() {
             when(view) {
                 is Navigator.LoadView -> LoadView(scope)
                 is Navigator.MainView -> MainView()
-                //
+                is Navigator.Access -> Access(view.vehicle)
             }
         }
     }
