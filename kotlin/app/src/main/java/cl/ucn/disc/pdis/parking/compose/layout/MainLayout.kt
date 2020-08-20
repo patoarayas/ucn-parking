@@ -6,9 +6,9 @@ import androidx.ui.material.Scaffold
 import androidx.ui.material.ScaffoldState
 import cl.ucn.disc.pdis.parking.compose.HomeNavigation
 import cl.ucn.disc.pdis.parking.compose.HomeNavigator
-import cl.ucn.disc.pdis.parking.compose.view.main.AccessView
-import cl.ucn.disc.pdis.parking.compose.view.main.AddView
-import cl.ucn.disc.pdis.parking.compose.view.main.VehiclesView
+import cl.ucn.disc.pdis.parking.compose.view.tab.AccessView
+import cl.ucn.disc.pdis.parking.compose.view.tab.AddView
+import cl.ucn.disc.pdis.parking.compose.view.tab.VehiclesView
 
 /**
  * Main view to navigates.
@@ -25,7 +25,7 @@ fun MainLayout(scaffoldState: ScaffoldState) {
                 when (view) {
                     is HomeNavigator.AddView -> AddView()
                     is HomeNavigator.VehiclesView -> VehiclesView()
-                    is HomeNavigator.AccessView -> AccessView()
+                    is HomeNavigator.AccessView -> AccessView().view()
                 }
             }
         }

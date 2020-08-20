@@ -1,4 +1,4 @@
-package cl.ucn.disc.pdis.parking.compose.view.main
+package cl.ucn.disc.pdis.parking.compose.view.tab
 
 import androidx.compose.Composable
 import androidx.ui.core.ContentScale
@@ -20,16 +20,15 @@ import cl.ucn.disc.pdis.parking.values.lightGreen
 import cl.ucn.disc.pdis.parking.zeroice.model.Vehiculo
 
 /**
- * Vehiculo's view.
+ * Vehicles tab view.
  */
 @Composable
 fun VehiclesView() {
 
-    /* TODO: Make it work the Zeroc-Ice connection
+    // TODO: Make it work the Zeroc-Ice connection
     // Repository access
-    val vehicleRepository = repository.current
-    val state = vehicleRepository.getVehiculos().observeAsState(initial = arrayListOf())
-    */
+    //val vehicleRepository = repository.current
+    //val state = vehicleRepository.getVehiculos().observeAsState(initial = arrayListOf())
 
     // Testing
     val array = arrayListOf("One", "Two", "Three")
