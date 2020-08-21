@@ -20,7 +20,7 @@ sealed class Navigator {
  * https://devexperto.com/sealed-classes-kotlin/
  */
 sealed class HomeNavigator {
-    object AddView : HomeNavigator()
+    object DevelopmentView : HomeNavigator()
     object VehiclesView : HomeNavigator()
     object AccessView : HomeNavigator()
 }
