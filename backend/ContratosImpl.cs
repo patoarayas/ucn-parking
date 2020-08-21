@@ -101,7 +101,7 @@ namespace backend
                 };
 
                 pc.Accesos.Add(ac);
-                _logger.LogInformation("New access: "+ac.patente +"at: "+ac.porteria);
+                _logger.LogInformation("New access: "+ac.patente +" at: "+ac.porteria);
                 return ac;
             }
         }
