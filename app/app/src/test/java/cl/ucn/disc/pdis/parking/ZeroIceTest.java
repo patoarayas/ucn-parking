@@ -52,12 +52,12 @@ public class ZeroIceTest {
   }
 
   @Test
-  public void findVehicleByPatente(){
+  public void findVehicleByPatente() {
     zeroIce.start();
     try {
       Vehiculo v = zeroIce.contratosPrx.findVehiculoByPatente("test_patente");
-    } catch (VehicleException ve){
-      log.debug("Vehicle exception:",ve);
+    } catch (VehicleException ve) {
+      log.debug("Vehicle exception:", ve);
     }
     zeroIce.stop();
 
