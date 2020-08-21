@@ -2,8 +2,10 @@ package cl.ucn.disc.pdis.parking.repository
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.ui.graphics.vectormath.length
 import cl.ucn.disc.pdis.parking.ZerocIce
 import cl.ucn.disc.pdis.parking.zeroice.model.Vehiculo
+import com.zeroc.Ice.CommunicatorDestroyedException
 import org.slf4j.LoggerFactory
 
 /**
@@ -22,19 +24,22 @@ class VehicleRepository {
     private val zeroIce = ZerocIce().getInstance()
 
     /**
-     * MutableList.
+     * Array
      */
-    private lateinit var vehicles: MutableList<Vehiculo>
+    private val vehiculos = mutableListOf<Vehiculo>()
 
     /**
      * Gets the vehiculo's data from the remote server.
      */
-    fun getVehiculos(): LiveData<List<Vehiculo>> {
-        zeroIce.start()
-        vehicles = zeroIce.sistema.vehiculos.toMutableList()
-        zeroIce.stop()
+    fun getVehiculos(): LiveData<List<Vehiculo>> = MutableLiveData(vehiculos.apply {
 
-        log.debug("Vehicles: {}", vehicles)
-        return MutableLiveData(vehicles)
-    }
+        try {
+            zeroIce.start()
+            var vehicles = zeroIce.sistema.vehiculos
+            addAll(vehicles)
+            zeroIce.stop()
+        }catch (e: CommunicatorDestroyedException) {
+            log.error("Error ...", e)
+        }
+    })
 }

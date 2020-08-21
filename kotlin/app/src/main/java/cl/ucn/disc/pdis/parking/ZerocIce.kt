@@ -1,9 +1,11 @@
 package cl.ucn.disc.pdis.parking
 
-import android.content.OperationApplicationException
 import cl.ucn.disc.pdis.parking.zeroice.model.ContratosPrx
 import cl.ucn.disc.pdis.parking.zeroice.model.SistemaPrx
-import com.zeroc.Ice.*
+import com.zeroc.Ice.Communicator
+import com.zeroc.Ice.InitializationData
+import com.zeroc.Ice.Properties
+import com.zeroc.Ice.Util
 import org.slf4j.LoggerFactory
 
 /**
@@ -24,7 +26,7 @@ class ZerocIce() {
     /**
      * Connections.
      */
-    private val CONNECTION = "tcp -z -t 15000 -p 3000"
+    private var CONNECTION = "tcp -h 10.0.2.2 -z -t 15000 -p 3000"
     lateinit var contratos: ContratosPrx
     lateinit var sistema: SistemaPrx
 
@@ -45,13 +47,12 @@ class ZerocIce() {
             return
         }
 
-        var x = Util.createProperties()
         // Property setup for ice
-        val properties = Util.createProperties()
+        var properties: Properties = Util.createProperties()
         properties.setProperty("Ice.Package.model", "cl.ucn.disc.pdis.parking.zeroice")
 
         // Initializes and creates the communicator
-        val initialization = InitializationData()
+        var initialization = InitializationData()
         initialization.properties = properties
         communicator = Util.initialize(initialization)
 
