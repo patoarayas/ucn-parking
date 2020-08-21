@@ -68,5 +68,30 @@ Route::get('/accesos', function(){
     return view('accesos',['accesos'=>$accesos]);
 })->name('accesos');
 
+/**
+ * Show person register -> name: personas
+ */
+Route::get('/personas', function(){
+
+    $communicator = \Ice\Initialize();
+    $sistema_proxy = $communicator->StringToProxy("Sistema:tcp -z -t 15000 -p 3000");
+    $sistema = \model\SistemaPrxHelper::uncheckedCast($sistema_proxy);
+    $personas = $sistema->getPersonas();
+
+    return view('showPersonas',['personas'=>$personas]);
+})->name('personas');
+
+/**
+ * Show vehicle register -> name: vehiculos
+ */
+Route::get('/vehiculos', function(){
+
+    $communicator = \Ice\Initialize();
+    $sistema_proxy = $communicator->StringToProxy("Sistema:tcp -z -t 15000 -p 3000");
+    $sistema = \model\SistemaPrxHelper::uncheckedCast($sistema_proxy);
+    $vehiculos = $sistema->getVehiculos();
+
+    return view('showVehiculos',['vehiculos'=>$vehiculos]);
+})->name('vehiculos');
 
 

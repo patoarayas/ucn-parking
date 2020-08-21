@@ -1,5 +1,7 @@
 <?php
 namespace App\Http\Controllers;
+use App\Http\Requests;
+use App\Http\Requests\StoreUserRules;
 use http\Url;
 use Illuminate\Http\Request;
 use model\Persona;
@@ -32,11 +34,13 @@ class RegistrosController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \app\Http\Requests\RegistrosController  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreUserRules $request)
     {
+        $request;
+
         $rut = $request->input('rut');
         $nombre = $request->input('nombre');
         $email = $request->input('email');
