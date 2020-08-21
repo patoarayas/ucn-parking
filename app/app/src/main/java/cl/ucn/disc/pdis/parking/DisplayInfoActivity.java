@@ -27,6 +27,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -44,18 +45,36 @@ import cl.ucn.disc.pdis.parking.zeroice.model.Vehiculo;
 
 public class DisplayInfoActivity extends AppCompatActivity {
 
-  // ICE instance
-  private final static ZeroIce zeroIce = ZeroIce.getInstance();
+
   // Logger
   private static final Logger log = LoggerFactory.getLogger(DisplayInfoActivity.class);
 
+  // The vehicle patente
+  private String patente = null;
+
+  /**
+   * FIXME: Provisional workaround. Should implement networking outside ui thread.
+   * This method allows to do networking on UI Thread.
+   */
+  public void enableStrictMode() {
+    StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+    StrictMode.setThreadPolicy(policy);
+  }
+
+  /**
+   * On create activity.
+   *
+   * @param savedInstanceState .
+   */
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_display_info);
+    enableStrictMode();
+
 
     Intent intent = getIntent();
-    String patente = intent.getStringExtra(MainActivity.EXTRA_PATENTE);
+    patente = intent.getStringExtra(MainActivity.EXTRA_PATENTE);
 
     // Get data
     loadData(patente);
@@ -80,6 +99,8 @@ public class DisplayInfoActivity extends AppCompatActivity {
   private void loadData(String patente) {
 
     // Start communication.
+
+    ZeroIce zeroIce = ZeroIce.getInstance();
     zeroIce.start();
 
     try {
@@ -104,7 +125,7 @@ public class DisplayInfoActivity extends AppCompatActivity {
   /**
    * Register an access. Listen to onclick event on button.
    *
-   * @param view The button
+   * @param view The Registrar acceso button
    */
   public void register(View view) {
 
@@ -129,14 +150,15 @@ public class DisplayInfoActivity extends AppCompatActivity {
     }
 
     // Start connection
+    ZeroIce zeroIce = ZeroIce.getInstance();
     zeroIce.start();
-    // Try to register
+    // Try to register the access
     try {
-      zeroIce.contratosPrx.registrarAcceso(MainActivity.EXTRA_PATENTE, porteria);
-      Toast.makeText(getApplicationContext(), "Acceso registrado", Toast.LENGTH_SHORT).show();
+      zeroIce.contratosPrx.registrarAcceso(patente, porteria);
+      Toast.makeText(getApplicationContext(), "Acceso registrado", Toast.LENGTH_LONG).show();
     } catch (VehicleException ve) {
       log.error("Vehicle not found!", ve);
-      Toast.makeText(getApplicationContext(), "Error al registrar el acceso.", Toast.LENGTH_SHORT).show();
+      Toast.makeText(getApplicationContext(), "Error al registrar el acceso.", Toast.LENGTH_LONG).show();
     } finally {
       zeroIce.stop();
     }
@@ -163,7 +185,7 @@ public class DisplayInfoActivity extends AppCompatActivity {
     patente.setText(v.patente);
     marca.setText(v.marca);
     modelo.setText(v.modelo);
-    anio.setText(v.anio);
+    anio.setText(Integer.toString(v.anio));
     color.setText(v.color);
     observaciones.setText(v.observacion);
   }
