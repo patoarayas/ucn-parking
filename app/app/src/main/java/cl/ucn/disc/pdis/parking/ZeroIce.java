@@ -77,7 +77,7 @@ public class ZeroIce {
 
     if (this.communicator != null) {
       log.warn("Communicator was already initialized");
-      return;
+
     }
 
     // Set properties
@@ -90,8 +90,8 @@ public class ZeroIce {
     // Initialize communicator
     this.communicator = Util.initialize(initializationData);
 
-    this.contratosPrx = ContratosPrx.checkedCast(this.communicator.stringToProxy("Contratos:tcp -z -t 15000 -p 3000"));
-    this.sistemaPrx = SistemaPrx.checkedCast(this.communicator.stringToProxy("Sistema:tcp -z -t 15000 -p 3000"));
+    this.contratosPrx = ContratosPrx.checkedCast(this.communicator.stringToProxy("Contratos:tcp -h 10.0.2.2 -z -t 15000 -p 3000"));
+    this.sistemaPrx = SistemaPrx.checkedCast(this.communicator.stringToProxy("Sistema:tcp -h 10.0.2.2 -z -t 15000 -p 3000"));
     log.debug("Communication started");
   }
 
