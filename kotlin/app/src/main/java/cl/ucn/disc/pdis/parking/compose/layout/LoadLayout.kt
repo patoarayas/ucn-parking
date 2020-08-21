@@ -8,10 +8,7 @@ import androidx.ui.foundation.Image
 import androidx.ui.foundation.Text
 import androidx.ui.foundation.drawBackground
 import androidx.ui.graphics.Color
-import androidx.ui.layout.ConstraintLayout
-import androidx.ui.layout.ConstraintSet
-import androidx.ui.layout.fillMaxSize
-import androidx.ui.layout.padding
+import androidx.ui.layout.*
 import androidx.ui.material.Divider
 import androidx.ui.material.Scaffold
 import androidx.ui.material.ScaffoldState
@@ -84,25 +81,24 @@ fun LoadLayout(initLaunch: Boolean, scaffoldState: ScaffoldState) {
                         Modifier.tag(SURFACE_TAG))
 
                 // Text
-                Text("from",
-                    Modifier.tag(TEXT_FROM_TAG) + Modifier.padding(4.dp),
-                    Color.DarkGray)
+                Text("from", Modifier.tag(TEXT_FROM_TAG), color = green())
 
                 // Divider (line)
-                Divider(color = Color.Transparent, thickness = 8.dp)
+                //Divider(color = Color.Transparent, thickness = 8.dp)
 
                 // Text
                 Text("UCN",
-                    Modifier.tag(TEXT_COMPANY_TAG) + Modifier.padding(16.dp),
+                    Modifier.tag(TEXT_COMPANY_TAG) + Modifier.padding(4.dp),
                     color = green(),
-                    style = TextStyle(fontSize = 20.sp,
+                    style = TextStyle(
+                        fontSize = 20.sp,
                         fontFamily = FontFamily.SansSerif,
                         fontStyle = FontStyle.Normal)
                 )
 
                 // Image
                 val image = imageResource(R.drawable.ucn)
-                Image(image, Modifier.tag(IMAGE_TAG))
+                Image(image, Modifier.tag(IMAGE_TAG) + Modifier.size(145.dp))
 
                 // Return to MainView
                 if (initLaunch) {

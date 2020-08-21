@@ -1,11 +1,9 @@
 package cl.ucn.disc.pdis.parking
 
+import android.content.OperationApplicationException
 import cl.ucn.disc.pdis.parking.zeroice.model.ContratosPrx
 import cl.ucn.disc.pdis.parking.zeroice.model.SistemaPrx
-import com.zeroc.Ice.Communicator
-import com.zeroc.Ice.InitializationData
-import com.zeroc.Ice.Properties
-import com.zeroc.Ice.Util
+import com.zeroc.Ice.*
 import org.slf4j.LoggerFactory
 
 /**
@@ -26,7 +24,7 @@ class ZerocIce() {
     /**
      * Connections.
      */
-    private val CONNECTION = "tcp -z -t 15000 -p 3000" // tcp -p 3000 -t 15000 -z | tcp -z -t 15000 -p 3000
+    private val CONNECTION = "tcp -z -t 15000 -p 3000"
     lateinit var contratos: ContratosPrx
     lateinit var sistema: SistemaPrx
 
@@ -47,8 +45,9 @@ class ZerocIce() {
             return
         }
 
+        var x = Util.createProperties()
         // Property setup for ice
-        val properties: Properties = Util.createProperties()
+        val properties = Util.createProperties()
         properties.setProperty("Ice.Package.model", "cl.ucn.disc.pdis.parking.zeroice")
 
         // Initializes and creates the communicator
@@ -57,8 +56,8 @@ class ZerocIce() {
         communicator = Util.initialize(initialization)
 
         // Connections
-        contratos = ContratosPrx.checkedCast(communicator!!.stringToProxy("Contratos: $CONNECTION"))
-        sistema = SistemaPrx.checkedCast(communicator!!.stringToProxy("Sistema :$CONNECTION"))
+        sistema = SistemaPrx.checkedCast(communicator!!.stringToProxy("Sistema:$CONNECTION"))
+        contratos = ContratosPrx.checkedCast(communicator!!.stringToProxy("Contratos:$CONNECTION"))
         log.debug("Connection started ...")
     }
 

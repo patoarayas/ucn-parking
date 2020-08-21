@@ -1,6 +1,7 @@
 package cl.ucn.disc.pdis.parking.compose
 
 import androidx.compose.Model
+import cl.ucn.disc.pdis.parking.zeroice.model.Vehiculo
 
 /**
  * Sealed class.
@@ -10,6 +11,7 @@ import androidx.compose.Model
 sealed class Navigator {
     object LoadView : Navigator()
     object MainView : Navigator()
+    data class Access(val vehicle: Vehiculo) : Navigator()
 }
 
 /**

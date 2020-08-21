@@ -46,7 +46,7 @@ fun MainToolbar() {
         TopAppBar(
             backgroundColor = lightGray(),
             elevation = 0.dp,
-            title = { Text("UCN Access", color = Color.White, style = MaterialTheme.typography.h5) }
+            title = { Text("UCN Access", color = Color.Gray, style = MaterialTheme.typography.h5) }
         )
         TabRow(
             items = tabs,
@@ -54,11 +54,10 @@ fun MainToolbar() {
             selectedIndex = clickedState.value,
             indicatorContainer = {
                 TabRow.IndicatorContainer(tabPositions = it, selectedIndex = clickedState.value) {
-                    Divider(thickness = 2.dp, color = green())
-                }
+                    Divider(thickness = 2.dp, color = green()) }
             }
         ) { index, text ->
-            Tab(text = { Text(text, style = MaterialTheme.typography.h6) },
+            Tab(text = { Text(text, style = MaterialTheme.typography.body1) },
                 activeColor = green(), inactiveColor = Color.Gray,
                 selected = clickedState.value == index,
                 onSelected = { clickedState.value = index
