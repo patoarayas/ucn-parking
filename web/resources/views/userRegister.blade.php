@@ -49,7 +49,7 @@
                 <div class="form-group row">
                     <label for="inputFono" class="col-sm-2 col-form-label">Fono fijo</label>
                     <div class="col-sm-10">
-                        <input type="number" class="form-control" id="inputFono" name="fono" placeholder="111111">
+                        <input type="number" class="form-control" id="inputFono" name="fono" placeholder="552111111">
                     </div>
                 </div>
                 <!-- Input Movil -->
