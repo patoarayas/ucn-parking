@@ -17,7 +17,7 @@
     </div>
     <div class="row">
         <div class="col-12">
-            <form class="needs-validation" action="{{action('RegistrosController@store')}}" method="post" novalidate>
+            <form class="needs-validation" action="{{action('RegistrosController@store')}}" method="post">
             {{csrf_field()}}
             <!-- Input Rut -->
                 <div class="form-group row">
@@ -28,14 +28,14 @@
                 <div class="form-group row">
                     <label for="inputRut" class="col-sm-2 col-form-label">Rut</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="inputRut" name="rut" placeholder="12345678-9">
+                        <input type="text" class="form-control" id="inputRut" name="rut" placeholder="12345678-9" minlength="8">
                     </div>
                 </div>
                 <!-- Input Nombre -->
                 <div class="form-group row">
                     <label for="inputNombre" class="col-sm-2 col-form-label">Nombre</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="inputNombre" name="nombre" placeholder="Pedro Castillo Gonzalez">
+                        <input type="text" class="form-control" id="inputNombre" name="nombre" placeholder="Ingrese el nombre..">
                     </div>
                 </div>
                 <!-- Input Email -->
@@ -49,21 +49,21 @@
                 <div class="form-group row">
                     <label for="inputFono" class="col-sm-2 col-form-label">Fono fijo</label>
                     <div class="col-sm-10">
-                        <input type="number" class="form-control" id="inputFono" name="fono" placeholder="111111">
+                        <input type="number" class="form-control" id="inputFono" name="fono" placeholder="912345678">
                     </div>
                 </div>
                 <!-- Input Movil -->
                 <div class="form-group row">
                     <label for="inputMovil" class="col-sm-2 col-form-label">Fono movil</label>
                     <div class="col-sm-10">
-                        <input type="number" class="form-control" id="inputMovil" name="movil" placeholder="911111111">
+                        <input type="text" class="form-control" id="inputMovil" name="movil" placeholder="912345678" required>
                     </div>
                 </div>
                 <!-- Input Unidad Academica -->
                 <div class="form-group row">
                     <label for="inputUnidadAcademica" class="col-sm-2 col-form-label">Unidad Academica</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="inputUnidadAcademica" name="unidadAcademica" placeholder="--------">
+                        <input type="text" class="form-control" id="inputUnidadAcademica" name="unidadAcademica" placeholder="Ingrese unidad acádemica..">
                     </div>
                 </div>
                 <!-- Input Genero -->
@@ -71,7 +71,7 @@
                     <label for="Genero" class="col-sm-2 col-form-label">Genero </label>
                     <div class="col-2">
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="genero" id="generoRadio1" value="0" checked>
+                            <input class="form-check-input" type="radio" name="genero" id="generoRadio1" value="0">
                             <label class="form-check-label" for="generoRadio1">
                                 Masculino
                             </label>
@@ -79,7 +79,7 @@
                     </div>
                     <div class="col-2">
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="genero" id="generoRadio2" value="1" checked>
+                            <input class="form-check-input" type="radio" name="genero" id="generoRadio2" value="1">
                             <label class="form-check-label" for="generoRadio2">
                                 Femenino
                             </label>
@@ -99,7 +99,7 @@
                     <label for="Rol" class="col-sm-2 col-form-label">Rol </label>
                     <div class="col-2">
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="rol" id="rolRadio1" value="0" checked>
+                            <input class="form-check-input" type="radio" name="rol" id="rolRadio1" value="0">
                             <label class="form-check-label" for="rolRadio1">
                                 Estudiante
                             </label>
@@ -107,7 +107,7 @@
                     </div>
                     <div class="col-2">
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="rol" id="rolRadio2" value="1" checked>
+                            <input class="form-check-input" type="radio" name="rol" id="rolRadio2" value="1">
                             <label class="form-check-label" for="rolRadio2">
                                 Academico
                             </label>
@@ -134,42 +134,42 @@
                 <div class="form-group row">
                     <label for="inputPatente" class="col-sm-2 col-form-label">Patente</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="inputPatente" name="patente" placeholder="AA*AA-00">
+                        <input type="text" class="form-control" id="inputPatente" name="patente" placeholder="AAAA00" required minlength="5" maxlength="6">
                     </div>
                 </div>
                 <!-- Input Marca -->
                 <div class="form-group row">
                     <label for="inputMarca" class="col-sm-2 col-form-label">Marca</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="inputMarca" name="marca" placeholder="Hyundai">
+                        <input type="text" class="form-control" id="inputMarca" name="marca" placeholder="Marca del vehículo" required>
                     </div>
                 </div>
                 <!-- Input Modelo -->
                 <div class="form-group row">
                     <label for="inputModelo" class="col-sm-2 col-form-label">Modelo</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="inputModelo" name="modelo" placeholder="Grand i10 Sedan">
+                        <input type="text" class="form-control" id="inputModelo" name="modelo" placeholder="Modelo del vehículo" required>
                     </div>
                 </div>
                 <!-- Input Anio -->
                 <div class="form-group row">
                     <label for="inputAnio" class="col-sm-2 col-form-label">Año</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="inputAnio" name="anio" placeholder="AAAA">
+                        <input type="number" class="form-control" id="inputAnio" name="anio" placeholder="" required>
                     </div>
                 </div>
                 <!-- Input Observacion -->
                 <div class="form-group row">
                     <label for="inputObservacion" class="col-sm-2 col-form-label">Observacion</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="inputObservacion" name="observacion" placeholder="--------">
+                        <input type="text" class="form-control" id="inputObservacion" name="observacion" placeholder="Observaciones...">
                     </div>
                 </div>
                 <!-- Input Color -->
                 <div class="form-group row">
                     <label for="inputColor" class="col-sm-2 col-form-label">Color</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="inputColor" name="color" placeholder="Rojo">
+                        <input type="text" class="form-control" id="inputColor" name="color" placeholder="Color del vehiculo" required>
                     </div>
                 </div>
                 <br/>
@@ -185,8 +185,5 @@
             </form>
         </div>
     </div>
-    <script src="bootstrap-validate.js"></script>
-    <script>
-        bootstrapValidate()
-    </script>
+
 @endsection

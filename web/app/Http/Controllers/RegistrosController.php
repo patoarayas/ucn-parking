@@ -27,7 +27,7 @@ class RegistrosController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function create()
     {
@@ -38,21 +38,23 @@ class RegistrosController extends Controller
      * Store a newly created resource in storage.
      *
      * @param Request $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function store(Request $request)
     {
+        // Validar datos de la persona
         $personaValidatedData = $request->validate([
             'rut' => 'required|alpha_dash',
             'nombre' => 'required',
             'email' => 'required|email',
-            'fono' => 'numeric',
-            'movil' => 'required|numeric',
+            'fono' => '',
+            'movil' => 'required',
             'unidadAcademica' => '',
             'rol' => 'required',
             'genero' => 'required'
         ]);
 
+        // Validar RUT
         if (Rut::parse($personaValidatedData['rut'])->validate()) {
             $personaValidatedData['rut'] = Rut::parse($personaValidatedData['rut'])->normalize();
         } else {
@@ -60,51 +62,53 @@ class RegistrosController extends Controller
             return redirect('registro/create')->withErrors(['Rut invalido']);
         }
 
+        // Validar datos del vehículo
         $vehiculoValidatedData = $request->validate([
             'patente' => 'required|alpha_num|between:5,6',
             'marca' => 'required',
             'modelo' => 'required',
-            'anio' => 'integer',
+            'anio' => 'required|integer',
             'observacion' => 'nullable',
             'color' => 'required'
         ]);
 
+
+        // Create Persona
+        $persona = new Persona(
+            $personaValidatedData['rut'],
+            $personaValidatedData['nombre'],
+            intval($personaValidatedData['genero']),
+            $personaValidatedData['email'],
+            $personaValidatedData['fono'],
+            $personaValidatedData['movil'],
+            $personaValidatedData['unidadAcademica'],
+            intval($personaValidatedData['rol'])
+        );
+
+        // Create Vehiculo
+        $vehiculo = new Vehiculo(
+            $personaValidatedData['rut'],
+            $vehiculoValidatedData['patente'],
+            strtoupper($vehiculoValidatedData['marca']),
+            $vehiculoValidatedData['modelo'],
+            intval($vehiculoValidatedData['anio']),
+            $vehiculoValidatedData['observacion'],
+            $vehiculoValidatedData['color']
+        );
+
         try {
             $communicator = \Ice\Initialize();
-            // Create Persona
-            $persona = new Persona(
-                $personaValidatedData['rut'],
-                $personaValidatedData['nombre'],
-                intval($personaValidatedData['genero']),
-                $personaValidatedData['email'],
-                $personaValidatedData['fono'],
-                $personaValidatedData['movil'],
-                $personaValidatedData['unidadAcademica'],
-                intval($personaValidatedData['rol'])
-            );
-
-            // Create Vehiculo
-            $vehiculo = new Vehiculo(
-                $personaValidatedData['rut'],
-                $vehiculoValidatedData['patente'],
-                $vehiculoValidatedData['marca'],
-                $vehiculoValidatedData['modelo'],
-                intval($vehiculoValidatedData['anio']),
-                $vehiculoValidatedData['observacion'],
-                $vehiculoValidatedData['color']
-            );
-
-            $sistema_proxy = $communicator->StringToProxy("Contratos:tcp -z -t 15000 -p 3000");
-            $sistema = \model\ContratosPrxHelper::uncheckedCast($sistema_proxy);
+            $contratos_proxy = $communicator->StringToProxy("Contratos:tcp -z -t 15000 -p 3000");
+            $contratos = \model\ContratosPrxHelper::uncheckedCast($contratos_proxy);
 
             // Calls interface method
-            $sistema->registrarPersona($persona);
-            $sistema->registrarVehiculo($vehiculo);
+            $contratos->registrarPersona($persona);
+            $contratos->registrarVehiculo($vehiculo);
 
 
-        } catch (Exception $ex) {
-            // TODO: Catch Ice exceptions
-            return redirect('registro/create')->withErrors([$ex->getMessage()]);
+        } catch (\Exception $ex) {
+            // Ice exception
+            return redirect('registro/create')->withErrors([$ex->msg]);
         }
 
 
