@@ -3,12 +3,21 @@
 @section('content')
     <div class="row">
         <div class="col-12">
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
             <h1> Registro de Usuarios </h1><br/>
         </div>
     </div>
     <div class="row">
         <div class="col-12">
-            <form action="{{action('RegistrosController@store')}}" method="post">
+            <form class="needs-validation" action="{{action('RegistrosController@store')}}" method="post" novalidate>
             {{csrf_field()}}
             <!-- Input Rut -->
                 <div class="form-group row">
@@ -176,4 +185,8 @@
             </form>
         </div>
     </div>
+    <script src="bootstrap-validate.js"></script>
+    <script>
+        bootstrapValidate()
+    </script>
 @endsection

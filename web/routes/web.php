@@ -78,7 +78,7 @@ Route::get('/personas', function(){
     $sistema = \model\SistemaPrxHelper::uncheckedCast($sistema_proxy);
     $personas = $sistema->getPersonas();
 
-    return view('personas',['personas'=>$personas]);
+    return view('showPersonas',['personas'=>$personas]);
 })->name('personas');
 
 /**
@@ -91,7 +91,7 @@ Route::get('/vehiculos', function(){
     $sistema = \model\SistemaPrxHelper::uncheckedCast($sistema_proxy);
     $vehiculos = $sistema->getVehiculos();
 
-    return view('vehiculos',['vehiculos'=>$vehiculos]);
+    return view('showVehiculos',['vehiculos'=>$vehiculos]);
 })->name('vehiculos');
 
 
