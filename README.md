@@ -75,18 +75,3 @@ feat,fix, build, chore, ci, docs, style, refactor, perf, test
 ```
 
 Para mas detalles acerca del formato que deben tener los **commits** se puede ver la especificación a seguir [aquí](https://www.conventionalcommits.org/en/v1.0.0/)
-
-#### Configuración módulo web (Laravel)
-
-Para trabajar con el módulo web se debe realizar la configuración de Laravel.
-1. Reenombrar el archivo .env.example a .env
-2. Ejecutar el comando
-
-  `php artisan key:generate`
-
-  Para generar la **APP_KEY** que quedara registrada en el `.env`
-3. Si es necesario descargar las dependencias.
-
-  Se puede realizar dentro del IDE PhpStorm o ejecutando los siguientes comandos (dentro del directorio `ucn-parking/web/`):
-  - `composer install`
-  - `npm install` (requiere instalar node)
