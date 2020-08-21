@@ -87,7 +87,6 @@ dependencies {
     implementation "androidx.ui:ui-tooling:$ui_version"
     implementation "androidx.ui:ui-layout:$ui_version"
     implementation "androidx.ui:ui-material:$ui_version"
-
     implementation "androidx.ui:ui-livedata:$ui_version"
     implementation "androidx.ui:ui-foundation:$ui_version"
 }

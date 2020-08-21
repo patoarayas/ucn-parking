@@ -81,16 +81,17 @@ class ZerocIceTest {
     @Test
     fun findPatente() {
         val patent = "FZPC33"
+        var vehicle: Vehiculo? = null
 
         zeroIce.start()
         try {
-            val vehicle = zeroIce.contratos.findVehiculoByPatente(patent)
-            log.debug("Founded: {}", vehicle)
-
+            vehicle = zeroIce.contratos.findVehiculoByPatente(patent)
         }catch(e: VehicleException) {
             log.error("Error ...", e)
         }
         zeroIce.stop()
+
+        log.debug("Founded: {}", vehicle)
     }
 
     /**
