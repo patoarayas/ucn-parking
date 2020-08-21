@@ -1,100 +1,91 @@
+/*
+ * MIT License
+ *
+ * Copyright (c) 2020 Patricio Araya, David Canto, Ariel Vejar
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 package cl.ucn.disc.pdis.parking.compose.view.tab
 
-import android.content.Context
-import android.widget.Toast
 import androidx.compose.Composable
+import androidx.compose.MutableState
 import androidx.compose.state
 import androidx.ui.core.Modifier
 import androidx.ui.foundation.*
-import androidx.ui.foundation.shape.corner.RoundedCornerShape
 import androidx.ui.graphics.Color
-import androidx.ui.layout.Column
-import androidx.ui.layout.Row
-import androidx.ui.layout.fillMaxWidth
-import androidx.ui.layout.padding
-import androidx.ui.material.Button
-import androidx.ui.material.MaterialTheme
-import androidx.ui.material.Surface
-import androidx.ui.unit.Dp
+import androidx.ui.layout.*
+import androidx.ui.material.*
+import androidx.ui.res.vectorResource
+import androidx.ui.text.TextStyle
+import androidx.ui.text.style.TextAlign
 import androidx.ui.unit.dp
-import cl.ucn.disc.pdis.parking.ZerocIce
+import androidx.ui.unit.sp
+import cl.ucn.disc.pdis.parking.R
+import cl.ucn.disc.pdis.parking.compose.HomeNavigator
 import cl.ucn.disc.pdis.parking.compose.Navigator
+import cl.ucn.disc.pdis.parking.compose.layout.tab.AccessLayout
 import cl.ucn.disc.pdis.parking.compose.navigateTo
 import cl.ucn.disc.pdis.parking.values.green
 import cl.ucn.disc.pdis.parking.values.lightGray
-import cl.ucn.disc.pdis.parking.values.lightGreen
-import cl.ucn.disc.pdis.parking.zeroice.model.VehicleException
 import cl.ucn.disc.pdis.parking.zeroice.model.Vehiculo
-import org.slf4j.LoggerFactory
 
 /**
- * Register vehicle's access tab
+ * Register vehicle's access class.
  */
 class AccessView {
 
     /**
-     * Logger.
-     */
-    private val log = LoggerFactory.getLogger(AccessView::class.java)
-
-    /**
-     * Zeroc-Ice instance call.
-     */
-    private val zeroIce = ZerocIce().getInstance()
-
-    /**
-     * UI view.
+     * View setup.
      */
     @Composable
-    fun view() {
-
-        val patent = state { TextFieldValue(text = "") }
-
-        Column {
-            Row(Modifier.drawBackground(lightGreen())) {
-                Text("Patente: ", style = MaterialTheme.typography.body1, color = Color.Gray)
-
-                Surface(
-                    Modifier.padding(12.dp), shape = RoundedCornerShape(8.dp),
-                    border = Border(size = Dp.Hairline, color = lightGray())
-                ) {
-                    TextField(patent.value,
-                        onValueChange = { value -> patent.value = value },
-                        modifier = Modifier.padding(14.dp) + Modifier.fillMaxWidth())
-                }
-            }
-
-            // Button
-            Button(modifier = Modifier.padding(12.dp),
-                shape = RoundedCornerShape(8.dp),
-                backgroundColor = green(),
-                onClick = {
-                    // Zeroc-Ice call
-                    //var v = call(patent.toString())
-                    var x = Vehiculo()
-                    navigateTo(Navigator.Access(x))
-                }
-            ) {
-                Text("Aceptar", Modifier.padding(10.dp),
-                    style = MaterialTheme.typography.body1, color = Color.White)
-            }
-        }
+    fun view(vehicle: Vehiculo) {
+        //
+        Scaffold(
+            topAppBar = { accessToolbar(vehicle) },
+            bodyContent = { AccessLayout().layout(vehicle) },
+            bottomAppBar = {}
+        )
     }
 
     /**
-     * Button call.
+     * Toolbar setup.
      */
-    private fun call(patent: String): Vehiculo {
-        lateinit var vehicle: Vehiculo
+    @Composable
+    fun accessToolbar(vehicle: Vehiculo) {
 
-        zeroIce.start()
-        try {
-            vehicle = zeroIce.contratos.findVehiculoByPatente(patent)
-        }catch(e: VehicleException) {
-            log.error("Error", e)
+        Column {
+            TopAppBar(
+                backgroundColor = lightGray(),
+                navigationIcon = {
+                    IconButton(onClick = { navigateTo(Navigator.MainView)}) {
+                        Icon(vectorResource(id = R.drawable.back_button),
+                            modifier = Modifier.padding(start = 8.dp), tint = Color.White
+                        )
+                    }
+                },
+                title = {
+                    Text(text = vehicle.patente, color = Color.White,
+                        style = TextStyle(fontSize = 18.sp, textAlign = TextAlign.Center)
+                    )
+                }
+            )
         }
-        zeroIce.stop()
-
-        return vehicle
     }
 }
