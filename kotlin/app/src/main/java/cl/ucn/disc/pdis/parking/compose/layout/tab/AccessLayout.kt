@@ -25,32 +25,32 @@
 package cl.ucn.disc.pdis.parking.compose.layout.tab
 
 import androidx.compose.Composable
-import androidx.compose.Model
+import androidx.compose.MutableState
 import androidx.compose.state
 import androidx.ui.core.Alignment
 import androidx.ui.core.Modifier
 import androidx.ui.foundation.Image
 import androidx.ui.foundation.Text
-import androidx.ui.foundation.TextFieldValue
 import androidx.ui.foundation.drawBackground
 import androidx.ui.foundation.shape.corner.RoundedCornerShape
 import androidx.ui.graphics.Color
 import androidx.ui.layout.*
+import androidx.ui.material.AlertDialog
 import androidx.ui.material.Button
 import androidx.ui.material.MaterialTheme
 import androidx.ui.material.RadioButton
-import androidx.ui.material.RadioGroup
 import androidx.ui.res.imageResource
-import androidx.ui.text.TextStyle
 import androidx.ui.unit.dp
 import cl.ucn.disc.pdis.parking.R
 import cl.ucn.disc.pdis.parking.ZerocIce
+import cl.ucn.disc.pdis.parking.compose.Navigator
+import cl.ucn.disc.pdis.parking.compose.navigateTo
 import cl.ucn.disc.pdis.parking.compose.view.tab.CheckAccessView
 import cl.ucn.disc.pdis.parking.values.green
 import cl.ucn.disc.pdis.parking.values.lightGreen
+import cl.ucn.disc.pdis.parking.zeroice.model.Porteria
 import cl.ucn.disc.pdis.parking.zeroice.model.VehicleException
 import cl.ucn.disc.pdis.parking.zeroice.model.Vehiculo
-import com.zeroc.Ice.CommunicatorDestroyedException
 import org.slf4j.LoggerFactory
 
 /**
@@ -69,22 +69,13 @@ class AccessLayout {
     private val zeroIce = ZerocIce().getInstance()
 
     /**
-     * State.
-     */
-    @Model
-    class RadioState(var option: String? = null)
-
-    /**
      * Layout setup.
      */
     @Composable
     fun layout(vehicle: Vehiculo) {
 
-        RadioGroup {
-
-        }
-        // Input data
-        val radio = state { RadioState() }
+        // Dialog message
+        val dialog = state { false }
 
         // Main column
         Column(Modifier.drawBackground(lightGreen()) + Modifier.fillMaxHeight().fillMaxWidth()) {
@@ -104,42 +95,52 @@ class AccessLayout {
             // Second row
             Row {
                 Text("Patente: ", style = MaterialTheme.typography.body1, color = Color.White)
-                Text(vehicle.patente, style = MaterialTheme.typography.body2, color = Color.White)
+                Text(vehicle.patente, style = MaterialTheme.typography.body2, color = green())
 
                 Spacer(modifier = Modifier.preferredSize(10.dp))
 
                 Text("Vehiculo: ", style = MaterialTheme.typography.body1, color = Color.White)
                 Text("${vehicle.marca}, ${vehicle.modelo}",
-                    style = MaterialTheme.typography.body2, color = Color.White)
+                    style = MaterialTheme.typography.body2, color = green())
             }
             // Third row
             Row {
                 Text("Rut: ", style = MaterialTheme.typography.body1, color = Color.White)
-                Text(vehicle.rut, style = MaterialTheme.typography.body2, color = Color.White)
+                Text(vehicle.rut, style = MaterialTheme.typography.body2, color = green())
             }
-            Spacer(modifier = Modifier.preferredSize(10.dp))
+            Spacer(modifier = Modifier.preferredSize(20.dp))
 
-            // RadioButton method
+            // RadioButton
             Text("Porteria:", style = MaterialTheme.typography.body1, color = Color.White)
-            radioButton(state = RadioState())
+            Spacer(modifier = Modifier.preferredSize(15.dp))
+
+            // Radiobutton method
+            val selected = radioButton()
             Spacer(modifier = Modifier.preferredSize(35.dp))
 
             // Button row
             Row(Modifier.gravity(align = Alignment.CenterHorizontally)) {
-                // Button
                 Button(modifier = Modifier.padding(12.dp), shape = RoundedCornerShape(8.dp),
                     backgroundColor = green(),
                     onClick = {
-                        log.debug("CHOOSE = {}", RadioState().option)
-                        //zeroIce.start()
-                        //zeroIce.contratos.registrarAcceso(vehicle.patente, RadioState().option)
-                        //zeroIce.stop()
+                        dialog.value = true
+
+                        zeroIce.start()
+                        try {
+                            zeroIce.contratos.registrarAcceso(vehicle.patente, Porteria.valueOf(selected))
+                        }catch(e: VehicleException) {
+                            log.error("Error ...", e)
+                        }
+                        zeroIce.stop()
                     }
                 ) {
                     Text("Aceptar", Modifier.padding(10.dp),
                         style = MaterialTheme.typography.body1, color = Color.White)
                 }
             }
+
+            if(dialog.value)
+                dialogMessage(dialog, vehicle.patente)
         }
     }
 
@@ -147,14 +148,43 @@ class AccessLayout {
      * RadioButton setup.
      */
     @Composable
-    fun radioButton(state: RadioState) {
+    fun radioButton(): Int {
         val array = listOf("Sur", "Mancilla", "Sangra")
-        RadioGroup(
-            options = array,
-            radioColor = green(),
-            textStyle = TextStyle(color = Color.White),
-            selectedOption = state.option ?: array[0],
-            onSelectedChange = {state.option = it}
+        val (selectedOption, onOptionSelected) = state { array[1] }
+
+        // Column
+        Column { array.forEach { text ->
+            Row {
+                RadioButton(selected = (text == selectedOption),
+                    onSelect = { onOptionSelected(text) }, color = green())
+
+                Text(text = text, color = Color.White,
+                    style = MaterialTheme.typography.body2.merge(),
+                    modifier = Modifier.padding(start = 16.dp))
+            } }
+        }
+
+        // Return the index selection
+        return array.indexOf(selectedOption)
+    }
+
+    /**
+     * Popup message.
+     */
+    @Composable
+    fun dialogMessage(dialog: MutableState<Boolean>, patent: String) {
+        AlertDialog(onCloseRequest = {},
+            title = {Text("Request accepted", style = MaterialTheme.typography.body1)},
+            text = {Text("Patente '$patent' registered", style = MaterialTheme.typography.body2)},
+            confirmButton = {
+                Button(backgroundColor = green(),
+                    onClick = {
+                        dialog.value = false
+                        navigateTo(Navigator.MainView)
+                    }){
+                    Text("Aceptar", color = Color.White)
+                }
+            }
         )
     }
 }
