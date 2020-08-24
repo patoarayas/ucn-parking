@@ -9,19 +9,21 @@ Kotlin app provided for the UCN's Parking project that allow to the user see all
 - <a href="mailto:ariel.vejar@live.cl">Ariel Vejar Martinez</a>
 
 ### Restrictions
-Only its allowed the register by one patent at the time.
-Min SDK Version: 24 (Target 29).
+- Only its allowed the register by one patent at the time.
+- Min SDK Version: 24 (Target 29).
 
 ## Screenshot
 ![Screenshot](images/test_1.PNG)
+
 ![Screenshot](images/test_2.PNG)
+
 ![Screenshot](images/test_3.PNG)
 
 ### Libraries
-Zeroc-Ice
-SLF4J
-Compose
-Apache Commons Lang
+- Zeroc-Ice
+- SLF4J
+- Compose
+- Apache Commons Lang
 
 ### Installation
 Use the [Android Studio Canary](https://developer.android.com/studio/preview) to import the project.
