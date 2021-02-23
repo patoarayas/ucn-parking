@@ -3,6 +3,12 @@
 ## Descripción
 Sistema para el control de acceso a los estacionamientos de la Universidad Católica del Norte ([UCN](https://www.ucn.cl)). Parte del Curso de Proyecto de Desarrollo e Integración de Soluciones (PDIS).
 
+## Tecnología
+Aplicación movil implementada en Java y Kotlin
+Backend en .NET Core
+Aplicación web en Laravel
+EBS utilizando Zero Ice
+
 ### Autores
 
 - <a href="mailto:patricio.araya@alumnos.ucn.cl">Patricio Araya González </a>
